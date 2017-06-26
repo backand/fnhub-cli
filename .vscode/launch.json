@@ -17,7 +17,7 @@
             "request": "launch",
             "name": "signin",
             "program":"${workspaceRoot}\\bin\\fnshub",
-            "args": ["signin", "--username", "relly@backand.com", "--password", "relly2805"]
+            "args": ["signin", "--username", "testfnshub0001@backand.io", "--password", "123456"]
         },
         {
             "type": "node",
@@ -31,7 +31,7 @@
             "request": "launch",
             "name": "publish",
             "program":"${workspaceRoot}\\bin\\fnshub",
-            "args": ["publish", "--module", "test32"]
+            "args": ["publish"]
         }
     ]
 }
