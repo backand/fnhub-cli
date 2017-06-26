@@ -31,7 +31,7 @@
             "request": "launch",
             "name": "publish",
             "program":"${workspaceRoot}\\bin\\fnshub",
-            "args": ["publish", "--module", "test30"]
+            "args": ["publish", "--module", "test31"]
         }
     ]
 }

@@ -11,22 +11,16 @@ console.log('    ____             __                   __   ________    ____    
 
 
 "use strict";
-var fs          =     require('fs-extra');
 var colors      =     require('colors');
 var options     =     require('minimist')(process.argv.slice(2));
 var logger      =     require('../lib/logger');
 var commands    =     require('../lib/commands');
 var command     =     process.argv[2];
-var ROOT        =    __dirname + '/..';
-var storage    =     require('../lib/helpers/storage.js');
+var config    =     require('../lib/config.js');
 
-storage.init('.backandCache.json');
 
 var backand = require('@backand/nodejs-sdk');
-backand.init({
-  appName: 'funhub',
-  externalStorage: storage
-});
+backand.init(config.backand);
 
 if(command) {
   // track here
