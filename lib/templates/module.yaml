@@ -2,9 +2,11 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: description
 Metadata:
+  Name: name
   Author: author
   Repo: repo
   Version: version
   EntryPoint: index
+  License: ISC
 Resources:
 
