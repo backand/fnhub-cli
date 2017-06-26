@@ -8,9 +8,30 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
-            "program":"${workspaceRoot}\\bin\\fnshub signin --username relly@backand.com --password relly2805"
-            
+            "name": "signup",
+            "program":"${workspaceRoot}\\bin\\fnshub",
+            "args": ["signup", "--firstname", "firstname", "--lastname", "lastname", "--username", "testfnshub0001@backand.io", "--password", "123456", "--confirm", "123456"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "signin",
+            "program":"${workspaceRoot}\\bin\\fnshub",
+            "args": ["signin", "--username", "relly@backand.com", "--password", "relly2805"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "signout",
+            "program":"${workspaceRoot}\\bin\\fnshub",
+            "args": ["signout"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "publish",
+            "program":"${workspaceRoot}\\bin\\fnshub",
+            "args": ["publish", "--module", "test30"]
         }
     ]
 }
