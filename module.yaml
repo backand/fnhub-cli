@@ -2,9 +2,9 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: description
 Metadata:
-  Name: test101
+  Name: test103
   Author: John
   Repo: repo
-  Version: 1.0.0
+  Version: 1.0.1
   EntryPoint: index
 Resources:
