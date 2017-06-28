@@ -14,13 +14,9 @@
     "js-yaml": "^3.8.4",
     "lodash": "^4.17.4",
     "minimist": "1.2.0",
-<<<<<<< HEAD
     "mocha": "^3.4.2",
-    "readline-sync": "0.5.2"
-=======
     "readline-sync": "0.5.2",
     "validate-obj": "^0.8.5"
->>>>>>> 9541f38f94925b7ca1c7d6102a77ccce27521c8e
   },
   "devDependencies": {},
   "scripts": {
