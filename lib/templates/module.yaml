@@ -8,5 +8,6 @@ Metadata:
   Version: version
   Entrypoint: index
   License: ISC
+  Keywords:
 Resources:
 
