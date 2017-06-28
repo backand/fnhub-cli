@@ -7,6 +7,7 @@ var run = function(endCallback, testCallback) {
         timeout: 45000
     });
     mocha.addFile("./tests/signin.js");
+    mocha.addFile("./tests/signout.js");
 
     var r = mocha.run().on('fail', function(test, err) {
         testCallback(test, err);

@@ -39,6 +39,17 @@
             "name": "test",
             "program": "${workspaceRoot}\\tests\\mochaRunner.js",
             "args": []
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Run mocha",
+            "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
+            "stopOnEntry": false,
+            "args": ["tests/**/*.js", "--no-timeouts"],
+            "cwd": "${workspaceRoot}",
+            "runtimeExecutable": null,
+            "env": { "NODE_ENV": "testing"}
         }
     ]
 }
