@@ -6,13 +6,13 @@ var assert = chai.assert;
 var exec = require('child_process').exec;
 var fs = require('fs');
 
-describe("signin success", function(){
-    it ("should sign in with correct username and password", function(done){
+describe("sign out success", function(){
+    it ("should sign out", function(done){
         this.timeout(64000);
-        var command = '../bin/fnshub signin --username testfnshub0001@backand.io --password 123456';
+        var command = '../bin/fnshub signout';
         exec(command, function(err, stdout, stderr) {
             fs.stat('bin/.backandCache.json', function(err, stats){
-                expect(err).to.be.null;
+                expect(err).not.to.be.null;
                 expect(stats.isFile()).to.be.true;
                 done();
             });
