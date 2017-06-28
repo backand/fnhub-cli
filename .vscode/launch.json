@@ -32,6 +32,13 @@
             "name": "publish",
             "program":"${workspaceRoot}\\bin\\fnshub",
             "args": ["publish"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "test",
+            "program": "${workspaceRoot}\\tests\\mochaRunner.js",
+            "args": []
         }
     ]
 }
