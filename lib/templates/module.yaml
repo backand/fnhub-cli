@@ -6,7 +6,7 @@ Metadata:
   Author: author
   Repo: repo
   Version: version
-  EntryPoint: index
+  Entrypoint: index
   License: ISC
 Resources:
 
