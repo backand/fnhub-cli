@@ -1,9 +1,8 @@
-    functionname:
-        Type: AWS::Serverless::Function
-        Properties:
-          Handler: function.module
-          Runtime: runtime
-          CodeUri: s3://bucket/zipfile
-          Environment:
-            Variables:
+Type: AWS::Serverless::Function
+Properties:
+  Handler: function.module
+  Runtime: runtime
+  CodeUri: s3://bucket/zipfile
+  Environment:
+    Variables:
               
