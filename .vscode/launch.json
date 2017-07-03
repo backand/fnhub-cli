@@ -36,6 +36,13 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "init",
+            "program":"${workspaceRoot}\\bin\\fnshub",
+            "args": ["init", "--name", "init001", "--author", "relly", "--version", "1.0.0", "--description", "description", "--entryPoint", "index.js", "--repo", "https://github.com/relly/fnshub", "--keywords", "backand", "--license", "mit"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "test",
             "program": "${workspaceRoot}\\tests\\mochaRunner.js",
             "args": []
