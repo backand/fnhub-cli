@@ -56,6 +56,34 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "version patch",
+            "program": "${workspaceRoot}\\bin\\fnhub",
+            "args": ["version", "patch"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "version minor",
+            "program": "${workspaceRoot}\\bin\\fnhub",
+            "args": ["version", "minor"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "version major",
+            "program": "${workspaceRoot}\\bin\\fnhub",
+            "args": ["version", "major"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "version aaa",
+            "program": "${workspaceRoot}\\bin\\fnhub",
+            "args": ["version", "aaa"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Run mocha",
             "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
             "stopOnEntry": false,
