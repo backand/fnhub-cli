@@ -16,7 +16,7 @@
             "request": "launch",
             "name": "signin",
             "program":"${workspaceRoot}\\bin\\fnhub",
-            "args": ["signin", "--username", "testfnhub0001@backand.io", "--password", "123456"]
+            "args": ["signin", "--username", "testfnshub0001@backand.io", "--password", "123456"]
         },
         {
             "type": "node",
