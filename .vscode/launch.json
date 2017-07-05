@@ -49,6 +49,13 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "version",
+            "program": "${workspaceRoot}\\bin\\fnhub",
+            "args": ["version"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Run mocha",
             "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
             "stopOnEntry": false,
