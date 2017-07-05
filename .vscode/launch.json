@@ -8,36 +8,36 @@
             "type": "node",
             "request": "launch",
             "name": "signup",
-            "program":"${workspaceRoot}\\bin\\fnshub",
-            "args": ["signup", "--firstname", "firstname", "--lastname", "lastname", "--username", "testfnshub0001@backand.io", "--password", "123456", "--confirm", "123456"]
+            "program":"${workspaceRoot}\\bin\\fnhub",
+            "args": ["signup", "--firstname", "firstname", "--lastname", "lastname", "--username", "testfnhub0001@backand.io", "--password", "123456", "--confirm", "123456"]
         },
         {
             "type": "node",
             "request": "launch",
             "name": "signin",
-            "program":"${workspaceRoot}\\bin\\fnshub",
-            "args": ["signin", "--username", "testfnshub0001@backand.io", "--password", "123456"]
+            "program":"${workspaceRoot}\\bin\\fnhub",
+            "args": ["signin", "--username", "testfnhub0001@backand.io", "--password", "123456"]
         },
         {
             "type": "node",
             "request": "launch",
             "name": "signout",
-            "program":"${workspaceRoot}\\bin\\fnshub",
+            "program":"${workspaceRoot}\\bin\\fnhub",
             "args": ["signout"]
         },
         {
             "type": "node",
             "request": "launch",
             "name": "publish",
-            "program":"${workspaceRoot}\\bin\\fnshub",
+            "program":"${workspaceRoot}\\bin\\fnhub",
             "args": ["publish"]
         },
         {
             "type": "node",
             "request": "launch",
             "name": "init",
-            "program":"${workspaceRoot}\\bin\\fnshub",
-            "args": ["init", "--name", "init001", "--author", "relly", "--version", "1.0.110", "--description", "description", "--entryPoint", "index.js", "--repo", "https://github.com/relly/fnshub", "--keywords", "backand", "--license", "mit"]
+            "program":"${workspaceRoot}\\bin\\fnhub",
+            "args": ["init", "--name", "init001", "--author", "relly", "--version", "1.0.110", "--description", "description", "--entryPoint", "index.js", "--repo", "https://github.com/relly/fnhub", "--keywords", "backand", "--license", "mit"]
         },
         {
             "type": "node",
