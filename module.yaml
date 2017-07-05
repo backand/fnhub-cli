@@ -1,0 +1,14 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: description
+Metadata:
+  Name: init001
+  Author: relly
+  Version: 2.0.1120
+  Entrypoint: index.js
+  Repo: 'https://github.com/relly/fnhub'
+  Keywords:
+    - backand
+  License: mit
+  Defaultauthor: testfnshub0001@backand.io
+codeUri: 'http://fnhub.backand.io/module@2.0.1120.zip'
