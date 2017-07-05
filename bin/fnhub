@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-process.bin = process.title = 'fnshub';
+process.bin = process.title = 'fnhub';
 
 console.log('    ____             __                   __   ________    ____    \n'+
     '   / __ )____ ______/ /______ _____  ____/ /  / ____/ /   /  _/    \n'+
