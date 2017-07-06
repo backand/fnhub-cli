@@ -22,8 +22,7 @@ var config    =     require('../lib/config.js');
 var backand = require('@backand/nodejs-sdk');
 backand.init(config.backand);
 
-console.log('starttttt');
-console.log(command, options);
+logger.debug.log(command, options);
 
 if(command) {
   // track here
