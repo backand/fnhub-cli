@@ -4,9 +4,10 @@ Description: description
 Metadata:
   Name: init001
   Author: relly
-  Version: 3.0.110
+  Version: 3.0.111
   Entrypoint: index.js
   Repo: 'https://github.com/relly/fnhub'
   Keywords:
     - backand
   License: mit
+codeUri: 'http://fnhub.backand.io/module@3.0.111.zip'
