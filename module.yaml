@@ -4,7 +4,7 @@ Description: description
 Metadata:
   Name: init001
   Author: relly
-  Version: 3.0.113
+  Version: 3.0.114
   Entrypoint: index.js
   Repo: 'https://github.com/relly/fnhub'
   Keywords:
@@ -20,6 +20,7 @@ Resources:
       CodeUri: 's3://bucket/zipfile'
       Environment:
         Variables: {}
+      codeUri: 'http://fnhub.backand.io/module@3.0.114.zip'
   fn3:
     Type: 'AWS::Serverless::Function'
     Properties:
@@ -28,3 +29,4 @@ Resources:
       CodeUri: 's3://bucket/zipfile'
       Environment:
         Variables: {}
+      codeUri: 'http://fnhub.backand.io/module@3.0.114.zip'
