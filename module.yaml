@@ -11,3 +11,20 @@ Metadata:
     - backand
   License: mit
 codeUri: 'http://fnhub.backand.io/module@3.0.111.zip'
+Resources:
+  fn2:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs4.3
+      CodeUri: 's3://bucket/zipfile'
+      Environment:
+        Variables: {}
+  fn3:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs4.3
+      CodeUri: 's3://bucket/zipfile'
+      Environment:
+        Variables: {}

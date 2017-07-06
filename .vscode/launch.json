@@ -42,6 +42,13 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "add",
+            "program":"${workspaceRoot}\\bin\\fnhub",
+            "args": ["add", "--name", "fn3", "--handler", "handler", "--runtime", "nodejs4.3", "--env", "{}"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "test",
             "program": "${workspaceRoot}\\tests\\mochaRunner.js",
             "args": []
