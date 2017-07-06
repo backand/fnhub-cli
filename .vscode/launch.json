@@ -21,6 +21,13 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "signin wrong password",
+            "program":"${workspaceRoot}\\bin\\fnhub",
+            "args": ["signin", "--username", "testfnshub0001@backand.io", "--password", "123457"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "signout",
             "program":"${workspaceRoot}\\bin\\fnhub",
             "args": ["signout"]
