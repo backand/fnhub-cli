@@ -4,7 +4,7 @@ Description: description
 Metadata:
   Name: init001
   Author: relly
-  Version: 3.1.110
+  Version: 3.1.111
   Entrypoint: index.js
   Repo: 'https://github.com/relly/fnhub'
   Keywords:
