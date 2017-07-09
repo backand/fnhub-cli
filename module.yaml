@@ -16,6 +16,6 @@ Resources:
     Properties:
       Handler: index.handler
       Runtime: nodejs4.3
-      CodeUri: 'http://fnhub.backand.io/init001/module@3.1.110.zip'
+      CodeUri: 'http://fnhub.backand.io/init001/module@3.1.111.zip'
       Environment:
         Variables: {}
