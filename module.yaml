@@ -1,35 +1,21 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
-Description: hello world
+Description: description
 Metadata:
-  Name: fnshub
-  Author: Yoram Kornatzky
-  Version: 1.0.2
-  Entrypoint: kuku.js
-  Repo: 'https://github.com/yoramkornatzky/fnshub'
+  Name: init001
+  Author: relly
+  Version: 3.1.110
+  Entrypoint: index.js
+  Repo: 'https://github.com/relly/fnhub'
   Keywords:
-    - one
-    - two
-    - thtee
-  License: MIT
+    - backand
+  License: mit
 Resources:
-  FirstDFun:
+  fn3:
     Type: 'AWS::Serverless::Function'
     Properties:
-      Handler: kuku.h1
-      Runtime: nodejs6.10
-      CodeUri: 's3://bucket/zipfile'
-      Environment:
-        Variables:
-          a: bb
-          xc: 89
-  Sec:
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Handler: kuku.uu
+      Handler: index.handler
       Runtime: nodejs4.3
-      CodeUri: 's3://bucket/zipfile'
+      CodeUri: 'http://fnhub.backand.io/init001/module@3.1.110.zip'
       Environment:
-        Variables:
-          key1: val1
-          key2: val2
+        Variables: {}
