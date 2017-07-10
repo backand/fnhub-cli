@@ -21,6 +21,13 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "signin wrong password",
+            "program":"${workspaceRoot}\\bin\\fnhub",
+            "args": ["signin", "--username", "testfnshub0001@backand.io", "--password", "123457"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "signout",
             "program":"${workspaceRoot}\\bin\\fnhub",
             "args": ["signout"]
@@ -42,9 +49,51 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "add",
+            "program":"${workspaceRoot}\\bin\\fnhub",
+            "args": ["add", "--name", "fn3", "--handler", "handler", "--runtime", "nodejs4.3", "--env", "{}"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "test",
             "program": "${workspaceRoot}\\tests\\mochaRunner.js",
             "args": []
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "version",
+            "program": "${workspaceRoot}\\bin\\fnhub",
+            "args": ["version"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "version patch",
+            "program": "${workspaceRoot}\\bin\\fnhub",
+            "args": ["version", "patch"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "version minor",
+            "program": "${workspaceRoot}\\bin\\fnhub",
+            "args": ["version", "minor"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "version major",
+            "program": "${workspaceRoot}\\bin\\fnhub",
+            "args": ["version", "major"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "version aaa",
+            "program": "${workspaceRoot}\\bin\\fnhub",
+            "args": ["version", "aaa"]
         },
         {
             "type": "node",
