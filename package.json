@@ -14,7 +14,8 @@
     "js-yaml": "^3.8.4",
     "lodash": "^4.17.4",
     "minimist": "1.2.0",
-    "readline-sync": "^1.4.7"
+    "readline-sync": "^1.4.7",
+    "request": "^2.79.0"
   },
   "devDependencies": {
     "mocha": "^3.4.2"

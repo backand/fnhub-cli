@@ -56,6 +56,20 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "include",
+            "program":"${workspaceRoot}\\bin\\fnhub",
+            "args": ["include", "--module", "init001", "--version", "1.0.110"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "info",
+            "program":"${workspaceRoot}\\bin\\fnhub",
+            "args": ["info", "--module", "init001", "--version", "3.0.115"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "add",
             "program":"${workspaceRoot}\\bin\\fnhub",
             "args": ["add", "--name", "fn3", "--handler", "handler", "--runtime", "nodejs4.3", "--env", "{}"]
