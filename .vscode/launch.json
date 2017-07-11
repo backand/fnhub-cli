@@ -49,6 +49,13 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "create",
+            "program":"${workspaceRoot}\\bin\\fnhub",
+            "args": ["create", "--provider", "aws", "--name", "create001", "--description", "description"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "add",
             "program":"${workspaceRoot}\\bin\\fnhub",
             "args": ["add", "--name", "fn3", "--handler", "handler", "--runtime", "nodejs4.3", "--env", "{}"]
