@@ -16,8 +16,10 @@ var options     =     require('minimist')(process.argv.slice(2));
 var logger      =     require('../lib/logger');
 var commands    =     require('../lib/commands');
 var command     =     process.argv[2];
-var config    =     require('../lib/config.js');
-
+var config    =     require('../lib/config');
+var fnhub    =     require('../lib/fnhub');
+var subCommand = null;
+if (options._.length > 1) subCommand = options._[1];
 
 var backand = require('@backand/nodejs-sdk');
 backand.init(config.backand);
@@ -26,7 +28,7 @@ logger.debug.log(command, options);
 
 if(command) {
   // track here
-  commands.getCommand(command)(options);
+  commands.getCommand(command, subCommand)(options, fnhub);
 }
 else {
   if (command) {

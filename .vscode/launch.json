@@ -49,16 +49,9 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "create",
+            "name": "sam create",
             "program":"${workspaceRoot}\\bin\\fnhub",
-            "args": ["create", "--provider", "aws", "--name", "create001", "--description", "description"]
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "include",
-            "program":"${workspaceRoot}\\bin\\fnhub",
-            "args": ["include", "--module", "init001", "--version", "1.0.110"]
+            "args": ["sam", "create", "--name", "create001", "--description", "description"]
         },
         {
             "type": "node",
@@ -66,6 +59,20 @@
             "name": "info",
             "program":"${workspaceRoot}\\bin\\fnhub",
             "args": ["info", "--module", "init001", "--version", "3.0.115"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "sam include",
+            "program":"${workspaceRoot}\\bin\\fnhub",
+            "args": ["sam", "include", "--module", "init001", "--version", "3.0.115"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "bad command",
+            "program":"${workspaceRoot}\\bin\\fnhub",
+            "args": ["bad", "--module", "init001", "--version", "3.0.115"]
         },
         {
             "type": "node",

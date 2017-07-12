@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: description
+Metadata:
+  Name: create001
+Resources:
+  fn2:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs4.3
+      CodeUri: 'http://fnhub.backand.io/module@3.0.115.zip'
+      Environment:
+        Variables: {}
+  fn3:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs4.3
+      CodeUri: 'http://fnhub.backand.io/module@3.0.115.zip'
+      Environment:
+        Variables: {}
