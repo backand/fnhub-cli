@@ -50,8 +50,15 @@
             "type": "node",
             "request": "launch",
             "name": "sam create",
-            "program":"${workspaceRoot}\\bin\\fnhub",
+            "program":"${workspaceRoot}/bin/fnhub",
             "args": ["sam", "create", "--name", "create001", "--description", "description"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "sam help",
+            "program":"${workspaceRoot}/bin/fnhub",
+            "args": ["sam", "help"]
         },
         {
             "type": "node",

@@ -1,7 +1,8 @@
-var sam = require('../sam');
+var sam = require('../index');
 var fs = require('fs');
 
 module.exports = function(options, fnhub){
+    console.log('include');
 	// interact and collect function details
     if (!options){
         options = {};

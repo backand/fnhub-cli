@@ -1,4 +1,4 @@
-var sam = require('../sam');
+var sam = require('../index');
 var fs = require('fs');
 var path = require('path');
 

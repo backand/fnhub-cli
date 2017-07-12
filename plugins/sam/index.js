@@ -23,8 +23,17 @@ module.exports = {
     },
     getStackFileName: function() {
         return path.join(process.cwd(), this.Consts.Defaults.Stack.FileName);
+    },
+    getCommand: function(commandName){
+        console.log('sam getCommand');
+    	try {
+    		var command = require('./commands/' + commandName)
+            return command;
+        }
+        catch (err){
+          return null;
+        }
     }
 }
 
 
-		
