@@ -4,7 +4,7 @@ Description: description
 Metadata:
   Name: create001
 Resources:
-  fn2:
+  init001.fn2:
     Type: 'AWS::Serverless::Function'
     Properties:
       Handler: index.handler
@@ -12,7 +12,7 @@ Resources:
       CodeUri: 'http://fnhub.backand.io/module@3.0.115.zip'
       Environment:
         Variables: {}
-  fn3:
+  init001.fn3:
     Type: 'AWS::Serverless::Function'
     Properties:
       Handler: index.handler
