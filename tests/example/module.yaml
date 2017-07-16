@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: description
+Metadata:
+  Name: hi
+  Author: relly
+  Version: 1.0.110
+  Entrypoint: index.js
+  Repo: 'https://github.com/relly/fnhub'
+  Keywords:
+    - backand
+  License: mit
+Resources:
+  hi1:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.index.handler1
+      Runtime: nodejs4.3
+      CodeUri: 'http://fnhub.backand.io/hi/module@1.0.110.zip'
+      Environment:
+        Variables: {}
+  hi2:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.index.handler2
+      Runtime: nodejs4.3
+      CodeUri: 'http://fnhub.backand.io/hi/module@1.0.110.zip'
+      Environment:
+        Variables: {}
