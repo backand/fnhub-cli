@@ -1,0 +1,121 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: 'SAM template for Serverless framework service: '
+Resources:
+  Index:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Role:
+        Fn::GetAtt:
+        - HelloRole
+        - Arn      
+      Runtime: nodejs6.10
+      CodeUri: 's3://fnhub.backand.io/init001/index.zip'
+      MemorySize: 128
+      Timeout: 3
+      Events:
+        Event1:
+          Type: Api
+          Properties:
+            Path: hello
+            Method: GET
+            RestApiId:
+              Ref: ServerlessMultiple
+ 
+  Kuku:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.hendler
+      Runtime: nodejs6.10
+      CodeUri: 's3://fnhub.backand.io/init001/index.zip'
+      MemorySize: 128
+      Timeout: 3
+      Events:
+        Event1:
+          Type: Api
+          Properties:
+            Path: welcome
+            Method: POST
+            RestApiId:
+              Ref: ServerlessMultiple
+
+
+  ServerlessMultiple:
+    Type: 'AWS::Serverless::Api'
+    Properties:
+      StageName: prod
+      DefinitionBody:
+        swagger: '2.0'
+        info:
+          title:
+            Ref: 'AWS::StackName'
+        paths:
+          /hello:
+            get:
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri:
+                  'Fn::Sub': >-
+                    arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${Index.Arn}/invocations
+              responses: {}
+          /welcome:
+            post:
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri:
+                  'Fn::Sub': >-
+                    arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${Kuku.Arn}/invocations
+              responses: {}
+
+
+  HelloRole:
+      Type: AWS::IAM::Role
+      Properties:
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+              - lambda.amazonaws.com
+            Action:
+            - sts:AssumeRole
+        ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+  HelloPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:invokeFunction
+      FunctionName:
+        Fn::GetAtt:
+        - Index
+        - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+        - ''
+        - - 'arn:aws:execute-api:'
+          - Ref: AWS::Region
+          - ":"
+          - Ref: AWS::AccountId
+          - ":"
+          - Ref: ServerlessMultiple
+          - "/*"
+
+
+Outputs:
+  HelloUrl:
+     Description: "Hello"
+     Value: 
+       Fn::Join: ["", ["https://", {"Ref": "ServerlessMultiple"}, ".execute-api.", {"Ref": "AWS::Region"}, ".amazonaws.com", "/hello"]]
+  # Paths:
+  #    Description: "Relative pasths"
+  #    Value: 
+  #      FnJoin: [ " ", [ "hello", "welcome "] ]
+
+      #  arn:aws:execute-api:us-east-1:155039513004:0hdn1brmh9/*/GET/hello
+

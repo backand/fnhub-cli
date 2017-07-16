@@ -1,4 +1,4 @@
-var sam = require('../index');
+var cf = require('../index');
 var fs = require('fs');
 var path = require('path');
 var createHelper = require('../helpers/create');
@@ -23,7 +23,7 @@ module.exports = function(options, fnhub){
             process.exit(1);
             }
         else {
-            fnhub.logger.success(sam.Messages.Create.AfterSuccess.replace('{{0}}', response.stackFileName));
+            fnhub.logger.success(cf.Messages.Create.AfterSuccess.replace('{{0}}', response.stackFileName));
             process.exit(0);
         }
     });

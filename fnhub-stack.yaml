@@ -3,4 +3,214 @@ Transform: 'AWS::Serverless-2016-10-31'
 Description: description
 Metadata:
   Name: create001
-Resources: null
+Resources:
+  init001fn2Function:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      CodeUri: ''
+      Description: A function
+      FunctionName: init001-fn2
+      Handler: index.handler
+      Role:
+        'Fn::GetAtt':
+          - init001fn2Role
+          - Arn
+      Runtime: nodejs4.3
+  init001fn2Role:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+  init001fn2RestApi:
+    Type: 'AWS::ApiGateway::RestApi'
+    Properties:
+      Name: init001fn2 RestApi
+      Description: API used for fn2 requests
+      FailOnWarnings: true
+  init001fn2Permission:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      Action: 'lambda:invokeFunction'
+      FunctionName:
+        'Fn::GetAtt':
+          - init001fn2Function
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        'Fn::Join':
+          - ''
+          - - 'arn:aws:execute-api:'
+            - Ref: 'AWS::Region'
+            - ':'
+            - Ref: 'AWS::AccountId'
+            - ':'
+            - Ref: init001fn2RestApi
+            - /*
+  init001fn2Deployment:
+    Type: 'AWS::ApiGateway::Deployment'
+    DependsOn:
+      - init001fn2Method
+    Properties:
+      RestApiId:
+        Ref: init001fn2RestApi
+      StageName: StageName00
+  init001fn2Resource:
+    Type: 'AWS::ApiGateway::Resource'
+    Properties:
+      RestApiId:
+        Ref: init001fn2RestApi
+      ParentId:
+        'Fn::GetAtt':
+          - init001fn2RestApi
+          - RootResourceId
+      PathPart: PathPart00
+  init001fn2Method:
+    DependsOn: init001fn2Permission
+    Type: 'AWS::ApiGateway::Method'
+    Properties:
+      AuthorizationType: NONE
+      HttpMethod: HttpMethod00
+      Integration:
+        Type: AWS
+        IntegrationHttpMethod: POST
+        Uri:
+          'Fn::Join':
+            - ''
+            - - 'arn:aws:apigateway:'
+              - Ref: 'AWS::Region'
+              - ':lambda:path/2015-03-31/functions/'
+              - 'Fn::GetAtt':
+                  - init001fn2Function
+                  - Arn
+              - /invocations
+        IntegrationResponses:
+          - StatusCode: 200
+        RequestTemplates:
+          application/json:
+            'Fn::Join':
+              - ''
+              - - '{'
+                - '  "param00": "$input.params(''param00'')"'
+                - '}'
+      RequestParameters:
+        method.request.querystring.param00: false
+      ResourceId:
+        Ref: init001fn2Resource
+      RestApiId:
+        Ref: init001fn2RestApi
+      MethodResponses:
+        - StatusCode: 200
+  init001fn3Function:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      CodeUri: ''
+      Description: A function
+      FunctionName: init001-fn3
+      Handler: index.handler
+      Role:
+        'Fn::GetAtt':
+          - init001fn3Role
+          - Arn
+      Runtime: nodejs4.3
+  init001fn3Role:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+  init001fn3RestApi:
+    Type: 'AWS::ApiGateway::RestApi'
+    Properties:
+      Name: init001fn3 RestApi
+      Description: API used for fn3 requests
+      FailOnWarnings: true
+  init001fn3Permission:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      Action: 'lambda:invokeFunction'
+      FunctionName:
+        'Fn::GetAtt':
+          - init001fn3Function
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        'Fn::Join':
+          - ''
+          - - 'arn:aws:execute-api:'
+            - Ref: 'AWS::Region'
+            - ':'
+            - Ref: 'AWS::AccountId'
+            - ':'
+            - Ref: init001fn3RestApi
+            - /*
+  init001fn3Deployment:
+    Type: 'AWS::ApiGateway::Deployment'
+    DependsOn:
+      - init001fn3Method
+    Properties:
+      RestApiId:
+        Ref: init001fn3RestApi
+      StageName: StageName00
+  init001fn3Resource:
+    Type: 'AWS::ApiGateway::Resource'
+    Properties:
+      RestApiId:
+        Ref: init001fn3RestApi
+      ParentId:
+        'Fn::GetAtt':
+          - init001fn3RestApi
+          - RootResourceId
+      PathPart: PathPart00
+  init001fn3Method:
+    DependsOn: init001fn3Permission
+    Type: 'AWS::ApiGateway::Method'
+    Properties:
+      AuthorizationType: NONE
+      HttpMethod: HttpMethod00
+      Integration:
+        Type: AWS
+        IntegrationHttpMethod: POST
+        Uri:
+          'Fn::Join':
+            - ''
+            - - 'arn:aws:apigateway:'
+              - Ref: 'AWS::Region'
+              - ':lambda:path/2015-03-31/functions/'
+              - 'Fn::GetAtt':
+                  - init001fn3Function
+                  - Arn
+              - /invocations
+        IntegrationResponses:
+          - StatusCode: 200
+        RequestTemplates:
+          application/json:
+            'Fn::Join':
+              - ''
+              - - '{'
+                - '  "param00": "$input.params(''param00'')"'
+                - '}'
+      RequestParameters:
+        method.request.querystring.param00: false
+      ResourceId:
+        Ref: init001fn3Resource
+      RestApiId:
+        Ref: init001fn3RestApi
+      MethodResponses:
+        - StatusCode: 200

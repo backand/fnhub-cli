@@ -1,9 +1,0 @@
-Type: 'AWS::Serverless::Function'
-Properties:
-  Handler: 
-  Runtime: 
-  CodeUri: 
-  Environment:
-    Variables: 
-      
-
