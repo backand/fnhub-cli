@@ -82,6 +82,7 @@ function copyEachFunctionInModuleIntoStack(options, fnhub, moduleInfo, functionT
             }
             else {
                 //  ignore resources other than functions
+                fnhub.logger.warn(cf.Messages.Include.IgnoreNonFunction.replace('{{0}}', key));
             }
         } );
 
