@@ -46,7 +46,7 @@
             "name": "add function 1",
             "cwd": "${workspaceRoot}/tests/examples/hi/publisher",
             "program":"${workspaceRoot}\\bin\\fnhub",
-            "args": ["add", "--name", "hi1", "--handler", "index.handler1", "--runtime", "nodejs4.3", "--env", "{}"]
+            "args": ["add", "--name", "hi1", "--handler", "handler1", "--runtime", "nodejs4.3", "--env", "{}"]
         },
         {
             "type": "node",
@@ -54,7 +54,7 @@
             "name": "add function 2",
             "cwd": "${workspaceRoot}/tests/examples/hi/publisher",
             "program":"${workspaceRoot}\\bin\\fnhub",
-            "args": ["add", "--name", "hi2", "--handler", "index.handler2", "--runtime", "nodejs4.3", "--env", "{}"]
+            "args": ["add", "--name", "hi2", "--handler", "handler2", "--runtime", "nodejs4.3", "--env", "{}"]
         },
         {
             "type": "node",

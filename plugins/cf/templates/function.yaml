@@ -2,8 +2,10 @@ Resources:
   $ModuleName$$FunctionName$Function:
     Type: AWS::Lambda::Function
     Properties:
-      CodeUri: ''
-      Description: A function
+      Code:
+        S3Bucket: ''
+        S3Key: ''
+      Description: ''
       FunctionName: '$ModuleName$-$FunctionName$'
       Handler: index.handler
       Role:
@@ -57,7 +59,7 @@ Resources:
     Properties:
       RestApiId:
         Ref: $ModuleName$$FunctionName$RestApi
-      StageName: StageName00
+      StageName: $StageName$
   $ModuleName$$FunctionName$Resource:
     Type: AWS::ApiGateway::Resource
     Properties:
@@ -67,13 +69,13 @@ Resources:
         Fn::GetAtt:
         - $ModuleName$$FunctionName$RestApi
         - RootResourceId
-      PathPart: PathPart00
+      PathPart: $PathPart$
   $ModuleName$$FunctionName$Method:
     DependsOn: $ModuleName$$FunctionName$Permission
     Type: AWS::ApiGateway::Method
     Properties:
       AuthorizationType: NONE
-      HttpMethod: HttpMethod00
+      HttpMethod: $HttpMethod$
       Integration:
         Type: AWS
         IntegrationHttpMethod: POST
@@ -115,5 +117,5 @@ Outputs:
         - ".execute-api."
         - Ref: AWS::Region
         - ".amazonaws.com"
-        - "/StageName00"
-        - "/PathPart00"
+        - "/$StageName$"
+        - "/$PathPart$"

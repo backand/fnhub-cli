@@ -1,0 +1,7 @@
+aws  cloudformation deploy --stack-name myhi --template-file fnhub-stack.yaml --capabilities CAPABILITY_IAM
+
+aws cloudformation describe-stack-events --stack-name myhi > describe-stack-events.txt
+
+aws cloudformation describe-stacks --stack-name myhi
+
+aws cloudformation delete-stack --stack-name myhi

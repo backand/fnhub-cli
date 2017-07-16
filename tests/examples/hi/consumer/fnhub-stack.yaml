@@ -1,5 +1,4 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Transform: 'AWS::Serverless-2016-10-31'
 Description: my hi
 Metadata:
   Name: myhi
@@ -7,15 +6,19 @@ Resources:
   hihi1Function:
     Type: 'AWS::Lambda::Function'
     Properties:
-      CodeUri: ''
-      Description: A function
+      Code:
+        S3Bucket: fnhub.backand.io
+        S3Key: hi/module@1.0.110.zip
+      Description: ''
       FunctionName: hi-hi1
-      Handler: index.handler
+      Handler: index.handler1
       Role:
         'Fn::GetAtt':
           - hihi1Role
           - Arn
       Runtime: nodejs4.3
+      Environment:
+        Variables: {}
   hihi1Role:
     Type: 'AWS::IAM::Role'
     Properties:
@@ -62,7 +65,7 @@ Resources:
     Properties:
       RestApiId:
         Ref: hihi1RestApi
-      StageName: StageName00
+      StageName: TEST
   hihi1Resource:
     Type: 'AWS::ApiGateway::Resource'
     Properties:
@@ -72,13 +75,13 @@ Resources:
         'Fn::GetAtt':
           - hihi1RestApi
           - RootResourceId
-      PathPart: PathPart00
+      PathPart: hi1
   hihi1Method:
     DependsOn: hihi1Permission
     Type: 'AWS::ApiGateway::Method'
     Properties:
       AuthorizationType: NONE
-      HttpMethod: HttpMethod00
+      HttpMethod: ANY
       Integration:
         Type: AWS
         IntegrationHttpMethod: POST
@@ -112,15 +115,19 @@ Resources:
   hihi2Function:
     Type: 'AWS::Lambda::Function'
     Properties:
-      CodeUri: ''
-      Description: A function
+      Code:
+        S3Bucket: fnhub.backand.io
+        S3Key: hi/module@1.0.110.zip
+      Description: ''
       FunctionName: hi-hi2
-      Handler: index.handler
+      Handler: index.handler2
       Role:
         'Fn::GetAtt':
           - hihi2Role
           - Arn
       Runtime: nodejs4.3
+      Environment:
+        Variables: {}
   hihi2Role:
     Type: 'AWS::IAM::Role'
     Properties:
@@ -167,7 +174,7 @@ Resources:
     Properties:
       RestApiId:
         Ref: hihi2RestApi
-      StageName: StageName00
+      StageName: TEST
   hihi2Resource:
     Type: 'AWS::ApiGateway::Resource'
     Properties:
@@ -177,13 +184,13 @@ Resources:
         'Fn::GetAtt':
           - hihi2RestApi
           - RootResourceId
-      PathPart: PathPart00
+      PathPart: hi2
   hihi2Method:
     DependsOn: hihi2Permission
     Type: 'AWS::ApiGateway::Method'
     Properties:
       AuthorizationType: NONE
-      HttpMethod: HttpMethod00
+      HttpMethod: ANY
       Integration:
         Type: AWS
         IntegrationHttpMethod: POST
@@ -214,3 +221,28 @@ Resources:
         Ref: hihi2RestApi
       MethodResponses:
         - StatusCode: 200
+Outputs:
+  hihi1EndPoint:
+    Description: Root URL of the API gateway
+    Value:
+      'Fn::Join':
+        - ''
+        - - 'https://'
+          - Ref: hihi1RestApi
+          - .execute-api.
+          - Ref: 'AWS::Region'
+          - .amazonaws.com
+          - /TEST
+          - /hi1
+  hihi2EndPoint:
+    Description: Root URL of the API gateway
+    Value:
+      'Fn::Join':
+        - ''
+        - - 'https://'
+          - Ref: hihi2RestApi
+          - .execute-api.
+          - Ref: 'AWS::Region'
+          - .amazonaws.com
+          - /TEST
+          - /hi2

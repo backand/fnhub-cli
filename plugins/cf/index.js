@@ -8,7 +8,12 @@ module.exports = {
             Stack: 'stack.yaml',
             Path: __dirname + '/templates/',
             ModuleName: '\\$ModuleName\\$',
-            FunctionName: '\\$FunctionName\\$'
+            FunctionName: '\\$FunctionName\\$',
+            PathPart: '\\$PathPart\\$',
+            StageName: '\\$StageName\\$',
+            Stage: 'TEST',
+            Any: 'ANY',
+            HttpMethod: '\\$HttpMethod\\$'
         },
         Defaults: {
             Stack: {
@@ -27,7 +32,8 @@ module.exports = {
     },
     Errors: {
         Include:{
-            ResourceAlreadyExists: 'A resource with the name {{0}} already exists'
+            ResourceAlreadyExists: 'A resource with the name {{0}} already exists',
+            OutputAlreadyExists: 'An output with the name {{0}} already exists'
         }
     },
     getStackFileName: function() {

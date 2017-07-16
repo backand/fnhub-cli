@@ -31,27 +31,33 @@ function getStack(options, fnhub, moduleInfo, functionTemplate, callback){
     return target.replace(new RegExp(search, 'g'), replacement);
 };
 
-function clodeAndReplacePlaceHolders(fnhub, functionTemplate, moduleName, functionName){
+function cloneAndReplacePlaceHolders(fnhub, functionTemplate, moduleName, functionName){
     var json = JSON.stringify(functionTemplate);
 
     json = replaceAll(fnhub, json, cf.Consts.Template.ModuleName, moduleName);
     json = replaceAll(fnhub, json, cf.Consts.Template.FunctionName, functionName);
+    json = replaceAll(fnhub, json, cf.Consts.Template.PathPart, functionName);
+    json = replaceAll(fnhub, json, cf.Consts.Template.StageName, cf.Consts.Template.Stage);
+    json = replaceAll(fnhub, json, cf.Consts.Template.HttpMethod, cf.Consts.Template.Any);
 
     return JSON.parse(json);
 }
 
-function copyModuleInfoIntoFunctionTemplate(options, fnhub, moduleInfo, functionTemplate, stack, functionName) {
+function copyModuleInfoIntoFunctionTemplate(options, fnhub, moduleInfo, resource, functionTemplate, stack, functionName) {
     var moduleName = moduleInfo.Metadata.Name;
     
-    var func = clodeAndReplacePlaceHolders(fnhub, functionTemplate, moduleName, functionName);   
+    var functionStack = cloneAndReplacePlaceHolders(fnhub, functionTemplate, moduleName, functionName);   
+    var functionResourceName = moduleName + functionName + 'Function';
+    var functionResource = functionStack.Resources[functionResourceName];
+
+    functionResource.Properties.Code.S3Bucket = fnhub.getS3Bucket(resource.Properties.CodeUri) || '';
+    functionResource.Properties.Code.S3Key = fnhub.getS3Key(resource.Properties.CodeUri) || '';
+    functionResource.Properties.Description = resource.Properties.Description || '';
+    functionResource.Properties.Handler = resource.Properties.Handler || '';
+    functionResource.Properties.Runtime = resource.Properties.Runtime || '';
+    functionResource.Properties.Environment = resource.Properties.Environment || {};
     
-    func.CodeUri = moduleInfo.CodeUri;
-    func.Description = moduleInfo.Description;
-    func.Handler = moduleInfo.Handler;
-    func.Runtime = moduleInfo.Runtime;
-    func.Environment = moduleInfo.Environment;
-    
-    return func;
+    return functionStack;
 }
 
 function isFunction(resource) {
@@ -71,14 +77,30 @@ function copyFunctionResourcesIntoStack(fnhub, stack, functionStack) {
     });
 }
 
+
+function copyFunctionOutputsIntoStack(fnhub, stack, functionStack) {
+    if (!stack.Outputs) stack.Outputs = {};
+
+    // iterate through the function outputs
+    fnhub._.forOwn(functionStack.Outputs, function(output, outputName) { 
+        // Check that the resource does not already exist in the stack
+        if (stack.Resources.hasOwnProperty(outputName))
+            throw new Error({message:cf.Errors.Include.OutputAlreadyExists.replace('{{0}}', outputName), expected:true});
+        
+        stack.Outputs[outputName] = output;
+    });
+}
+
+
 function copyEachFunctionInModuleIntoStack(options, fnhub, moduleInfo, functionTemplate, stack, callback) {
     try {
         // iterate through the module resources
         fnhub._.forOwn(moduleInfo.Resources, function(resource, key) { 
             // only copy resources that are function
             if (isFunction(resource)) {
-                var functionStack = copyModuleInfoIntoFunctionTemplate(options, fnhub, moduleInfo, functionTemplate, stack, key);
+                var functionStack = copyModuleInfoIntoFunctionTemplate(options, fnhub, moduleInfo, resource, functionTemplate, stack, key);
                 copyFunctionResourcesIntoStack(fnhub, stack, functionStack);
+                copyFunctionOutputsIntoStack(fnhub, stack, functionStack);
             }
             else {
                 //  ignore resources other than functions
@@ -106,6 +128,7 @@ function save(options, fnhub, stack, callback){
     }
     catch (e) {
         fnhub.logger.debug.error(e);
+        fnhub.logger.debug.error(stack);
         callback({message:fnhub.Errors.General.FailedToSaveYamlFile, expected:true});
 	}
 }
