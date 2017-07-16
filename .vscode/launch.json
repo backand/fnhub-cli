@@ -36,15 +36,22 @@
             "type": "node",
             "request": "launch",
             "name": "publish",
-            "program":"${workspaceRoot}\\bin\\fnhub",
+            "program":"${workspaceRoot}/bin/fnhub",
             "args": ["publish"]
         },
         {
             "type": "node",
             "request": "launch",
             "name": "init",
-            "program":"${workspaceRoot}\\bin\\fnhub",
-            "args": ["init", "--name", "init001", "--author", "relly", "--version", "1.0.110", "--description", "description", "--entryPoint", "index.js", "--repo", "https://github.com/relly/fnhub", "--keywords", "backand", "--license", "mit"]
+            "program":"${workspaceRoot}/bin/fnhub",
+            "args": ["init", "--name", "init001", "--author", "relly", "--version", "1.0.110", "--description", "description", "--repo", "https://github.com/relly/fnhub", "--keywords", "backand init key3", "--license", "mit"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "init no params",
+            "program":"${workspaceRoot}/bin/fnhub",
+            "args": ["init"]
         },
         {
             "type": "node",

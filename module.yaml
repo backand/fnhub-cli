@@ -1,5 +1,13 @@
-AWSTemplateFormatVersion: '2010-09-09'
-Transform: 'AWS::Serverless-2016-10-31'
-Description: description
+Description: ss
 Metadata:
-  Name: create001
+  Name: fnhub-cli
+  Author: itay@backand.io
+  Version: 1.0.0
+  Repo: 'https://github.com/backand/fnhub-cli'
+  Keywords:
+    - aasd
+    - ss
+    - das
+    - dasas
+    - sds
+  License: ISC
