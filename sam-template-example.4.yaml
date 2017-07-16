@@ -1,0 +1,243 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AWS CloudFormation sample template that contains a single Lambda function
+  behind an API Gateway
+Resources:
+  ModuleName00FunctionName00Function:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: 'fnhub.backand.io'
+        S3Key: 'init001/index.zip'
+      Description: A function
+      FunctionName: 'ModuleName00-FunctionName00'
+      Handler: index.handler
+      Role:
+        Fn::GetAtt:
+        - ModuleName00FunctionName00Role
+        - Arn
+      Runtime: nodejs4.3
+  ModuleName00FunctionName00Role:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+  ModuleName00FunctionName00RestApi:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: ModuleName00FunctionName00 RestApi
+      Description: API used for FunctionName00 requests
+      FailOnWarnings: true
+  ModuleName00FunctionName00Permission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:invokeFunction
+      FunctionName:
+        Fn::GetAtt:
+        - ModuleName00FunctionName00Function
+        - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+        - ''
+        - - 'arn:aws:execute-api:'
+          - Ref: AWS::Region
+          - ":"
+          - Ref: AWS::AccountId
+          - ":"
+          - Ref: ModuleName00FunctionName00RestApi
+          - "/*"
+  ModuleName00FunctionName00Deployment:
+    Type: AWS::ApiGateway::Deployment
+    DependsOn:
+    - ModuleName00FunctionName00Method
+    Properties:
+      RestApiId:
+        Ref: ModuleName00FunctionName00RestApi
+      StageName: StageName00
+  ModuleName00FunctionName00Resource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId:
+        Ref: ModuleName00FunctionName00RestApi
+      ParentId:
+        Fn::GetAtt:
+        - ModuleName00FunctionName00RestApi
+        - RootResourceId
+      PathPart: PathPart00
+  ModuleName00FunctionName00Method:
+    DependsOn: ModuleName00FunctionName00Permission
+    Type: AWS::ApiGateway::Method
+    Properties:
+      AuthorizationType: NONE
+      HttpMethod: ANY
+      Integration:
+        Type: AWS
+        IntegrationHttpMethod: POST
+        Uri:
+          Fn::Join:
+          - ''
+          - - 'arn:aws:apigateway:'
+            - Ref: AWS::Region
+            - ":lambda:path/2015-03-31/functions/"
+            - Fn::GetAtt:
+              - ModuleName00FunctionName00Function
+              - Arn
+            - "/invocations"
+        IntegrationResponses:
+        - StatusCode: 200
+        RequestTemplates:
+          application/json:
+            Fn::Join:
+            - ''
+            - - "{"
+              - '  "param00": "$input.params(''param00'')"'
+              - "}"
+      RequestParameters:
+        method.request.querystring.param00: false
+      ResourceId:
+        Ref: ModuleName00FunctionName00Resource
+      RestApiId:
+        Ref: ModuleName00FunctionName00RestApi
+      MethodResponses:
+      - StatusCode: 200
+  ModuleName01FunctionName01Function:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: 'fnhub.backand.io'
+        S3Key: 'init001/index.zip'
+      Description: A function
+      FunctionName: 'ModuleName01-FunctionName01'
+      Handler: index.handler
+      Role:
+        Fn::GetAtt:
+        - ModuleName01FunctionName01Role
+        - Arn
+      Runtime: nodejs4.3
+  ModuleName01FunctionName01Role:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+  ModuleName01FunctionName01RestApi:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: ModuleName01FunctionName01 RestApi
+      Description: API used for FunctionName01 requests
+      FailOnWarnings: true
+  ModuleName01FunctionName01Permission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:invokeFunction
+      FunctionName:
+        Fn::GetAtt:
+        - ModuleName01FunctionName01Function
+        - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+        - ''
+        - - 'arn:aws:execute-api:'
+          - Ref: AWS::Region
+          - ":"
+          - Ref: AWS::AccountId
+          - ":"
+          - Ref: ModuleName01FunctionName01RestApi
+          - "/*"
+  ModuleName01FunctionName01Deployment:
+    Type: AWS::ApiGateway::Deployment
+    DependsOn:
+    - ModuleName01FunctionName01Method
+    Properties:
+      RestApiId:
+        Ref: ModuleName01FunctionName01RestApi
+      StageName: StageName01
+  ModuleName01FunctionName01Resource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId:
+        Ref: ModuleName01FunctionName01RestApi
+      ParentId:
+        Fn::GetAtt:
+        - ModuleName01FunctionName01RestApi
+        - RootResourceId
+      PathPart: PathPart01
+  ModuleName01FunctionName01Method:
+    DependsOn: ModuleName01FunctionName01Permission
+    Type: AWS::ApiGateway::Method
+    Properties:
+      AuthorizationType: NONE
+      HttpMethod: ANY
+      Integration:
+        Type: AWS
+        IntegrationHttpMethod: POST
+        Uri:
+          Fn::Join:
+          - ''
+          - - 'arn:aws:apigateway:'
+            - Ref: AWS::Region
+            - ":lambda:path/2015-03-31/functions/"
+            - Fn::GetAtt:
+              - ModuleName01FunctionName01Function
+              - Arn
+            - "/invocations"
+        IntegrationResponses:
+        - StatusCode: 201
+        RequestTemplates:
+          application/json:
+            Fn::Join:
+            - ''
+            - - "{"
+              - '  "param01": "$input.params(''param01'')"'
+              - "}"
+      RequestParameters:
+        method.request.querystring.param01: false
+      ResourceId:
+        Ref: ModuleName01FunctionName01Resource
+      RestApiId:
+        Ref: ModuleName01FunctionName01RestApi
+      MethodResponses:
+      - StatusCode: 201
+Outputs:
+  ModuleName00FunctionName00EndPoint:
+    Description: ModuleName00FunctionName00 EndPoint
+    Value:
+      Fn::Join:
+      - ''
+      - - https://
+        - Ref: ModuleName00FunctionName00RestApi
+        - ".execute-api."
+        - Ref: AWS::Region
+        - ".amazonaws.com"
+        - "/StageName00"
+        - "/PathPart00"
+  ModuleName01FunctionName01EndPoint:
+    Description: ModuleName01FunctionName01 EndPoint
+    Value:
+      Fn::Join:
+      - ''
+      - - https://
+        - Ref: ModuleName01FunctionName01RestApi
+        - ".execute-api."
+        - Ref: AWS::Region
+        - ".amazonaws.com"
+        - "/StageName01"
+        - "/PathPart01"

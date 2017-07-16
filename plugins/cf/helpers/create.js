@@ -1,11 +1,10 @@
-var sam = require('../index');
+var cf = require('../index');
 var fs = require('fs');
 var path = require('path');
 
 function getStackTemplate(options, fnhub, callback) {
     try {
-        var templateFileName = path.join(sam.Consts.Template.Path, sam.Consts.Template.Stack);
-        var stackTemplate = fnhub.yaml.safeLoad(fs.readFileSync(templateFileName, 'utf8'));
+        var stackTemplate = cf.getStackTemplate(fnhub);
         callback(null, options, fnhub, stackTemplate);
     }
     catch (err) {
@@ -20,14 +19,11 @@ function copyOptionsIntoStack(options, fnhub, stackTemplate, callback) {
     callback(null, fnhub, stackTemplate);        
 }
 
-function save(fnhub, stackTemplate, callback){
-    var s = fnhub.yaml.safeDump(stackTemplate, {});
-
+function save(fnhub, stack, callback){
     try {
 		// write back stack.yaml
-        var stackFileName = sam.getStackFileName();
-		fs.writeFileSync(stackFileName, s);
-        callback(null, { stackFileName: stackFileName });
+        var stackFileName = cf.saveStack(fnhub, stack);
+		callback(null, { stackFileName: stackFileName });
     }
     catch (e) {
         callback(new Error({message:Errors.FailedToSaveFile, expected:true}));
