@@ -35,37 +35,65 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "init",
+            "cwd": "${workspaceRoot}/tests/examples/hi/publisher",
+            "program":"${workspaceRoot}\\bin\\fnhub",
+            "args": ["init", "--name", "hi", "--author", "relly", "--version", "1.0.110", "--description", "description", "--entryPoint", "index.js", "--repo", "https://github.com/relly/fnhub", "--keywords", "backand", "--license", "mit"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "add function 1",
+            "cwd": "${workspaceRoot}/tests/examples/hi/publisher",
+            "program":"${workspaceRoot}\\bin\\fnhub",
+            "args": ["add", "--name", "hi1", "--handler", "handler1", "--runtime", "nodejs4.3", "--env", "{}"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "add function 2",
+            "cwd": "${workspaceRoot}/tests/examples/hi/publisher",
+            "program":"${workspaceRoot}\\bin\\fnhub",
+            "args": ["add", "--name", "hi2", "--handler", "handler2", "--runtime", "nodejs4.3", "--env", "{}"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "publish",
-            "program":"${workspaceRoot}/bin/fnhub",
+            "cwd": "${workspaceRoot}/tests/examples/hi/publisher",
+            "program":"${workspaceRoot}\\bin\\fnhub",
             "args": ["publish"]
         },
         {
             "type": "node",
             "request": "launch",
-            "name": "init",
+            "name": "cf create",
+            "cwd": "${workspaceRoot}/tests/examples/hi/consumer",
             "program":"${workspaceRoot}/bin/fnhub",
-            "args": ["init", "--name", "init001", "--author", "relly", "--version", "1.0.110", "--description", "description", "--repo", "https://github.com/relly/fnhub", "--keywords", "backand init key3", "--license", "mit"]
+            "args": ["cf", "create", "--name", "myhi", "--description", "my hi"]
         },
         {
             "type": "node",
             "request": "launch",
-            "name": "init no params",
+            "name": "cf help",
             "program":"${workspaceRoot}/bin/fnhub",
-            "args": ["init"]
+            "args": ["cf", "help"]
         },
         {
             "type": "node",
             "request": "launch",
-            "name": "sam create",
-            "program":"${workspaceRoot}/bin/fnhub",
-            "args": ["sam", "create", "--name", "create001", "--description", "description"]
+            "name": "cf include",
+            "cwd": "${workspaceRoot}/tests/examples/hi/consumer",
+            "program":"${workspaceRoot}\\bin\\fnhub",
+            "args": ["cf", "include", "--module", "hi", "--version", "1.0.110"]
         },
         {
             "type": "node",
             "request": "launch",
-            "name": "sam help",
-            "program":"${workspaceRoot}/bin/fnhub",
-            "args": ["sam", "help"]
+            "name": "cf deploy",
+            "cwd": "${workspaceRoot}/tests/examples/hi/consumer",
+            "program":"${workspaceRoot}\\bin\\fnhub",
+            "args": ["cf", "deploy"]
         },
         {
             "type": "node",
@@ -77,23 +105,9 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "sam include",
-            "program":"${workspaceRoot}\\bin\\fnhub",
-            "args": ["sam", "include", "--module", "init001", "--version", "3.0.115"]
-        },
-        {
-            "type": "node",
-            "request": "launch",
             "name": "bad command",
             "program":"${workspaceRoot}\\bin\\fnhub",
             "args": ["bad", "--module", "init001", "--version", "3.0.115"]
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "add",
-            "program":"${workspaceRoot}\\bin\\fnhub",
-            "args": ["add", "--name", "fn3", "--handler", "handler", "--runtime", "nodejs4.3", "--env", "{}"]
         },
         {
             "type": "node",
