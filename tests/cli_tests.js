@@ -35,3 +35,18 @@ describe("init command", function(done){
   })
 
 })
+
+describe("Add Function command", function(){
+
+  it("function values are correct", function (done){
+    this.timeout(64000);
+    var command = 'bin/fnhub add --name function1 --handler index.handler --runtime nodejs4.3 --env {}';
+    exec(command, function(err, stdout, stderr) {
+      if (err) throw err;
+      //check the file exists
+      var doc = yaml.safeLoad(fs.readFileSync(config.templates.module, 'utf8'));
+      expect(doc).to.have.any.keys("Resources","Metadata","Description");
+      done();
+    });
+  })
+})

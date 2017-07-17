@@ -9,3 +9,12 @@ Metadata:
     - key2
     - key3
   License: MIT
+Resources:
+  function1:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs4.3
+      CodeUri: 's3://bucket/zipfile'
+      Environment:
+        Variables: {}
