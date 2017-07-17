@@ -4,7 +4,6 @@ var path = require('path');
 var createHelper = require('../helpers/create');
 
 module.exports = function(options, fnhub){
-    console.log('create');
     if (!options){
         options = {};
     }

@@ -3,7 +3,6 @@ var fs = require('fs');
 var includeHelper = require('../helpers/include');
 
 module.exports = function(options, fnhub){
-    console.log('include');
 	// interact and collect function details
     if (!options){
         options = {};

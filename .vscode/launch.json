@@ -7,29 +7,44 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Mocha Tests",
+            "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
+            "args": [
+                "-u",
+                "tdd",
+                "--timeout",
+                "999999",
+                "--colors",
+                "${workspaceRoot}/tests/cli_tests.js"
+            ],
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "signup",
-            "program":"${workspaceRoot}\\bin\\fnhub",
+            "program":"${workspaceRoot}/bin/fnhub",
             "args": ["signup", "--firstname", "firstname", "--lastname", "lastname", "--username", "testfnhub0001@backand.io", "--password", "123456", "--confirm", "123456"]
         },
         {
             "type": "node",
             "request": "launch",
             "name": "signin",
-            "program":"${workspaceRoot}\\bin\\fnhub",
+            "program":"${workspaceRoot}/bin/fnhub",
             "args": ["signin", "--username", "testfnshub0001@backand.io", "--password", "123456"]
         },
         {
             "type": "node",
             "request": "launch",
             "name": "signin wrong password",
-            "program":"${workspaceRoot}\\bin\\fnhub",
+            "program":"${workspaceRoot}/bin/fnhub",
             "args": ["signin", "--username", "testfnshub0001@backand.io", "--password", "123457"]
         },
         {
             "type": "node",
             "request": "launch",
             "name": "signout",
-            "program":"${workspaceRoot}\\bin\\fnhub",
+            "program":"${workspaceRoot}/bin/fnhub",
             "args": ["signout"]
         },
         {
@@ -37,7 +52,7 @@
             "request": "launch",
             "name": "init",
             "cwd": "${workspaceRoot}/tests/examples/hi/publisher",
-            "program":"${workspaceRoot}\\bin\\fnhub",
+            "program":"${workspaceRoot}/bin//fnhub",
             "args": ["init", "--name", "hi", "--author", "relly", "--version", "1.0.110", "--description", "description", "--entryPoint", "index.js", "--repo", "https://github.com/relly/fnhub", "--keywords", "backand", "--license", "mit"]
         },
         {
@@ -45,23 +60,23 @@
             "request": "launch",
             "name": "add function 1",
             "cwd": "${workspaceRoot}/tests/examples/hi/publisher",
-            "program":"${workspaceRoot}\\bin\\fnhub",
-            "args": ["add", "--name", "hi1", "--handler", "handler1", "--runtime", "nodejs4.3", "--env", "{}"]
+            "program":"${workspaceRoot}/bin/fnhub",
+            "args": ["add", "--name", "hi1", "--handler", "index.handler1", "--runtime", "nodejs4.3", "--env", "{}"]
         },
         {
             "type": "node",
             "request": "launch",
             "name": "add function 2",
             "cwd": "${workspaceRoot}/tests/examples/hi/publisher",
-            "program":"${workspaceRoot}\\bin\\fnhub",
-            "args": ["add", "--name", "hi2", "--handler", "handler2", "--runtime", "nodejs4.3", "--env", "{}"]
+            "program":"${workspaceRoot}/bin/fnhub",
+            "args": ["add", "--name", "hi2", "--handler", "index.handler2", "--runtime", "nodejs4.3", "--env", "{}"]
         },
         {
             "type": "node",
             "request": "launch",
             "name": "publish",
             "cwd": "${workspaceRoot}/tests/examples/hi/publisher",
-            "program":"${workspaceRoot}\\bin\\fnhub",
+            "program":"${workspaceRoot}/bin/fnhub",
             "args": ["publish"]
         },
         {
@@ -84,7 +99,7 @@
             "request": "launch",
             "name": "cf include",
             "cwd": "${workspaceRoot}/tests/examples/hi/consumer",
-            "program":"${workspaceRoot}\\bin\\fnhub",
+            "program":"${workspaceRoot}/bin/fnhub",
             "args": ["cf", "include", "--module", "hi", "--version", "1.0.110"]
         },
         {
@@ -100,63 +115,63 @@
             "request": "launch",
             "name": "cf deploy",
             "cwd": "${workspaceRoot}/tests/examples/hi/consumer",
-            "program":"${workspaceRoot}\\bin\\fnhub",
+            "program":"${workspaceRoot}/bin/fnhub",
             "args": ["cf", "deploy"]
         },
         {
             "type": "node",
             "request": "launch",
             "name": "info",
-            "program":"${workspaceRoot}\\bin\\fnhub",
+            "program":"${workspaceRoot}/bin/fnhub",
             "args": ["info", "--module", "init001", "--version", "3.0.115"]
         },
         {
             "type": "node",
             "request": "launch",
             "name": "bad command",
-            "program":"${workspaceRoot}\\bin\\fnhub",
+            "program":"${workspaceRoot}/bin/fnhub",
             "args": ["bad", "--module", "init001", "--version", "3.0.115"]
         },
         {
             "type": "node",
             "request": "launch",
             "name": "test",
-            "program": "${workspaceRoot}\\tests\\mochaRunner.js",
+            "program": "${workspaceRoot}/tests/mochaRunner.js",
             "args": []
         },
         {
             "type": "node",
             "request": "launch",
             "name": "version",
-            "program": "${workspaceRoot}\\bin\\fnhub",
+            "program": "${workspaceRoot}/bin/fnhub",
             "args": ["version"]
         },
         {
             "type": "node",
             "request": "launch",
             "name": "version patch",
-            "program": "${workspaceRoot}\\bin\\fnhub",
+            "program": "${workspaceRoot}/bin/fnhub",
             "args": ["version", "patch"]
         },
         {
             "type": "node",
             "request": "launch",
             "name": "version minor",
-            "program": "${workspaceRoot}\\bin\\fnhub",
+            "program": "${workspaceRoot}/bin/fnhub",
             "args": ["version", "minor"]
         },
         {
             "type": "node",
             "request": "launch",
             "name": "version major",
-            "program": "${workspaceRoot}\\bin\\fnhub",
+            "program": "${workspaceRoot}/bin/fnhub",
             "args": ["version", "major"]
         },
         {
             "type": "node",
             "request": "launch",
             "name": "version aaa",
-            "program": "${workspaceRoot}\\bin\\fnhub",
+            "program": "${workspaceRoot}/bin/fnhub",
             "args": ["version", "aaa"]
         },
         {

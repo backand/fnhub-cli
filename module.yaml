@@ -1,13 +1,20 @@
-Description: ss
+Description: this is a test description
 Metadata:
-  Name: fnhub-cli
-  Author: itay@backand.io
-  Version: 1.0.0
-  Repo: 'https://github.com/backand/fnhub-cli'
+  Name: test function
+  Author: test@backand.io
+  Version: 1.1.1
+  Repo: 'https://github.com/test/fnhub'
   Keywords:
-    - aasd
-    - ss
-    - das
-    - dasas
-    - sds
-  License: ISC
+    - key1
+    - key2
+    - key3
+  License: MIT
+Resources:
+  function1:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs4.3
+      CodeUri: 's3://bucket/zipfile'
+      Environment:
+        Variables: {}
