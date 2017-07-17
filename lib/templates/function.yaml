@@ -1,5 +1,6 @@
 Type: AWS::Serverless::Function
 Properties:
+  Description: 
   Handler: function.module
   Runtime: runtime
   CodeUri: s3://bucket/zipfile

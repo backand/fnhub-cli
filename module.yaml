@@ -10,11 +10,10 @@ Metadata:
     - key3
   License: MIT
 Resources:
-  function1:
+  test function:
     Type: 'AWS::Serverless::Function'
     Properties:
+      Description: dfsdfdfs
       Handler: index.handler
-      Runtime: nodejs4.3
+      Runtime: nodejs6.10
       CodeUri: 's3://bucket/zipfile'
-      Environment:
-        Variables: {}
