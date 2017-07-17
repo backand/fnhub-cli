@@ -4,7 +4,6 @@ var path = require('path');
 var deployHelper = require('../helpers/deploy');
 
 module.exports = function(options, fnhub){
-    console.log('deploy');
     if (!options){
         options = {};
     }
