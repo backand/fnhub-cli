@@ -90,6 +90,14 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "cf delete",
+            "cwd": "${workspaceRoot}/tests/examples/hi/consumer",
+            "program":"${workspaceRoot}\\bin\\fnhub",
+            "args": ["cf", "delete"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "cf deploy",
             "cwd": "${workspaceRoot}/tests/examples/hi/consumer",
             "program":"${workspaceRoot}\\bin\\fnhub",

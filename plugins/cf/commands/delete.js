@@ -1,9 +1,10 @@
 var cf = require('../index');
 var fs = require('fs');
 var path = require('path');
-var deployHelper = require('../helpers/deploy');
+var deleteHelper = require('../helpers/delete');
 
 module.exports = function(options, fnhub){
+    console.log('delete');
     if (!options){
         options = {};
     }
@@ -12,21 +13,19 @@ module.exports = function(options, fnhub){
     
     collectOptions(options, stack, fnhub);
 
-    fnhub.logger.log(cf.Messages.Deploy.Before);
-
-    deployHelper.deploy(options, fnhub, stack, function(err, response){
+    deleteHelper.deleteStack(options, fnhub, stack, function(err, response){
         if (err) {
             fnhub.logger.debug.error(err);
             if (err.expected && err.message) {
                 fnhub.logger.error(err.message);
             }
             else {
-                fnhub.logger.error(fnhub.logger.toString(err));
+                fnhub.logger.error(fnhub.Errors.General.Unexpected);
             }
             process.exit(1);
-        }
+            }
         else {
-            fnhub.logger.success(fnhub.logger.toString(response));
+            fnhub.logger.success(cf.Messages.Delete.AfterSuccess.replace('{{0}}', options.name));
             process.exit(0);
         }
     });
@@ -34,12 +33,7 @@ module.exports = function(options, fnhub){
 }
 
 function collectOptions(options, stack, fnhub){
-	// interact and collect module details
-    if (!stack) {
-        fnhub.logger.error('Stack file is missing');
-        process.exit(1);
-    }
-    var stackNameFromFile = getStackName(stack);
+	var stackNameFromFile = getStackName(stack);
     if (stackNameFromFile && options.name && stackNameFromFile != options.name) {
         fnhub.logger.warn('The stack name you provided is different than the existing stack name in the ' + cf.getStackFileName());
         process.exit(1);

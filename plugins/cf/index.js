@@ -28,6 +28,12 @@ module.exports = {
         Include: {
             AfterSuccess: 'Stack file saved at {{0}}',
             IgnoreNonFunction: 'The resource {{0}} is not a function. Currently ignored and will not be added to the stack'
+        },
+        Deploy: {
+            Before: 'The depolyment may take few minutes...'
+        },
+        Delete: {
+            AfterSuccess: 'The stack {{0}} deletion was successfully started'
         }
     },
     Errors: {
