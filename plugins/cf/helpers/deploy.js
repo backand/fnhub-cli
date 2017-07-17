@@ -7,7 +7,7 @@ function validate(options, fnhub, stack, callback){
 }
 
 function runCloudFormation(options, fnhub, stack, callback) {
-    awscli.cloudFormation.stack.create(options.name, cf.getStackFileName(), function(err, response) {
+    awscli.cloudFormation.stack.deploy(fnhub, options.name, cf.getStackFileName(), function(err, response) {
         if (err) callback(err);
         else callback(null, response);
     });
