@@ -1,6 +1,7 @@
-Description: undefined
+Description: this is a test description
 Metadata:
-  Name: test1
+  Name: test function
+  Author: test@backand.io
   Version: 1.1.1
   Repo: 'https://github.com/test/fnhub'
   Keywords:
@@ -8,11 +9,3 @@ Metadata:
     - key2
     - key3
   License: MIT
-Resources:
-  test function:
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Description: dfsdfdfs
-      Handler: index.handler
-      Runtime: nodejs6.10
-      CodeUri: 's3://bucket/zipfile'
