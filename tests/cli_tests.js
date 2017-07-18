@@ -308,7 +308,7 @@ describe("Successful Cycle", function(){
               if (error) callback(error);
               else if (response.statusCode != 200) callback(response.body);
               else {
-                expect(body).to.contain('events');
+                expect(body).to.contain('event');
                 callback();
               }
             });
