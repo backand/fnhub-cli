@@ -11,6 +11,12 @@ var config =  require('../lib/config');
 var fnhub =  require('../lib/fnhub');
 var cfPlugin =  require('../plugins/cf/index');
 
+var EOL = /\r?\n/
+
+function truthy (obj) {
+  return !!obj
+}
+
 var deleteFolderRecursive = function(path) {
   if( fs.existsSync(path) ) {
     fs.readdirSync(path).forEach(function(file,index){
@@ -284,9 +290,14 @@ describe("Successful Cycle", function(){
             if (stdout) throw new Error(stdout);
             else throw err;
           }
-          //check the file exists
-          var endpoints = JSON.stringify(stdout).endpoints;
-
+          //get the endpoints
+          var endpoints = [];
+          stdout.trim().split(EOL).filter(truthy).forEach(function (line) {
+            if (line.indexOf('https')) {
+              endpoints.push(line.replace(',','').replace('"', '').replace('"', ''));
+            }
+          });
+          
           async.each(endpoints, function(endpoint, callback) {
             var options = { 
               method: 'GET',
