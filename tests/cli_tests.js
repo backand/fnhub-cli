@@ -3,10 +3,26 @@ var exec = require('child_process').exec;
 var del = require('del');
 var fs = require('fs');
 var	yaml = require('js-yaml');
+var path = require('path');
 
 var config =  require('../lib/config');
+var fnhub =  require('../lib/fnhub');
 
-describe("init command", function(done){
+var deleteFolderRecursive = function(path) {
+  if( fs.existsSync(path) ) {
+    fs.readdirSync(path).forEach(function(file,index){
+      var curPath = path + "/" + file;
+      if(fs.lstatSync(curPath).isDirectory()) { // recurse
+        deleteFolderRecursive(curPath);
+      } else { // delete file
+        fs.unlinkSync(curPath);
+      }
+    });
+    fs.rmdirSync(path);
+  }
+};
+
+describe.skip("init command", function(done){
 
   before(function(done){
     del.sync(['module.yaml']);
@@ -36,7 +52,7 @@ describe("init command", function(done){
 
 })
 
-describe("Add Function command", function(){
+describe.skip("Add Function command", function(){
 
   it("function values are correct", function (done){
     this.timeout(64000);
@@ -50,3 +66,76 @@ describe("Add Function command", function(){
     });
   })
 })
+
+describe("Full test", function(){
+  var testName = 'test1';
+  var user = {
+    username:"testfnshub0001@backand.io",
+    password:"123456",
+    firstname:"firstname"
+  };
+  var module = {
+    "Description":"this is a test description",
+    "Metadata":{
+      "Name":testName,
+      "Author":user.username,
+      "Version":"1.1.1",
+      "Repo":"https://github.com/test/fnhub",
+      "Keywords":["key1","key2","key3"],
+      "License":"MIT"
+    }
+  };
+  var cwd = path.join(__dirname, testName);
+  var cwdPublisher = path.join(cwd, "publisher");
+  var cwdConsumer = path.join(cwd, "consumer");
+  var moduleFile = path.join(cwdPublisher, config.yamlFileName);
+  var bin = path.join(path.dirname(__dirname), "bin");
+  var fnhubPath = path.join(bin, "fnhub");
+
+  describe("Publisher test", function(){
+    before(function(done){
+      // if (fs.existsSync(cwd)) {
+      //   deleteFolderRecursive(cwd);
+      // }
+      // fs.mkdirSync(cwd);
+      // fs.mkdirSync(cwdPublisher);
+      // fs.mkdirSync(cwdConsumer);
+
+      done();
+    });
+    after(function(done){
+      // if (fs.existsSync(cwd)) {
+      //   del.sync([cwd], {force:true});
+      // }
+      
+      done();
+    });
+    it("should signin", function (done){
+      this.timeout(64000);
+      var command = 'node ' + fnhubPath + ' signin --username "' + user.username + '" --password ' + user.password;
+      exec(command, {cwd: cwdPublisher}, function(err, stdout, stderr) {
+        if (err) throw err;
+        //expect success message
+        expect(stdout).to.contain(fnhub.Messages.Signin.AfterSuccess.replace('{{0}}', user.firstname));
+        done();
+      });
+    });
+    it("should init", function (done){
+      this.timeout(64000);
+      var command = 'node ' + fnhubPath + ' init --name "' + module.Metadata.Name + '" --author "' + module.Metadata.Author + '" --version ' + module.Metadata.Version + ' --description "' + module.Description + '" --repo ' + module.Metadata.Repo + ' --keywords "' + module.Metadata.Keywords + '" --license ' + module.Metadata.License;
+      exec(command, {cwd: cwdPublisher}, function(err, stdout, stderr) {
+        if (err) throw err;
+        //check the file exists
+        fs.stat(moduleFile, function(err, stats){
+          expect(stats.isFile()).to.be.true;
+          var doc = yaml.safeLoad(fs.readFileSync(moduleFile, 'utf8'));
+          //convert to JSON and compare
+          var docString = JSON.stringify(doc);
+          expect(docString).to.be.equal(JSON.stringify(module));
+          done();
+        });
+      });
+    });
+    
+  }); 
+});
