@@ -52,8 +52,15 @@
             "request": "launch",
             "name": "init",
             "cwd": "${workspaceRoot}/tests/examples/hi/publisher",
-            "program":"${workspaceRoot}/bin//fnhub",
+            "program":"${workspaceRoot}/bin/fnhub",
             "args": ["init", "--name", "hi", "--author", "relly", "--version", "1.0.110", "--description", "description", "--entryPoint", "index.js", "--repo", "https://github.com/relly/fnhub", "--keywords", "backand", "--license", "mit"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "add function no params",
+            "program":"${workspaceRoot}/bin/fnhub",
+            "args": ["add"]
         },
         {
             "type": "node",
@@ -61,7 +68,7 @@
             "name": "add function 1",
             "cwd": "${workspaceRoot}/tests/examples/hi/publisher",
             "program":"${workspaceRoot}/bin/fnhub",
-            "args": ["add", "--name", "hi1", "--handler", "index.handler1", "--runtime", "nodejs4.3", "--env", "{}"]
+            "args": ["add", "--name", "hi1", "--description", "description", "--handler", "index.handler1", "--runtime", "nodejs4.3", "--env", "{}"]
         },
         {
             "type": "node",

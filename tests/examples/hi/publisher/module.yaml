@@ -8,3 +8,11 @@ Metadata:
   Keywords:
     - backand
   License: mit
+Resources:
+  hi1:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Description: description
+      Handler: index.handler1
+      Runtime: nodejs4.3
+      CodeUri: 's3://bucket/zipfile'

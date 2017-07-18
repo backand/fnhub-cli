@@ -8,4 +8,11 @@ Metadata:
     - key2
     - key3
   License: MIT
-  Author: testfnshub0001@backand.io
+Resources:
+  test function:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Description: dfsdfdfs
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: 's3://bucket/zipfile'
