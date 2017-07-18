@@ -293,8 +293,8 @@ describe("Successful Cycle", function(){
           //get the endpoints
           var endpoints = [];
           stdout.trim().split(EOL).filter(truthy).forEach(function (line) {
-            if (line.indexOf('https')) {
-              endpoints.push(line.replace(',','').replace('"', '').replace('"', ''));
+            if (line.indexOf('https') > 0) {
+              endpoints.push(line.replace(',','').replace('"', '').replace('"', '').trim());
             }
           });
           
