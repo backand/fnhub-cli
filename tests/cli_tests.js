@@ -214,5 +214,21 @@ describe("Full test", function(){
       });
     });
 
+    it("should delete", function (done){
+      this.timeout(64000);
+      
+      var command = 'node ' + fnhubPath + ' delete';
+      exec(command, {cwd: cwdPublisher}, function(err, stdout, stderr) {
+        if (err) {
+          if (stdout) throw new Error(stdout);
+          else throw err;
+        }
+          
+        //check the file exists
+        expect(stdout).to.contain(fnhub.Messages.Delete.AfterSuccess.replace('{{0}}', ''));
+        done();
+      });
+    });
+
   }); 
 });
