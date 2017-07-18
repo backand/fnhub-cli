@@ -4,6 +4,8 @@ var del = require('del');
 var fs = require('fs');
 var	yaml = require('js-yaml');
 var path = require('path');
+var async = require('async');
+var request = require('request');
 
 var config =  require('../lib/config');
 var fnhub =  require('../lib/fnhub');
@@ -68,7 +70,7 @@ describe.skip("Add Function command", function(){
   })
 })
 
-describe("Full test", function(){
+describe("Successful Cycle", function(){
   var testName = 'test1001';
   var user = {
     username:"testfnshub0001@backand.io",
@@ -218,8 +220,8 @@ describe("Full test", function(){
     
   });
 
-  describe("Consume module", function(){
-    describe("Include module in new Cloud Formation stack and deploy it", function(){
+  describe("Consume module with plugins", function(){
+    describe("Include module in a new Cloud Formation stack and deploy it", function(){
       var CF = 'cf';
       var cwdConsumerCf = path.join(cwdConsumer, CF);
       var stackFile = path.join(cwdConsumerCf, cfPlugin.Consts.Defaults.Stack.FileName);
@@ -272,9 +274,46 @@ describe("Full test", function(){
         });
       });
 
+      it("should deploy", function (done){
+        this.timeout(64000);
+        
+        var command = 'node ' + fnhubPath + ' ' + CF + ' deploy';
+        exec(command, {cwd: cwdConsumerCf}, function(err, stdout, stderr) {
+          if (stderr) throw new Error(stderr);
+          if (err) {
+            if (stdout) throw new Error(stdout);
+            else throw err;
+          }
+          //check the file exists
+          var endpoints = JSON.stringify(stdout).endpoints;
+
+          async.each(endpoints, function(endpoint, callback) {
+            var options = { 
+              method: 'GET',
+              url: endpoint
+            };
+
+            request(options, function (error, response, body) {
+              if (error) callback(error);
+              else if (response.statusCode != 200) callback(response.body);
+              else {
+                expect(body).to.contain('events');
+                callback();
+              }
+            });
+          }, function(err) {
+            // if any of the file processing produced an error, err would equal that error
+            if( err ) {
+              throw err;
+            } else {
+              done();
+            }
+          });
+        });
+      });
     });
 
-    describe("SAM test", function(){
+    describe("Include module in a new SAM stack and deploy it", function(){
     });
 
   });
