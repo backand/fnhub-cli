@@ -203,7 +203,6 @@ describe("Full test", function(){
       
       var command = 'node ' + fnhubPath + ' publish';
       exec(command, {cwd: cwdPublisher}, function(err, stdout, stderr) {
-        if (stderr) throw new Error(stderr);
         if (err) {
           if (stdout) throw new Error(stdout);
           else throw err;
