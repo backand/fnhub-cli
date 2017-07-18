@@ -225,7 +225,7 @@ describe("Full test", function(){
         }
           
         //check the file exists
-        expect(stdout).to.contain(fnhub.Messages.Delete.AfterSuccess.replace('{{0}}', ''));
+        expect(stdout).to.contain(fnhub.Messages.Delete.AfterSuccess.replace('{{0}}', module.Metadata.Name));
         done();
       });
     });
