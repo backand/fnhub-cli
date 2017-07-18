@@ -109,7 +109,7 @@ describe("Full test", function(){
     "env": {}
   };
 
-  describe("Publisher test", function(){
+  describe("Publish module", function(){
     before(function(done){
       // if (fs.existsSync(cwd)) {
       //   deleteFolderRecursive(cwd);
@@ -144,7 +144,7 @@ describe("Full test", function(){
       });
     });
 
-    it("should init module", function (done){
+    it("should init", function (done){
       this.timeout(64000);
       var command = 'node ' + fnhubPath + ' init --name "' + module.Metadata.Name + '" --author "' + module.Metadata.Author + '" --version ' + module.Metadata.Version + ' --description "' + module.Description + '" --repo ' + module.Metadata.Repo + ' --keywords "' + module.Metadata.Keywords + '" --license ' + module.Metadata.License;
       exec(command, {cwd: cwdPublisher}, function(err, stdout, stderr) {
@@ -199,7 +199,7 @@ describe("Full test", function(){
       });
     });
     
-    it("should publish module", function (done){
+    it("should publish", function (done){
       this.timeout(64000);
       
       var command = 'node ' + fnhubPath + ' publish';
@@ -215,68 +215,72 @@ describe("Full test", function(){
       });
     });
 
-    describe("Consumer test", function(){
-      describe("Cloud Formation test", function(){
-        var CF = 'cf';
-        var cwdConsumerCf = path.join(cwdConsumer, CF);
-        var stackFile = path.join(cwdConsumerCf, cfPlugin.Consts.Defaults.Stack.FileName);
-        var stack = {
-          "AWSTemplateFormatVersion": "2010-09-09",
-          "Description": "test stack 1001 description",
-          "Metadata": {
-            "Name": "testStack1001"
-          },
-          "Resources": {
-            
-          }
-        }
-        
-        it("should create stack", function (done){
-          this.timeout(64000);
-          var command = 'node ' + fnhubPath + ' ' + CF + ' create --name "' + stack.Metadata.Name + '" --description "' + stack.Description + '"';
-          exec(command, {cwd: cwdConsumerCf}, function(err, stdout, stderr) {
-            if (stderr) throw new Error(stderr);
-            if (err) {
-              if (stdout) throw new Error(stdout);
-              else throw err;
-            }
-            //check the file exists
-            fs.stat(stackFile, function(err, stats){
-              expect(stats.isFile()).to.be.true;
-              var doc = yaml.safeLoad(fs.readFileSync(stackFile, 'utf8'));
-              //convert to JSON and compare
-              var docString = JSON.stringify(doc);
-              expect(docString).to.be.equal(JSON.stringify(stack));
-              done();
-            });
-          });
-        });
+    
+  });
 
-        it("should include module", function (done){
-          this.timeout(64000);
+  describe("Consume module", function(){
+    describe("Include module in new Cloud Formation stack and deploy it", function(){
+      var CF = 'cf';
+      var cwdConsumerCf = path.join(cwdConsumer, CF);
+      var stackFile = path.join(cwdConsumerCf, cfPlugin.Consts.Defaults.Stack.FileName);
+      var stack = {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "test stack 1001 description",
+        "Metadata": {
+          "Name": "testStack1001"
+        },
+        "Resources": {
           
-          var command = 'node ' + fnhubPath + ' ' + CF + ' include --module ' + module.Metadata.Name + ' --version ' + module.Metadata.Version;
-          exec(command, {cwd: cwdConsumerCf}, function(err, stdout, stderr) {
-            if (stderr) throw new Error(stderr);
-            if (err) {
-              if (stdout) throw new Error(stdout);
-              else throw err;
-            }
-            //check the file exists
+        }
+      }
+      
+      it("should create", function (done){
+        this.timeout(64000);
+        var command = 'node ' + fnhubPath + ' ' + CF + ' create --name "' + stack.Metadata.Name + '" --description "' + stack.Description + '"';
+        exec(command, {cwd: cwdConsumerCf}, function(err, stdout, stderr) {
+          if (stderr) throw new Error(stderr);
+          if (err) {
+            if (stdout) throw new Error(stdout);
+            else throw err;
+          }
+          //check the file exists
+          fs.stat(stackFile, function(err, stats){
+            expect(stats.isFile()).to.be.true;
             var doc = yaml.safeLoad(fs.readFileSync(stackFile, 'utf8'));
-            expect(doc).to.have.any.keys("Resources","Metadata","Description");
+            //convert to JSON and compare
+            var docString = JSON.stringify(doc);
+            expect(docString).to.be.equal(JSON.stringify(stack));
             done();
           });
         });
-
       });
 
-      describe("SAM test", function(){
+      it("should include", function (done){
+        this.timeout(64000);
+        
+        var command = 'node ' + fnhubPath + ' ' + CF + ' include --module ' + module.Metadata.Name + ' --version ' + module.Metadata.Version;
+        exec(command, {cwd: cwdConsumerCf}, function(err, stdout, stderr) {
+          if (stderr) throw new Error(stderr);
+          if (err) {
+            if (stdout) throw new Error(stdout);
+            else throw err;
+          }
+          //check the file exists
+          var doc = yaml.safeLoad(fs.readFileSync(stackFile, 'utf8'));
+          expect(doc).to.have.any.keys("Resources","Metadata","Description");
+          done();
+        });
       });
 
     });
 
-    it("should delete module", function (done){
+    describe("SAM test", function(){
+    });
+
+  });
+
+  describe("Delete module", function(){
+    it("should delete", function (done){
       this.timeout(64000);
       
       var command = 'node ' + fnhubPath + ' delete';
@@ -292,7 +296,5 @@ describe("Full test", function(){
       });
     });
   });
-
-  
 
 });
