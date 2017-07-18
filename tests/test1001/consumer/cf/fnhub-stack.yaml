@@ -1,0 +1,5 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: test stack 1001 description
+Metadata:
+  Name: testStack1001
+Resources: {}

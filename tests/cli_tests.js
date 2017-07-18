@@ -7,6 +7,7 @@ var path = require('path');
 
 var config =  require('../lib/config');
 var fnhub =  require('../lib/fnhub');
+var cfPlugin =  require('../plugins/cf/index');
 
 var deleteFolderRecursive = function(path) {
   if( fs.existsSync(path) ) {
@@ -22,7 +23,7 @@ var deleteFolderRecursive = function(path) {
   }
 };
 
-describe("init command", function(done){
+describe.skip("init command", function(done){
 
   before(function(done){
     del.sync(['module.yaml']);
@@ -108,7 +109,7 @@ describe("Full test", function(){
     "env": {}
   };
 
-  describe.only("Publisher test", function(){
+  describe("Publisher test", function(){
     before(function(done){
       // if (fs.existsSync(cwd)) {
       //   deleteFolderRecursive(cwd);
@@ -143,7 +144,7 @@ describe("Full test", function(){
       });
     });
 
-    it("should init", function (done){
+    it("should init module", function (done){
       this.timeout(64000);
       var command = 'node ' + fnhubPath + ' init --name "' + module.Metadata.Name + '" --author "' + module.Metadata.Author + '" --version ' + module.Metadata.Version + ' --description "' + module.Description + '" --repo ' + module.Metadata.Repo + ' --keywords "' + module.Metadata.Keywords + '" --license ' + module.Metadata.License;
       exec(command, {cwd: cwdPublisher}, function(err, stdout, stderr) {
@@ -198,7 +199,7 @@ describe("Full test", function(){
       });
     });
     
-    it("should publish", function (done){
+    it("should publish module", function (done){
       this.timeout(64000);
       
       var command = 'node ' + fnhubPath + ' publish';
@@ -214,7 +215,68 @@ describe("Full test", function(){
       });
     });
 
-    it("should delete", function (done){
+    describe("Consumer test", function(){
+      describe("Cloud Formation test", function(){
+        var CF = 'cf';
+        var cwdConsumerCf = path.join(cwdConsumer, CF);
+        var stackFile = path.join(cwdConsumerCf, cfPlugin.Consts.Defaults.Stack.FileName);
+        var stack = {
+          "AWSTemplateFormatVersion": "2010-09-09",
+          "Description": "test stack 1001 description",
+          "Metadata": {
+            "Name": "testStack1001"
+          },
+          "Resources": {
+            
+          }
+        }
+        
+        it("should create stack", function (done){
+          this.timeout(64000);
+          var command = 'node ' + fnhubPath + ' ' + CF + ' create --name "' + stack.Metadata.Name + '" --description "' + stack.Description + '"';
+          exec(command, {cwd: cwdConsumerCf}, function(err, stdout, stderr) {
+            if (stderr) throw new Error(stderr);
+            if (err) {
+              if (stdout) throw new Error(stdout);
+              else throw err;
+            }
+            //check the file exists
+            fs.stat(stackFile, function(err, stats){
+              expect(stats.isFile()).to.be.true;
+              var doc = yaml.safeLoad(fs.readFileSync(stackFile, 'utf8'));
+              //convert to JSON and compare
+              var docString = JSON.stringify(doc);
+              expect(docString).to.be.equal(JSON.stringify(stack));
+              done();
+            });
+          });
+        });
+
+        it("should include module", function (done){
+          this.timeout(64000);
+          
+          var command = 'node ' + fnhubPath + ' ' + CF + ' include --module ' + module.Metadata.Name + ' --version ' + module.Metadata.Version;
+          exec(command, {cwd: cwdConsumerCf}, function(err, stdout, stderr) {
+            if (stderr) throw new Error(stderr);
+            if (err) {
+              if (stdout) throw new Error(stdout);
+              else throw err;
+            }
+            //check the file exists
+            var doc = yaml.safeLoad(fs.readFileSync(stackFile, 'utf8'));
+            expect(doc).to.have.any.keys("Resources","Metadata","Description");
+            done();
+          });
+        });
+
+      });
+
+      describe("SAM test", function(){
+      });
+
+    });
+
+    it("should delete module", function (done){
       this.timeout(64000);
       
       var command = 'node ' + fnhubPath + ' delete';
@@ -229,6 +291,8 @@ describe("Full test", function(){
         done();
       });
     });
+  });
 
-  }); 
+  
+
 });
