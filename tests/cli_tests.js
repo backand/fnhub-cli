@@ -275,7 +275,7 @@ describe("Successful Cycle", function(){
       });
 
       it("should deploy", function (done){
-        this.timeout(64000);
+        this.timeout(6400000);
         
         var command = 'node ' + fnhubPath + ' ' + CF + ' deploy';
         exec(command, {cwd: cwdConsumerCf}, function(err, stdout, stderr) {
@@ -309,6 +309,22 @@ describe("Successful Cycle", function(){
               done();
             }
           });
+        });
+      });
+
+      it.only("should delete stack", function (done){
+        this.timeout(6400000);
+        
+        var command = 'node ' + fnhubPath + ' ' + CF + ' delete';
+        exec(command, {cwd: cwdConsumerCf}, function(err, stdout, stderr) {
+          if (err) {
+            if (stdout) throw new Error(stdout);
+            else throw err;
+          }
+            
+          //check the file exists
+          expect(stdout).to.contain(cfPlugin.Messages.Delete.AfterSuccess.replace('{{0}}', stack.Metadata.Name));
+          done();
         });
       });
     });
