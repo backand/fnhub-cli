@@ -312,7 +312,7 @@ describe("Successful Cycle", function(){
         });
       });
 
-      it.only("should delete stack", function (done){
+      it("should delete stack", function (done){
         this.timeout(6400000);
         
         var command = 'node ' + fnhubPath + ' ' + CF + ' delete';
