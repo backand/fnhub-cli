@@ -1,4 +1,4 @@
-var cf = require('../index');
+var sam = require('../index');
 
 function getModuleInfo(options, fnhub, callback){
     fnhub.info.getModule(options.module, options.version, function(err, moduleInfo) {
@@ -9,7 +9,7 @@ function getModuleInfo(options, fnhub, callback){
 
 function getFunctionTemplate(options, fnhub, moduleInfo, callback) {
     try {
-        var functionTemplate = cf.getFunctionTemplate(fnhub);
+        var functionTemplate = sam.getFunctionTemplate(fnhub);
         callback(null, options, fnhub, moduleInfo, functionTemplate);
     }
     catch (err) {
@@ -19,7 +19,7 @@ function getFunctionTemplate(options, fnhub, moduleInfo, callback) {
 
 function getStack(options, fnhub, moduleInfo, functionTemplate, callback){
     try {
-        var stack = cf.getStack(fnhub);
+        var stack = sam.getStack(fnhub);
         callback(null, options, fnhub, moduleInfo, functionTemplate, stack);
     }
     catch (err) {
@@ -34,11 +34,11 @@ function getStack(options, fnhub, moduleInfo, functionTemplate, callback){
 function cloneAndReplacePlaceHolders(fnhub, functionTemplate, moduleName, functionName){
     var json = JSON.stringify(functionTemplate);
 
-    json = replaceAll(fnhub, json, cf.Consts.Template.ModuleName, moduleName);
-    json = replaceAll(fnhub, json, cf.Consts.Template.FunctionName, functionName);
-    json = replaceAll(fnhub, json, cf.Consts.Template.PathPart, functionName);
-    json = replaceAll(fnhub, json, cf.Consts.Template.StageName, cf.Consts.Template.Stage);
-    json = replaceAll(fnhub, json, cf.Consts.Template.HttpMethod, cf.Consts.Template.Any);
+    json = replaceAll(fnhub, json, sam.Consts.Template.ModuleName, moduleName);
+    json = replaceAll(fnhub, json, sam.Consts.Template.FunctionName, functionName);
+    json = replaceAll(fnhub, json, sam.Consts.Template.PathPart, functionName);
+    json = replaceAll(fnhub, json, sam.Consts.Template.StageName, sam.Consts.Template.Stage);
+    json = replaceAll(fnhub, json, sam.Consts.Template.HttpMethod, sam.Consts.Template.Any);
 
     return JSON.parse(json);
 }
@@ -50,8 +50,7 @@ function copyModuleInfoIntoFunctionTemplate(options, fnhub, moduleInfo, resource
     var functionResourceName = moduleName + functionName + 'Function';
     var functionResource = functionStack.Resources[functionResourceName];
 
-    functionResource.Properties.Code.S3Bucket = fnhub.getS3Bucket(resource.Properties.CodeUri) || '';
-    functionResource.Properties.Code.S3Key = fnhub.getS3Key(resource.Properties.CodeUri) || '';
+    functionResource.Properties.CodeUri = resource.Properties.CodeUri.replace('https', 's3').replace('http', 's3');
     functionResource.Properties.Description = resource.Properties.Description || '';
     functionResource.Properties.Handler = resource.Properties.Handler || '';
     functionResource.Properties.Runtime = resource.Properties.Runtime || '';
@@ -71,7 +70,7 @@ function copyFunctionResourcesIntoStack(fnhub, stack, functionStack) {
     fnhub._.forOwn(functionStack.Resources, function(resource, resourceName) { 
         // Check that the resource does not already exist in the stack
         if (stack.Resources.hasOwnProperty(resourceName))
-            throw new Error({message:cf.Errors.Include.ResourceAlreadyExists.replace('{{0}}', resourceName), expected:true});
+            throw new Error({message:sam.Errors.Include.ResourceAlreadyExists.replace('{{0}}', resourceName), expected:true});
         
         stack.Resources[resourceName] = resource;
     });
@@ -85,7 +84,7 @@ function copyFunctionOutputsIntoStack(fnhub, stack, functionStack) {
     fnhub._.forOwn(functionStack.Outputs, function(output, outputName) { 
         // Check that the resource does not already exist in the stack
         if (stack.Resources.hasOwnProperty(outputName))
-            throw new Error({message:cf.Errors.Include.OutputAlreadyExists.replace('{{0}}', outputName), expected:true});
+            throw new Error({message:sam.Errors.Include.OutputAlreadyExists.replace('{{0}}', outputName), expected:true});
         
         stack.Outputs[outputName] = output;
     });
@@ -103,8 +102,9 @@ function copyEachFunctionInModuleIntoStack(options, fnhub, moduleInfo, functionT
                 copyFunctionOutputsIntoStack(fnhub, stack, functionStack);
             }
             else {
-                //  ignore resources other than functions
-                fnhub.logger.warn(cf.Messages.Include.IgnoreNonFunction.replace('{{0}}', key));
+                //  copy resources other than functions
+                stack.Resources[resourceName] = resource;
+                fnhub.logger.warn(sam.Messages.Include.CopyNonFunction.replace('{{0}}', key));
             }
         } );
 
@@ -123,7 +123,7 @@ function save(options, fnhub, stack, callback){
     
     try {
 		// write back stack.yaml
-        var stackFileName = cf.saveStack(fnhub, stack);
+        var stackFileName = sam.saveStack(fnhub, stack);
 		callback(null, { stackFileName: stackFileName });
     }
     catch (e) {

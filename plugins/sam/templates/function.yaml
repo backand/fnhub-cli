@@ -32,7 +32,8 @@ Resources:
   $ModuleName$$FunctionName$Permission:
     Type: AWS::Lambda::Permission
     Properties:
-      FunctionName: !Ref $ModuleName$$FunctionName$Function
+      FunctionName: 
+        Ref: $ModuleName$$FunctionName$Function
       Action: lambda:InvokeFunction
       Principal: apigateway.amazonaws.com
 
@@ -56,14 +57,15 @@ Resources:
               responses: {}
 
 Outputs:
-  HelloUrl:
-     Description: "Hello Method of the API gateway"
-     Value: !Join
+  $ModuleName$$FunctionName$EndPoint:
+    Description: Root URL of the API gateway
+    Value:
+      Fn::Join:
       - ''
       - - https://
-        - !Ref $ModuleName$$FunctionName$Api
-        - '.execute-api.'
-        - !Ref 'AWS::Region'
-        - '.amazonaws.com/Prod'
-        - '/$FunctionName$'
-  
+        - Ref: $ModuleName$$FunctionName$Api
+        - ".execute-api."
+        - Ref: AWS::Region
+        - ".amazonaws.com"
+        - "/$StageName$"
+        - "/$PathPart$"

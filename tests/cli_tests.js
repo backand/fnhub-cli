@@ -73,7 +73,7 @@ describe("Successful Cycle", function(){
     "env": {}
   };
 
-  describe("Publish module", function(){
+  describe.skip("Publish module", function(){
     before(function(done){
       // if (fs.existsSync(cwd)) {
       //   deleteFolderRecursive(cwd);
@@ -302,7 +302,8 @@ describe("Successful Cycle", function(){
       var stackFile = path.join(cwdConsumerSam, samPlugin.Consts.Defaults.Stack.FileName);
       var stack = {
         "AWSTemplateFormatVersion": "2010-09-09",
-        "Description": "test stack 1001 description",
+        "Transform": "AWS::Serverless-2016-10-31",
+        "Description": "test stack sam 1002 description",
         "Metadata": {
           "Name": "testStackSam1002"
         },

@@ -1,14 +1,22 @@
 'use strict';
 exports.handler1 = (event, context, callback) => {
-	console.log('Event:', JSON.stringify(event));
-	const name = event.name || 'hi1';
-	const response = {event: event, context:context};
+	const response = {
+      statusCode: 200,
+      headers: {
+        "x-custom-header" : "My Header Value"
+      },
+      body: JSON.stringify({ "message": "hi1" })
+    };
 	callback(null, response);
 };
 
 exports.handler2 = (event, context, callback) => {
-	console.log('Event:', JSON.stringify(event));
-	const name = event.name || 'hi2';
-	const response = {event: event, context:context};
+	const response = {
+      statusCode: 200,
+      headers: {
+        "x-custom-header" : "My Header Value"
+      },
+      body: JSON.stringify({ "message": "hi2" })
+    };
 	callback(null, response);
 };

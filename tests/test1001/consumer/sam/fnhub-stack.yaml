@@ -1,0 +1,128 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: test stack sam 1002 description
+Metadata:
+  Name: testStackSam1002
+Resources:
+  test1001fn1Function:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler1
+      Runtime: nodejs4.3
+      CodeUri: 's3://fnhub.backand.io/test1001/module@1.1.1.zip'
+      MemorySize: 128
+      Timeout: 3
+      Events:
+        Event1:
+          Type: Api
+          Properties:
+            Path: fn1
+            Method: ANY
+      Description: first
+      Environment: {}
+  test1001fn1Role:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+  test1001fn1Permission:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      FunctionName:
+        Ref: test1001fn1Function
+      Action: 'lambda:InvokeFunction'
+      Principal: apigateway.amazonaws.com
+  test1001fn1Api:
+    Type: 'AWS::Serverless::Api'
+    Properties:
+      StageName: TEST
+      DefinitionBody:
+        swagger: '2.0'
+        info:
+          title: test1001-fn1
+        paths:
+          /fn1:
+            get:
+              x-amazon-apigateway-integration:
+                httpMethod: ANY
+                type: aws_proxy
+                uri:
+                  'Fn::Sub': >-
+                    arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${test1001fn1Function.Arn}/invocations
+              responses: {}
+  test1001fn2Function:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler2
+      Runtime: nodejs4.3
+      CodeUri: 's3://fnhub.backand.io/test1001/module@1.1.1.zip'
+      MemorySize: 128
+      Timeout: 3
+      Events:
+        Event1:
+          Type: Api
+          Properties:
+            Path: fn2
+            Method: ANY
+      Description: second
+      Environment: {}
+  test1001fn2Role:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+  test1001fn2Permission:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      FunctionName:
+        Ref: test1001fn2Function
+      Action: 'lambda:InvokeFunction'
+      Principal: apigateway.amazonaws.com
+  test1001fn2Api:
+    Type: 'AWS::Serverless::Api'
+    Properties:
+      StageName: TEST
+      DefinitionBody:
+        swagger: '2.0'
+        info:
+          title: test1001-fn2
+        paths:
+          /fn2:
+            get:
+              x-amazon-apigateway-integration:
+                httpMethod: ANY
+                type: aws_proxy
+                uri:
+                  'Fn::Sub': >-
+                    arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${test1001fn2Function.Arn}/invocations
+              responses: {}
+Outputs:
+  HelloUrl:
+    Description: Hello Method of the API gateway
+    Value:
+      Join:
+        - ''
+        - - 'https://'
+          - Ref: test1001fn2Api
+          - .execute-api.
+          - Ref: 'AWS::Region'
+          - .amazonaws.com/Prod
+          - /fn2

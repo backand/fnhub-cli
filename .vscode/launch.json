@@ -89,14 +89,6 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "cf create",
-            "cwd": "${workspaceRoot}/tests/examples/hi/consumer",
-            "program":"${workspaceRoot}/bin/fnhub",
-            "args": ["cf", "create", "--name", "myhi", "--description", "my hi"]
-        },
-        {
-            "type": "node",
-            "request": "launch",
             "name": "cf help",
             "program":"${workspaceRoot}/bin/fnhub",
             "args": ["cf", "help"]
@@ -104,26 +96,66 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "cf create",
+            "cwd": "${workspaceRoot}/tests/examples/hi/consumer/cf",
+            "program":"${workspaceRoot}/bin/fnhub",
+            "args": ["cf", "create", "--name", "myhi", "--description", "my hi"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "cf include",
-            "cwd": "${workspaceRoot}/tests/examples/hi/consumer",
+            "cwd": "${workspaceRoot}/tests/examples/hi/consumer/cf",
             "program":"${workspaceRoot}/bin/fnhub",
             "args": ["cf", "include", "--module", "hi", "--version", "1.0.110"]
         },
         {
             "type": "node",
             "request": "launch",
+            "name": "cf deploy",
+            "cwd": "${workspaceRoot}/tests/examples/hi/consumer/cf",
+            "program":"${workspaceRoot}/bin/fnhub",
+            "args": ["cf", "deploy"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "cf delete",
-            "cwd": "${workspaceRoot}/tests/examples/hi/consumer",
+            "cwd": "${workspaceRoot}/tests/examples/hi/consumer/cf",
             "program":"${workspaceRoot}\\bin\\fnhub",
             "args": ["cf", "delete"]
         },
         {
             "type": "node",
             "request": "launch",
-            "name": "cf deploy",
-            "cwd": "${workspaceRoot}/tests/examples/hi/consumer",
+            "name": "sam create",
+            "cwd": "${workspaceRoot}/tests/examples/hi/consumer/sam",
             "program":"${workspaceRoot}/bin/fnhub",
-            "args": ["cf", "deploy"]
+            "args": ["sam", "create", "--name", "myhi", "--description", "my hi"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "sam include",
+            "cwd": "${workspaceRoot}/tests/examples/hi/consumer/sam",
+            "program":"${workspaceRoot}/bin/fnhub",
+            "args": ["sam", "include", "--module", "hi", "--version", "1.0.110"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "sam deploy",
+            "cwd": "${workspaceRoot}/tests/examples/hi/consumer/sam",
+            "program":"${workspaceRoot}/bin/fnhub",
+            "args": ["sam", "deploy"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "sam delete",
+            "cwd": "${workspaceRoot}/tests/examples/hi/consumer/sam",
+            "program":"${workspaceRoot}\\bin\\fnhub",
+            "args": ["sam", "delete"]
         },
         {
             "type": "node",
