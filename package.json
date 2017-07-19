@@ -1,8 +1,11 @@
 {
   "name": "fnhub",
-  "version": "1.0.1",
+  "version": "1.0.8",
   "description": "Function Hub to share your lambda functions and modules",
   "main": "lib",
+  "bin": {
+    "fnhub": "./bin/fnhub"
+  },
   "dependencies": {
     "@backand/nodejs-sdk": "^1.2.8",
     "archiver": "^1.3.0",
@@ -29,10 +32,18 @@
     "type": "git",
     "url": "git+https://github.com/backand/fnhub-cli.git"
   },
-  "author": "",
+  "author": "backand team",
   "license": "Artistic License 2.0",
   "bugs": {
     "url": "https://github.com/backand/fnhub-cli/issues"
   },
-  "homepage": "https://github.com/backand/fnhub-cli#readme"
+  "homepage": "https://github.com/backand/fnhub-cli#readme",
+  "keywords": [
+    "lambda",
+    "functions",
+    "google cloud functions",
+    "aws lambda",
+    "Azure Functions"
+  ],
+  "preferGlobal": true
 }
