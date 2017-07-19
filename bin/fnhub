@@ -1,4 +1,4 @@
-#! /usr/local/bin/node
+#!/usr/bin/env node
 process.bin = process.title = 'fnhub';
 
 console.log('    ____             __                   __   ________    ____    \n'+
@@ -15,15 +15,14 @@ var colors      =     require('colors');
 var options     =     require('minimist')(process.argv.slice(2));
 var logger      =     require('../lib/logger');
 var commands    =     require('../lib/commands');
-var router = require('../plugins/router');
+var router      =     require('../plugins/router');
+var config      =     require('../lib/config');
+var fnhub       =     require('../lib/fnhub');
+var backand     =     require('@backand/nodejs-sdk');
+
 var command     =     process.argv[2];
-var config    =     require('../lib/config');
-var fnhub    =     require('../lib/fnhub');
 var subCommand = null;
 if (options._.length > 1) subCommand = options._[1];
-
-var backand = require('@backand/nodejs-sdk');
-backand.init(config.backand);
 
 logger.debug.log(command, options);
 
@@ -31,13 +30,16 @@ if(!command) {
   logger.warn("You didn't specify any command");
 }
 else {
+  
+  // init backand for credencials
+  backand.init(config.backand);
+
   // track here
   var func = commands.getCommand(command, subCommand);
   if (func){
       func(options, fnhub);
-  }
-  else {
-    if (process.argv.length >= 4){ // possibly a plugin
+  } else {
+    if (process.argv.length >= 4) { // possibly a plugin
       var moduleName = process.argv[2];
       var commandName = process.argv[3];
       options = require('minimist')(process.argv.slice(3));
@@ -50,12 +52,10 @@ else {
           else{ // plugin has no such command
             logger.warn(moduleName.blue + ' plugin has no '.yellow + commandName.blue + ' command. Run fnhub '.yellow + moduleName.blue + ' help'.yellow);
           }
-      } 
-      else {
+      } else {
         logger.warn("backand didn't recognize the ".yellow + command.blue + ' command. Run '.yellow + 'funhub help'.yellow + ' to see all available commands'.yellow)
       }     
-    }
-    else { // not enough options for plugin
+    } else { // not enough options for plugin
       logger.warn("backand didn't recognize the ".yellow + command.blue + ' command. Run '.yellow + 'fnhub help'.yellow + ' to see all available commands'.yellow)
     }
   }
