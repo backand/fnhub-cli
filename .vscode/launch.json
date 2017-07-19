@@ -89,6 +89,14 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "delete",
+            "cwd": "${workspaceRoot}/tests/examples/hi/publisher",
+            "program":"${workspaceRoot}/bin/fnhub",
+            "args": ["delete"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "cf help",
             "program":"${workspaceRoot}/bin/fnhub",
             "args": ["cf", "help"]
