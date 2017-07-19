@@ -1,0 +1,125 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: 'SAM template for Serverless framework service: '
+Resources:
+  Show:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.hello
+      Runtime: nodejs6.10
+      CodeUri: s3://fnhub.backand.io/init001/show.zip
+      MemorySize: 128
+      Timeout: 3
+      Events:
+        Event1:
+          Type: Api
+          Properties:
+            Path: hello
+            Method: GET
+
+
+ 
+  Save:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: welcome.jelly
+      Runtime: nodejs6.10
+      CodeUri: s3://fnhub.backand.io/init001/welcome.zip
+      MemorySize: 128
+      Timeout: 3
+      Events:
+        Event1:
+          Type: Api
+          Properties:
+            Path: welcome/{id}
+            Method: POST
+            
+            
+
+  ExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+
+  ShowFunctionLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: 
+        Ref: Show
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+
+
+
+  SaveFunctionLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: 
+        Ref: Save
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+
+
+  MyApiId:
+    Type: 'AWS::Serverless::Api'
+    Properties:
+      StageName: prod
+      DefinitionBody:
+        swagger: '2.0'
+        info:
+          title:
+            Ref: 'AWS::StackName'
+        paths:
+          /hello:
+            get:
+              x-amazon-apigateway-integration:
+                httpMethod:  GET
+                type: aws_proxy
+                uri:
+                  'Fn::Sub': >-
+                    arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${Show.Arn}/invocations
+              responses: {}
+          /welcome/{id}:
+            post:
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri:
+                  'Fn::Sub': >-
+                    arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${Save.Arn}/invocations
+              responses: {}
+
+
+
+Outputs:
+  HelloUrl:
+     Description: "Hello Method of the API gateway"
+     Value: !Join
+      - ''
+      - - https://
+        - !Ref MyApiId
+        - '.execute-api.'
+        - !Ref 'AWS::Region'
+        - '.amazonaws.com/Prod'
+        - '/hello'
+  WelcomeUrl:
+     Description: "Welcome Method of the API gateway"
+     Value: !Join
+      - ''
+      - - https://
+        - !Ref MyApiId
+        - '.execute-api.'
+        - !Ref 'AWS::Region'
+        - '.amazonaws.com/Prod'
+        - '/welcome'

@@ -5,3 +5,7 @@ aws cloudformation describe-stack-events --stack-name myhi > describe-stack-even
 aws cloudformation describe-stacks --stack-name myhi
 
 aws cloudformation delete-stack --stack-name myhi
+
+
+
+aws  cloudformation deploy --stack-name sam-stack-api2 --template-file test.yaml --capabilities CAPABILITY_IAM

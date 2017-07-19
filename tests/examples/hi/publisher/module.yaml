@@ -1,17 +1,10 @@
-Description: sds
+Description: description
 Metadata:
-  Name: publisher
-  Author: testfnshub0001@backand.io
-  Version: 1.0.0
-  Repo: 'https://github.com/backand/fnshub.git'
+  Name: hi
+  Author: relly
+  Version: 1.0.110
+  Entrypoint: index.js
+  Repo: 'https://github.com/relly/fnhub'
   Keywords:
-    - publisher
-  License: ISC
-Resources:
-  hi1:
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Description: description
-      Handler: index.handler1
-      Runtime: nodejs4.3
-      CodeUri: 'http://fnhub.backand.io/publisher/module@1.0.0.zip'
+    - backand
+  License: mit

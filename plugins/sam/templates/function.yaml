@@ -1,0 +1,71 @@
+Resources:
+  $ModuleName$$FunctionName$Function:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.hello
+      Runtime: nodejs6.10
+      CodeUri: s3://fnhub.backand.io/init001/show.zip
+      MemorySize: 128
+      Timeout: 3
+      Events:
+        Event1:
+          Type: Api
+          Properties:
+            Path: $PathPart$
+            Method: $HttpMethod$
+
+  $ModuleName$$FunctionName$Role:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+  $ModuleName$$FunctionName$Permission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: 
+        Ref: $ModuleName$$FunctionName$Function
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+
+  $ModuleName$$FunctionName$Api:
+    Type: 'AWS::Serverless::Api'
+    Properties:
+      StageName: $StageName$
+      DefinitionBody:
+        swagger: '2.0'
+        info:
+          title: '$ModuleName$-$FunctionName$'
+        paths:
+          /$PathPart$:
+            get:
+              x-amazon-apigateway-integration:
+                httpMethod:  $HttpMethod$
+                type: aws_proxy
+                uri:
+                  'Fn::Sub': >-
+                    arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${$ModuleName$$FunctionName$Function.Arn}/invocations
+              responses: {}
+
+Outputs:
+  $ModuleName$$FunctionName$EndPoint:
+    Description: Root URL of the API gateway
+    Value:
+      Fn::Join:
+      - ''
+      - - https://
+        - Ref: $ModuleName$$FunctionName$Api
+        - ".execute-api."
+        - Ref: AWS::Region
+        - ".amazonaws.com"
+        - "/$StageName$"
+        - "/$PathPart$"

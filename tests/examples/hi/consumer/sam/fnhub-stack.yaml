@@ -1,0 +1,143 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: my hi
+Metadata:
+  Name: myhi
+Resources:
+  hihi1Function:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler1
+      Runtime: nodejs4.3
+      CodeUri: 's3://fnhub.backand.io/hi/module@1.0.110.zip'
+      MemorySize: 128
+      Timeout: 3
+      Events:
+        Event1:
+          Type: Api
+          Properties:
+            Path: hi1/{id}
+            Method: GET
+      Description: ''
+      Environment:
+        Variables: {}
+  hihi1Role:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+  hihi1Permission:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      FunctionName:
+        Ref: hihi1Function
+      Action: 'lambda:InvokeFunction'
+      Principal: apigateway.amazonaws.com
+  hihi1Api:
+    Type: 'AWS::Serverless::Api'
+    Properties:
+      StageName: prod
+      DefinitionBody:
+        swagger: '2.0'
+        info:
+          title: hi-hi1
+        paths:
+          /hi1/{id}:
+            get:
+              x-amazon-apigateway-integration:
+                httpMethod: GET
+                type: aws_proxy
+                uri:
+                  'Fn::Sub': >-
+                    arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${hihi1Function.Arn}/invocations
+              responses: {}
+  hihi2Function:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler2
+      Runtime: nodejs4.3
+      CodeUri: 's3://fnhub.backand.io/hi/module@1.0.110.zip'
+      MemorySize: 128
+      Timeout: 3
+      Events:
+        Event1:
+          Type: Api
+          Properties:
+            Path: hi2/{id}
+            Method: ANY
+      Description: ''
+      Environment:
+        Variables: {}
+  hihi2Role:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+  hihi2Permission:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      FunctionName:
+        Ref: hihi2Function
+      Action: 'lambda:InvokeFunction'
+      Principal: apigateway.amazonaws.com
+  hihi2Api:
+    Type: 'AWS::Serverless::Api'
+    Properties:
+      StageName: prod
+      DefinitionBody:
+        swagger: '2.0'
+        info:
+          title: hi-hi2
+        paths:
+          /hi2/{id}:
+            get:
+              x-amazon-apigateway-integration:
+                httpMethod: ANY
+                type: aws_proxy
+                uri:
+                  'Fn::Sub': >-
+                    arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${hihi2Function.Arn}/invocations
+              responses: {}
+Outputs:
+  hihi1EndPoint:
+    Description: Root URL of the API gateway
+    Value:
+      'Fn::Join':
+        - ''
+        - - 'https://'
+          - Ref: hihi1Api
+          - .execute-api.
+          - Ref: 'AWS::Region'
+          - .amazonaws.com
+          - /prod
+          - /hi1
+  hihi2EndPoint:
+    Description: Root URL of the API gateway
+    Value:
+      'Fn::Join':
+        - ''
+        - - 'https://'
+          - Ref: hihi2Api
+          - .execute-api.
+          - Ref: 'AWS::Region'
+          - .amazonaws.com
+          - /prod
+          - /hi2
