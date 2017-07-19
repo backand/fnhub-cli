@@ -3,8 +3,22 @@ Metadata:
   Name: hi
   Author: relly
   Version: 1.0.110
-  Entrypoint: index.js
   Repo: 'https://github.com/relly/fnhub'
   Keywords:
     - backand
   License: mit
+Resources:
+  hi1:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Description: description
+      Handler: index.handler1
+      Runtime: nodejs4.3
+      CodeUri: 'http://fnhub.backand.io/hi/module@1.0.110.zip'
+  hi2:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Description: description
+      Handler: index.handler2
+      Runtime: nodejs4.3
+      CodeUri: 'http://fnhub.backand.io/hi/module@1.0.110.zip'
