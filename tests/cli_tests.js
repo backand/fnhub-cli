@@ -10,6 +10,7 @@ var request = require('request');
 var config =  require('../lib/config');
 var fnhub =  require('../lib/fnhub');
 var cfPlugin =  require('../plugins/cf/index');
+var samPlugin =  require('../plugins/sam/index');
 
 var EOL = /\r?\n/
 
@@ -30,51 +31,6 @@ var deleteFolderRecursive = function(path) {
     fs.rmdirSync(path);
   }
 };
-
-describe.skip("init command", function(done){
-
-  before(function(done){
-    del.sync(['module.yaml']);
-    done();
-  });
-
-  it("module file created", function (done){
-    this.timeout(64000);
-    var command = 'node bin/fnhub init --name "test function" --author test@backand.io --version 1.1.1 --description "this is a test description" --repo https://github.com/test/fnhub --keywords "key1 key2,key3" --license MIT';
-    exec(command, function(err, stdout, stderr) {
-      if (err) throw err;
-      //check the file exists
-      fs.stat('module.yaml', function(err, stats){
-        expect(stats.isFile()).to.be.true;
-        done();
-      });
-    });
-  })
-  it("module.yaml values are correct", function (){
-    this.timeout(64000);
-    //read the yaml file
-    var doc = yaml.safeLoad(fs.readFileSync(config.templates.module, 'utf8'));
-    //convert to JSON and compare
-    var docString = JSON.stringify(doc);
-    expect(docString).to.be.equal('{"Description":"this is a test description","Metadata":{"Name":"test function","Author":"test@backand.io","Version":"1.1.1","Repo":"https://github.com/test/fnhub","Keywords":["key1","key2","key3"],"License":"MIT"}}');
-  })
-
-})
-
-describe.skip("Add Function command", function(){
-
-  it("function values are correct", function (done){
-    this.timeout(64000);
-    var command = 'node bin/fnhub add --name function1 --handler index.handler --runtime nodejs4.3 --env {}';
-    exec(command, function(err, stdout, stderr) {
-      if (err) throw err;
-      //check the file exists
-      var doc = yaml.safeLoad(fs.readFileSync(config.templates.module, 'utf8'));
-      expect(doc).to.have.any.keys("Resources","Metadata","Description");
-      done();
-    });
-  })
-})
 
 describe("Successful Cycle", function(){
   var testName = 'test1001';
@@ -227,7 +183,7 @@ describe("Successful Cycle", function(){
   });
 
   describe("Consume module with plugins", function(){
-    describe("Include module in a new Cloud Formation stack and deploy it", function(){
+    describe.skip("Include module in a new Cloud Formation stack and deploy it", function(){
       var CF = 'cf';
       var cwdConsumerCf = path.join(cwdConsumer, CF);
       var stackFile = path.join(cwdConsumerCf, cfPlugin.Consts.Defaults.Stack.FileName);
@@ -235,7 +191,7 @@ describe("Successful Cycle", function(){
         "AWSTemplateFormatVersion": "2010-09-09",
         "Description": "test stack 1001 description",
         "Metadata": {
-          "Name": "testStack1001"
+          "Name": "testStackCF1001"
         },
         "Resources": {
           
@@ -341,11 +297,121 @@ describe("Successful Cycle", function(){
     });
 
     describe("Include module in a new SAM stack and deploy it", function(){
+      var SAM = 'sam';
+      var cwdConsumerSam = path.join(cwdConsumer, SAM);
+      var stackFile = path.join(cwdConsumerSam, samPlugin.Consts.Defaults.Stack.FileName);
+      var stack = {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "test stack 1001 description",
+        "Metadata": {
+          "Name": "testStackSam1002"
+        },
+        "Resources": {
+          
+        }
+      }
+      
+      it("should create", function (done){
+        this.timeout(64000);
+        var command = 'node ' + fnhubPath + ' ' + SAM + ' create --name "' + stack.Metadata.Name + '" --description "' + stack.Description + '"';
+        exec(command, {cwd: cwdConsumerSam}, function(err, stdout, stderr) {
+          if (stderr) throw new Error(stderr);
+          if (err) {
+            if (stdout) throw new Error(stdout);
+            else throw err;
+          }
+          //check the file exists
+          fs.stat(stackFile, function(err, stats){
+            expect(stats.isFile()).to.be.true;
+            var doc = yaml.safeLoad(fs.readFileSync(stackFile, 'utf8'));
+            //convert to JSON and compare
+            var docString = JSON.stringify(doc);
+            expect(docString).to.be.equal(JSON.stringify(stack));
+            done();
+          });
+        });
+      });
+
+      it("should include", function (done){
+        this.timeout(64000);
+        
+        var command = 'node ' + fnhubPath + ' ' + SAM + ' include --module ' + module.Metadata.Name + ' --version ' + module.Metadata.Version;
+        exec(command, {cwd: cwdConsumerSam}, function(err, stdout, stderr) {
+          if (stderr) throw new Error(stderr);
+          if (err) {
+            if (stdout) throw new Error(stdout);
+            else throw err;
+          }
+          //check the file exists
+          var doc = yaml.safeLoad(fs.readFileSync(stackFile, 'utf8'));
+          expect(doc).to.have.any.keys("Resources","Metadata","Description");
+          done();
+        });
+      });
+
+      it("should deploy", function (done){
+        this.timeout(6400000);
+        
+        var command = 'node ' + fnhubPath + ' ' + SAM + ' deploy';
+        exec(command, {cwd: cwdConsumerSam}, function(err, stdout, stderr) {
+          if (stderr) throw new Error(stderr);
+          if (err) {
+            if (stdout) throw new Error(stdout);
+            else throw err;
+          }
+          //get the endpoints
+          var endpoints = [];
+          stdout.trim().split(EOL).filter(truthy).forEach(function (line) {
+            if (line.indexOf('https') > 0) {
+              endpoints.push(line.replace(',','').replace('"', '').replace('"', '').trim());
+            }
+          });
+          
+          async.each(endpoints, function(endpoint, callback) {
+            var options = { 
+              method: 'GET',
+              url: endpoint
+            };
+
+            request(options, function (error, response, body) {
+              if (error) callback(error);
+              else if (response.statusCode != 200) callback(response.body);
+              else {
+                expect(body).to.contain('event');
+                callback();
+              }
+            });
+          }, function(err) {
+            // if any of the file processing produced an error, err would equal that error
+            if( err ) {
+              throw err;
+            } else {
+              done();
+            }
+          });
+        });
+      });
+
+      it("should delete stack", function (done){
+        this.timeout(6400000);
+        
+        var command = 'node ' + fnhubPath + ' ' + SAM + ' delete';
+        exec(command, {cwd: cwdConsumerSam}, function(err, stdout, stderr) {
+          if (err) {
+            if (stdout) throw new Error(stdout);
+            else throw err;
+          }
+            
+          //check the file exists
+          expect(stdout).to.contain(samPlugin.Messages.Delete.AfterSuccess.replace('{{0}}', stack.Metadata.Name));
+          done();
+        });
+      });
     });
 
   });
 
-  describe("Delete module", function(){
+  describe.skip("Delete module", function(){
     it("should delete", function (done){
       this.timeout(64000);
       
