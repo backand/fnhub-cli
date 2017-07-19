@@ -44,5 +44,6 @@
     "google cloud functions",
     "aws lambda",
     "Azure Functions"
-  ]
+  ],
+  "preferGlobal": true
 }
