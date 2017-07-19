@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#! /usr/local/bin/node
 process.bin = process.title = 'fnhub';
 
 console.log('    ____             __                   __   ________    ____    \n'+
