@@ -1,6 +1,6 @@
 {
   "name": "fnhub",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Function Hub to share your lambda functions and modules",
   "main": "lib",
   "bin": {
