@@ -58,7 +58,7 @@ describe("Successful Cycle", function(){
   var fnhubPath = path.join(bin, "fnhub");
 
   var firstFunction = {
-    "name": "fn1",
+    "name": "fn-1",
     "handler": "index.handler1",
     "description": "first function description",
     "runtime": "nodejs4.3",
@@ -66,7 +66,7 @@ describe("Successful Cycle", function(){
   };
 
   var secondFunction = {
-    "name": "fn2",
+    "name": "fn-2",
     "handler": "index.handler2",
     "description": "second function description",
     "runtime": "nodejs4.3",
