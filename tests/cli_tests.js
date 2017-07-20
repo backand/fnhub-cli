@@ -183,7 +183,7 @@ describe("Successful Cycle", function(){
   });
 
   describe("Consume module with plugins", function(){
-    describe("Include module in a new Cloud Formation stack and deploy it", function(){
+    describe.skip("Include module in a new Cloud Formation stack and deploy it", function(){
       var CF = 'cf';
       var cwdConsumerCf = path.join(cwdConsumer, CF);
       var stackFile = path.join(cwdConsumerCf, cfPlugin.Consts.Defaults.Stack.FileName);
@@ -348,7 +348,7 @@ describe("Successful Cycle", function(){
         });
       });
 
-      it("should deploy", function (done){
+      it.only("should deploy", function (done){
         this.timeout(6400000);
         
         var command = 'node ' + fnhubPath + ' ' + SAM + ' deploy';
@@ -389,7 +389,7 @@ describe("Successful Cycle", function(){
         });
       });
 
-      it("should delete stack", function (done){
+      it.only("should delete stack", function (done){
         this.timeout(6400000);
         
         var command = 'node ' + fnhubPath + ' ' + SAM + ' delete';
@@ -408,7 +408,7 @@ describe("Successful Cycle", function(){
 
   });
 
-  describe("Delete module", function(){
+  describe.skip("Delete module", function(){
     it("should delete", function (done){
       this.timeout(64000);
       
