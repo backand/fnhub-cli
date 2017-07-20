@@ -73,7 +73,7 @@ describe("Successful Cycle", function(){
     "env": {}
   };
 
-  describe("Publish module", function(){
+  describe.only("Publish module", function(){
     before(function(done){
       // if (fs.existsSync(cwd)) {
       //   deleteFolderRecursive(cwd);
@@ -515,7 +515,7 @@ describe("Successful Cycle", function(){
 
   });
 
-  describe("Delete module", function(){
+  describe.only("Delete module", function(){
     it("should delete", function (done){
       this.timeout(64000);
       
