@@ -1,5 +1,5 @@
 Resources:
-  $ModuleName$$FunctionName$Function:
+  $StackNameAN$$ModuleNameAN$$FunctionNameAN$Function:
     Type: 'AWS::Serverless::Function'
     Properties:
       Handler: index.hello
@@ -14,7 +14,7 @@ Resources:
             Path: $PathPart$
             Method: $HttpMethod$
 
-  $ModuleName$$FunctionName$Role:
+  $StackNameAN$$ModuleNameAN$$FunctionNameAN$Role:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
@@ -29,22 +29,22 @@ Resources:
       ManagedPolicyArns:
       - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
 
-  $ModuleName$$FunctionName$Permission:
+  $StackNameAN$$ModuleNameAN$$FunctionNameAN$Permission:
     Type: AWS::Lambda::Permission
     Properties:
       FunctionName: 
-        Ref: $ModuleName$$FunctionName$Function
+        Ref: $StackNameAN$$ModuleNameAN$$FunctionNameAN$Function
       Action: lambda:InvokeFunction
       Principal: apigateway.amazonaws.com
 
-  $ModuleName$$FunctionName$Api:
+  $StackNameAN$$ModuleNameAN$$FunctionNameAN$Api:
     Type: 'AWS::Serverless::Api'
     Properties:
       StageName: $StageName$
       DefinitionBody:
         swagger: '2.0'
         info:
-          title: '$ModuleName$-$FunctionName$'
+          title: '$StackName$-$ModuleName$-$FunctionName$'
         paths:
           /$PathPart$:
             get:
@@ -53,17 +53,17 @@ Resources:
                 type: aws_proxy
                 uri:
                   'Fn::Sub': >-
-                    arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${$ModuleName$$FunctionName$Function.Arn}/invocations
+                    arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${$StackNameAN$$ModuleNameAN$$FunctionNameAN$Function.Arn}/invocations
               responses: {}
 
 Outputs:
-  $ModuleName$$FunctionName$EndPoint:
+  $StackNameAN$$ModuleNameAN$$FunctionNameAN$EndPoint:
     Description: Root URL of the API gateway
     Value:
       Fn::Join:
       - ''
       - - https://
-        - Ref: $ModuleName$$FunctionName$Api
+        - Ref: $StackNameAN$$ModuleNameAN$$FunctionNameAN$Api
         - ".execute-api."
         - Ref: AWS::Region
         - ".amazonaws.com"

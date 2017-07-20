@@ -27,15 +27,24 @@ function getStack(options, fnhub, moduleInfo, functionTemplate, callback){
     }
 }
 
- function replaceAll(fnhub, target, search, replacement) {
+function replaceAll(fnhub, target, search, replacement) {
     return target.replace(new RegExp(search, 'g'), replacement);
 };
 
-function cloneAndReplacePlaceHolders(fnhub, functionTemplate, moduleName, functionName){
+function GetAlphNumeric(target) {
+    return replaceAll(null, target, '-', '');
+};
+
+
+function cloneAndReplacePlaceHolders(fnhub, functionTemplate, stackName, moduleName, functionName){
     var json = JSON.stringify(functionTemplate);
 
+    json = replaceAll(fnhub, json, sam.Consts.Template.StackName, stackName);
     json = replaceAll(fnhub, json, sam.Consts.Template.ModuleName, moduleName);
     json = replaceAll(fnhub, json, sam.Consts.Template.FunctionName, functionName);
+    json = replaceAll(fnhub, json, sam.Consts.Template.StackNameAN, GetAlphNumeric(stackName));
+    json = replaceAll(fnhub, json, sam.Consts.Template.ModuleNameAN, GetAlphNumeric(moduleName));
+    json = replaceAll(fnhub, json, sam.Consts.Template.FunctionNameAN, GetAlphNumeric(functionName));
     json = replaceAll(fnhub, json, sam.Consts.Template.PathPart, functionName);
     json = replaceAll(fnhub, json, sam.Consts.Template.StageName, sam.Consts.Template.Stage);
     json = replaceAll(fnhub, json, sam.Consts.Template.HttpMethod, sam.Consts.Template.Any);
@@ -45,9 +54,10 @@ function cloneAndReplacePlaceHolders(fnhub, functionTemplate, moduleName, functi
 
 function copyModuleInfoIntoFunctionTemplate(options, fnhub, moduleInfo, resource, functionTemplate, stack, functionName) {
     var moduleName = moduleInfo.Metadata.Name;
+    var stackName = stack.Metadata.Name;
     
-    var functionStack = cloneAndReplacePlaceHolders(fnhub, functionTemplate, moduleName, functionName);   
-    var functionResourceName = moduleName + functionName + 'Function';
+    var functionStack = cloneAndReplacePlaceHolders(fnhub, functionTemplate, stackName, moduleName, functionName);   
+    var functionResourceName = GetAlphNumeric(stackName) + GetAlphNumeric(moduleName) + GetAlphNumeric(functionName) + 'Function';
     var functionResource = functionStack.Resources[functionResourceName];
 
     functionResource.Properties.CodeUri = resource.Properties.CodeUri.replace('https', 's3').replace('http', 's3');
