@@ -97,11 +97,19 @@ describe("Successful Cycle", function(){
       this.timeout(64000);
       var command = 'node ' + fnhubPath + ' signin --username "' + user.username + '" --password ' + user.password;
       exec(command, {cwd: cwdPublisher}, function(err, stdout, stderr) {
-        if (stderr) throw new Error(stderr);
+        if (stderr){
+          console.error("command", command);
+          console.error("stderr", stderr);
+        } 
+        expect(!stderr).to.be.true;
         if (err) {
-          if (stdout) throw new Error(stdout);
-          else throw err;
+          console.error("command", command);
+          console.error("err", err);
+          console.error("stderr", stderr);
+          console.error("stdout", stdout);
         }
+        expect(err).to.be.null; 
+          
         //expect success message
         expect(stdout).to.contain(fnhub.Messages.Signin.AfterSuccess.replace('{{0}}', user.firstname));
         done();
@@ -112,11 +120,19 @@ describe("Successful Cycle", function(){
       this.timeout(64000);
       var command = 'node ' + fnhubPath + ' init --name "' + module.Metadata.Name + '" --author "' + module.Metadata.Author + '" --version ' + module.Metadata.Version + ' --description "' + module.Description + '" --repo ' + module.Metadata.Repo + ' --keywords "' + module.Metadata.Keywords + '" --license ' + module.Metadata.License;
       exec(command, {cwd: cwdPublisher}, function(err, stdout, stderr) {
-        if (stderr) throw new Error(stderr);
+        if (stderr){
+          console.error("command", command);
+          console.error("stderr", stderr);
+        } 
+        expect(!stderr).to.be.true;
         if (err) {
-          if (stdout) throw new Error(stdout);
-          else throw err;
+          console.error("command", command);
+          console.error("err", err);
+          console.error("stderr", stderr);
+          console.error("stdout", stdout);
         }
+        expect(err).to.be.null; 
+          
         //check the file exists
         fs.stat(moduleFile, function(err, stats){
           expect(stats.isFile()).to.be.true;
@@ -134,11 +150,19 @@ describe("Successful Cycle", function(){
       
       var command = 'node ' + fnhubPath + ' add --name ' + firstFunction.name + ' --description ' + firstFunction.description + ' --handler ' + firstFunction.handler + ' --runtime ' + firstFunction.runtime + ' --env {}';
       exec(command, {cwd: cwdPublisher}, function(err, stdout, stderr) {
-        if (stderr) throw new Error(stderr);
+        if (stderr){
+          console.error("command", command);
+          console.error("stderr", stderr);
+        } 
+        expect(!stderr).to.be.true;
         if (err) {
-          if (stdout) throw new Error(stdout);
-          else throw err;
+          console.error("command", command);
+          console.error("err", err);
+          console.error("stderr", stderr);
+          console.error("stdout", stdout);
         }
+        expect(err).to.be.null; 
+          
         //check the file exists
         var doc = yaml.safeLoad(fs.readFileSync(config.templates.module, 'utf8'));
         expect(doc).to.have.any.keys("Resources","Metadata","Description");
@@ -151,11 +175,20 @@ describe("Successful Cycle", function(){
       
       var command = 'node ' + fnhubPath + ' add --name ' + secondFunction.name + ' --description ' + secondFunction.description + ' --handler ' + secondFunction.handler + ' --runtime ' + secondFunction.runtime + ' --env {}';
       exec(command, {cwd: cwdPublisher}, function(err, stdout, stderr) {
-        if (stderr) throw new Error(stderr);
+        if (stderr){
+          console.error("command", command);
+          console.error("stderr", stderr);
+        } 
+        expect(!stderr).to.be.true;
         if (err) {
-          if (stdout) throw new Error(stdout);
-          else throw err;
+          console.error("command", command);
+          console.error("err", err);
+          console.error("stderr", stderr);
+          console.error("stdout", stdout);
         }
+        expect(err).to.be.null; 
+          
+
         //check the file exists
         var doc = yaml.safeLoad(fs.readFileSync(config.templates.module, 'utf8'));
         expect(doc).to.have.any.keys("Resources","Metadata","Description");
@@ -169,9 +202,13 @@ describe("Successful Cycle", function(){
       var command = 'node ' + fnhubPath + ' publish';
       exec(command, {cwd: cwdPublisher}, function(err, stdout, stderr) {
         if (err) {
-          if (stdout) throw new Error(stdout);
-          else throw err;
+          console.error("command", command);
+          console.error("err", err);
+          console.error("stderr", stderr);
+          console.error("stdout", stdout);
         }
+        expect(err).to.be.null; 
+        
           
         //check the file exists
         expect(stdout).to.contain(fnhub.Messages.Publish.AfterSuccess.replace('{{0}}', ''));
@@ -183,7 +220,7 @@ describe("Successful Cycle", function(){
   });
 
   describe("Consume module with plugins", function(){
-    describe.skip("Include module in a new Cloud Formation stack and deploy it", function(){
+    describe("Include module in a new Cloud Formation stack and deploy it", function(){
       var CF = 'cf';
       var cwdConsumerCf = path.join(cwdConsumer, CF);
       var stackFile = path.join(cwdConsumerCf, cfPlugin.Consts.Defaults.Stack.FileName);
@@ -202,11 +239,19 @@ describe("Successful Cycle", function(){
         this.timeout(64000);
         var command = 'node ' + fnhubPath + ' ' + CF + ' create --name "' + stack.Metadata.Name + '" --description "' + stack.Description + '"';
         exec(command, {cwd: cwdConsumerCf}, function(err, stdout, stderr) {
-          if (stderr) throw new Error(stderr);
+          if (stderr){
+            console.error("command", command);
+            console.error("stderr", stderr);
+          } 
+          expect(!stderr).to.be.true;
           if (err) {
-            if (stdout) throw new Error(stdout);
-            else throw err;
+            console.error("command", command);
+            console.error("err", err);
+            console.error("stderr", stderr);
+            console.error("stdout", stdout);
           }
+          expect(err).to.be.null; 
+          
           //check the file exists
           fs.stat(stackFile, function(err, stats){
             expect(stats.isFile()).to.be.true;
@@ -224,11 +269,20 @@ describe("Successful Cycle", function(){
         
         var command = 'node ' + fnhubPath + ' ' + CF + ' include --module ' + module.Metadata.Name + ' --version ' + module.Metadata.Version;
         exec(command, {cwd: cwdConsumerCf}, function(err, stdout, stderr) {
-          if (stderr) throw new Error(stderr);
+          if (stderr){
+            console.error("command", command);
+            console.error("stderr", stderr);
+          } 
+          expect(!stderr).to.be.true;
           if (err) {
-            if (stdout) throw new Error(stdout);
-            else throw err;
+            console.error("command", command);
+            console.error("err", err);
+            console.error("stderr", stderr);
+            console.error("stdout", stdout);
           }
+          expect(err).to.be.null; 
+          
+
           //check the file exists
           var doc = yaml.safeLoad(fs.readFileSync(stackFile, 'utf8'));
           expect(doc).to.have.any.keys("Resources","Metadata","Description");
@@ -241,11 +295,20 @@ describe("Successful Cycle", function(){
         
         var command = 'node ' + fnhubPath + ' ' + CF + ' deploy';
         exec(command, {cwd: cwdConsumerCf}, function(err, stdout, stderr) {
-          if (stderr) throw new Error(stderr);
+          if (stderr){
+            console.error("command", command);
+            console.error("stderr", stderr);
+          } 
+          expect(!stderr).to.be.true;
           if (err) {
-            if (stdout) throw new Error(stdout);
-            else throw err;
+            console.error("command", command);
+            console.error("err", err);
+            console.error("stderr", stderr);
+            console.error("stdout", stdout);
           }
+          expect(err).to.be.null; 
+          
+
           //get the endpoints
           var json = stdout.slice(stdout.lastIndexOf('{'),stdout.lastIndexOf('}') + 1);
           expect(json.length > 0).to.be.true;
@@ -258,21 +321,27 @@ describe("Successful Cycle", function(){
               url: endpoint
             };
 
-            request(options, function (error, response, body) {
-              if (error) callback(error);
-              else if (response.statusCode != 200) callback(response.body);
-              else {
-                expect(body).to.contain('hi');
-                callback();
+            request(options, function (err, response, body) {
+              if (err) {
+                console.error("command", command);
+                console.error("err", err);
+                console.error("stderr", stderr);
+                console.error("stdout", stdout);
               }
+              expect(err).to.be.null; 
+              if (response.statusCode != 200){
+                console.error("command", command);
+                console.error("response.body", response.body);
+              } 
+              expect(response.statusCode).to.equal(200);  
+              expect(body).to.contain('hi');
+              callback();
             });
           }, function(err) {
             // if any of the file processing produced an error, err would equal that error
-            if( err ) {
-              throw err;
-            } else {
-              done();
-            }
+            expect(err).to.be.null;
+            done();
+
           });
         });
       });
@@ -282,10 +351,15 @@ describe("Successful Cycle", function(){
         
         var command = 'node ' + fnhubPath + ' ' + CF + ' delete';
         exec(command, {cwd: cwdConsumerCf}, function(err, stdout, stderr) {
+          expect(!stderr).to.be.true;
           if (err) {
-            if (stdout) throw new Error(stdout);
-            else throw err;
+            console.error("command", command);
+            console.error("err", err);
+            console.error("stderr", stderr);
+            console.error("stdout", stdout);
           }
+          expect(err).to.be.null; 
+          
             
           //check the file exists
           expect(stdout).to.contain(cfPlugin.Messages.Delete.AfterSuccess.replace('{{0}}', stack.Metadata.Name));
@@ -314,11 +388,19 @@ describe("Successful Cycle", function(){
         this.timeout(64000);
         var command = 'node ' + fnhubPath + ' ' + SAM + ' create --name "' + stack.Metadata.Name + '" --description "' + stack.Description + '"';
         exec(command, {cwd: cwdConsumerSam}, function(err, stdout, stderr) {
-          if (stderr) throw new Error(stderr);
+          if (stderr){
+            console.error("command", command);
+            console.error("stderr", stderr);
+          } 
+          expect(!stderr).to.be.true;
           if (err) {
-            if (stdout) throw new Error(stdout);
-            else throw err;
+            console.error("command", command);
+            console.error("err", err);
+            console.error("stderr", stderr);
+            console.error("stdout", stdout);
           }
+          expect(err).to.be.null; 
+          
           //check the file exists
           fs.stat(stackFile, function(err, stats){
             expect(stats.isFile()).to.be.true;
@@ -336,11 +418,19 @@ describe("Successful Cycle", function(){
         
         var command = 'node ' + fnhubPath + ' ' + SAM + ' include --module ' + module.Metadata.Name + ' --version ' + module.Metadata.Version;
         exec(command, {cwd: cwdConsumerSam}, function(err, stdout, stderr) {
-          if (stderr) throw new Error(stderr);
+          if (stderr){
+            console.error("command", command);
+            console.error("stderr", stderr);
+          } 
+          expect(!stderr).to.be.true;
           if (err) {
-            if (stdout) throw new Error(stdout);
-            else throw err;
+            console.error("command", command);
+            console.error("err", err);
+            console.error("stderr", stderr);
+            console.error("stdout", stdout);
           }
+          expect(err).to.be.null; 
+          
           //check the file exists
           var doc = yaml.safeLoad(fs.readFileSync(stackFile, 'utf8'));
           expect(doc).to.have.any.keys("Resources","Metadata","Description");
@@ -348,16 +438,23 @@ describe("Successful Cycle", function(){
         });
       });
 
-      it.only("should deploy", function (done){
+      it("should deploy", function (done){
         this.timeout(6400000);
         
         var command = 'node ' + fnhubPath + ' ' + SAM + ' deploy';
         exec(command, {cwd: cwdConsumerSam}, function(err, stdout, stderr) {
-          if (stderr) throw new Error(stderr);
+          if (stderr){
+            console.error("command", command);
+            console.error("stderr", stderr);
+          } 
+          expect(!stderr).to.be.true;
           if (err) {
-            if (stdout) throw new Error(stdout);
-            else throw err;
+            console.error("command", command);
+            console.error("err", err);
+            console.error("stderr", stderr);
+            console.error("stdout", stdout);
           }
+          expect(err).to.be.null; 
           //get the endpoints
           var json = stdout.slice(stdout.lastIndexOf('{'),stdout.lastIndexOf('}') + 1);
           expect(json.length > 0).to.be.true;
@@ -370,34 +467,44 @@ describe("Successful Cycle", function(){
               url: endpoint
             };
 
-            request(options, function (error, response, body) {
-              if (error) callback(error);
-              else if (response.statusCode != 200) callback(response.body);
-              else {
-                expect(body).to.contain('hi');
-                callback();
+            request(options, function (err, response, body) {
+              if (err) {
+                console.error("command", command);
+                console.error("err", err);
+                console.error("stderr", stderr);
+                console.error("stdout", stdout);
               }
+              expect(err).to.be.null; 
+              if (response.statusCode != 200){
+                console.error("command", command);
+                console.error("response.body", response.body);
+              } 
+              expect(response.statusCode).to.equal(200);  
+              expect(body).to.contain('hi');
+              callback();
             });
           }, function(err) {
             // if any of the file processing produced an error, err would equal that error
-            if( err ) {
-              throw err;
-            } else {
-              done();
-            }
+            expect(err).to.be.null;
+            done();
+
           });
         });
       });
 
-      it.only("should delete stack", function (done){
+      it("should delete stack", function (done){
         this.timeout(6400000);
         
         var command = 'node ' + fnhubPath + ' ' + SAM + ' delete';
         exec(command, {cwd: cwdConsumerSam}, function(err, stdout, stderr) {
           if (err) {
-            if (stdout) throw new Error(stdout);
-            else throw err;
+            console.error("command", command);
+            console.error("err", err);
+            console.error("stderr", stderr);
+            console.error("stdout", stdout);
           }
+          expect(err).to.be.null;  
+          
             
           //check the file exists
           expect(stdout).to.contain(samPlugin.Messages.Delete.AfterSuccess.replace('{{0}}', stack.Metadata.Name));
@@ -408,17 +515,19 @@ describe("Successful Cycle", function(){
 
   });
 
-  describe.skip("Delete module", function(){
+  describe("Delete module", function(){
     it("should delete", function (done){
       this.timeout(64000);
       
       var command = 'node ' + fnhubPath + ' delete';
       exec(command, {cwd: cwdPublisher}, function(err, stdout, stderr) {
         if (err) {
-          if (stdout) throw new Error(stdout);
-          else throw err;
+          console.error("command", command);
+          console.error("err", err);
+          console.error("stderr", stderr);
+          console.error("stdout", stdout);
         }
-          
+        expect(err).to.be.null;  
         //check the file exists
         expect(stdout).to.contain(fnhub.Messages.Delete.AfterSuccess.replace('{{0}}', module.Metadata.Name));
         done();
