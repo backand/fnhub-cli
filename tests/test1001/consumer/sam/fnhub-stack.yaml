@@ -115,14 +115,27 @@ Resources:
                     arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${test1001fn2Function.Arn}/invocations
               responses: {}
 Outputs:
-  HelloUrl:
-    Description: Hello Method of the API gateway
+  test1001fn1EndPoint:
+    Description: Root URL of the API gateway
     Value:
-      Join:
+      'Fn::Join':
+        - ''
+        - - 'https://'
+          - Ref: test1001fn1Api
+          - .execute-api.
+          - Ref: 'AWS::Region'
+          - .amazonaws.com
+          - /TEST
+          - /fn1
+  test1001fn2EndPoint:
+    Description: Root URL of the API gateway
+    Value:
+      'Fn::Join':
         - ''
         - - 'https://'
           - Ref: test1001fn2Api
           - .execute-api.
           - Ref: 'AWS::Region'
-          - .amazonaws.com/Prod
+          - .amazonaws.com
+          - /TEST
           - /fn2
