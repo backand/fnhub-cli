@@ -73,7 +73,7 @@ describe("Successful Cycle", function(){
     "env": {}
   };
 
-  describe.skip("Publish module", function(){
+  describe("Publish module", function(){
     before(function(done){
       // if (fs.existsSync(cwd)) {
       //   deleteFolderRecursive(cwd);
@@ -183,7 +183,7 @@ describe("Successful Cycle", function(){
   });
 
   describe("Consume module with plugins", function(){
-    describe.skip("Include module in a new Cloud Formation stack and deploy it", function(){
+    describe("Include module in a new Cloud Formation stack and deploy it", function(){
       var CF = 'cf';
       var cwdConsumerCf = path.join(cwdConsumer, CF);
       var stackFile = path.join(cwdConsumerCf, cfPlugin.Consts.Defaults.Stack.FileName);
@@ -247,12 +247,10 @@ describe("Successful Cycle", function(){
             else throw err;
           }
           //get the endpoints
-          var endpoints = [];
-          stdout.trim().split(EOL).filter(truthy).forEach(function (line) {
-            if (line.indexOf('https') > 0) {
-              endpoints.push(line.replace(',','').replace('"', '').replace('"', '').trim());
-            }
-          });
+          var json = stdout.slice(stdout.lastIndexOf('{'),stdout.lastIndexOf('}') + 1);
+          expect(json.length > 0).to.be.true;
+          var endpoints = JSON.parse(json).endpoints;
+          expect(endpoints.length > 0).to.be.true;
           
           async.each(endpoints, function(endpoint, callback) {
             var options = { 
@@ -264,7 +262,7 @@ describe("Successful Cycle", function(){
               if (error) callback(error);
               else if (response.statusCode != 200) callback(response.body);
               else {
-                expect(body).to.contain('event');
+                expect(body).to.contain('hi');
                 callback();
               }
             });
@@ -361,12 +359,10 @@ describe("Successful Cycle", function(){
             else throw err;
           }
           //get the endpoints
-          var endpoints = [];
-          stdout.trim().split(EOL).filter(truthy).forEach(function (line) {
-            if (line.indexOf('https') > 0) {
-              endpoints.push(line.replace(',','').replace('"', '').replace('"', '').trim());
-            }
-          });
+          var json = stdout.slice(stdout.lastIndexOf('{'),stdout.lastIndexOf('}') + 1);
+          expect(json.length > 0).to.be.true;
+          var endpoints = JSON.parse(json).endpoints;
+          expect(endpoints.length > 0).to.be.true;
           
           async.each(endpoints, function(endpoint, callback) {
             var options = { 
@@ -378,7 +374,7 @@ describe("Successful Cycle", function(){
               if (error) callback(error);
               else if (response.statusCode != 200) callback(response.body);
               else {
-                expect(body).to.contain('event');
+                expect(body).to.contain('hi');
                 callback();
               }
             });
@@ -412,7 +408,7 @@ describe("Successful Cycle", function(){
 
   });
 
-  describe.skip("Delete module", function(){
+  describe("Delete module", function(){
     it("should delete", function (done){
       this.timeout(64000);
       

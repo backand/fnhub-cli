@@ -1,24 +1,24 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: test stack 1001 description
+Description: my hi
 Metadata:
-  Name: testStackCF1001
+  Name: myhi
 Resources:
-  test1001fn1Function:
+  hihi1Function:
     Type: 'AWS::Lambda::Function'
     Properties:
       Code:
         S3Bucket: fnhub.backand.io
-        S3Key: test1001/module@1.1.1.zip
-      Description: first
-      FunctionName: test1001-fn1
+        S3Key: hi/module@1.0.110.zip
+      Description: description
+      FunctionName: hi-hi1
       Handler: index.handler1
       Role:
         'Fn::GetAtt':
-          - test1001fn1Role
+          - hihi1Role
           - Arn
       Runtime: nodejs4.3
       Environment: {}
-  test1001fn1Role:
+  hihi1Role:
     Type: 'AWS::IAM::Role'
     Properties:
       AssumeRolePolicyDocument:
@@ -32,19 +32,19 @@ Resources:
               - 'sts:AssumeRole'
       ManagedPolicyArns:
         - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
-  test1001fn1RestApi:
+  hihi1RestApi:
     Type: 'AWS::ApiGateway::RestApi'
     Properties:
-      Name: test1001fn1 RestApi
-      Description: API used for fn1 requests
+      Name: hihi1 RestApi
+      Description: API used for hi1 requests
       FailOnWarnings: true
-  test1001fn1Permission:
+  hihi1Permission:
     Type: 'AWS::Lambda::Permission'
     Properties:
       Action: 'lambda:invokeFunction'
       FunctionName:
         'Fn::GetAtt':
-          - test1001fn1Function
+          - hihi1Function
           - Arn
       Principal: apigateway.amazonaws.com
       SourceArn:
@@ -55,28 +55,28 @@ Resources:
             - ':'
             - Ref: 'AWS::AccountId'
             - ':'
-            - Ref: test1001fn1RestApi
+            - Ref: hihi1RestApi
             - /*
-  test1001fn1Deployment:
+  hihi1Deployment:
     Type: 'AWS::ApiGateway::Deployment'
     DependsOn:
-      - test1001fn1Method
+      - hihi1Method
     Properties:
       RestApiId:
-        Ref: test1001fn1RestApi
+        Ref: hihi1RestApi
       StageName: TEST
-  test1001fn1Resource:
+  hihi1Resource:
     Type: 'AWS::ApiGateway::Resource'
     Properties:
       RestApiId:
-        Ref: test1001fn1RestApi
+        Ref: hihi1RestApi
       ParentId:
         'Fn::GetAtt':
-          - test1001fn1RestApi
+          - hihi1RestApi
           - RootResourceId
-      PathPart: fn1
-  test1001fn1Method:
-    DependsOn: test1001fn1Permission
+      PathPart: hi1
+  hihi1Method:
+    DependsOn: hihi1Permission
     Type: 'AWS::ApiGateway::Method'
     Properties:
       AuthorizationType: NONE
@@ -91,7 +91,7 @@ Resources:
               - Ref: 'AWS::Region'
               - ':lambda:path/2015-03-31/functions/'
               - 'Fn::GetAtt':
-                  - test1001fn1Function
+                  - hihi1Function
                   - Arn
               - /invocations
         IntegrationResponses:
@@ -106,27 +106,27 @@ Resources:
       RequestParameters:
         method.request.querystring.param00: false
       ResourceId:
-        Ref: test1001fn1Resource
+        Ref: hihi1Resource
       RestApiId:
-        Ref: test1001fn1RestApi
+        Ref: hihi1RestApi
       MethodResponses:
         - StatusCode: 200
-  test1001fn2Function:
+  hihi2Function:
     Type: 'AWS::Lambda::Function'
     Properties:
       Code:
         S3Bucket: fnhub.backand.io
-        S3Key: test1001/module@1.1.1.zip
-      Description: second
-      FunctionName: test1001-fn2
+        S3Key: hi/module@1.0.110.zip
+      Description: description
+      FunctionName: hi-hi2
       Handler: index.handler2
       Role:
         'Fn::GetAtt':
-          - test1001fn2Role
+          - hihi2Role
           - Arn
       Runtime: nodejs4.3
       Environment: {}
-  test1001fn2Role:
+  hihi2Role:
     Type: 'AWS::IAM::Role'
     Properties:
       AssumeRolePolicyDocument:
@@ -140,19 +140,19 @@ Resources:
               - 'sts:AssumeRole'
       ManagedPolicyArns:
         - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
-  test1001fn2RestApi:
+  hihi2RestApi:
     Type: 'AWS::ApiGateway::RestApi'
     Properties:
-      Name: test1001fn2 RestApi
-      Description: API used for fn2 requests
+      Name: hihi2 RestApi
+      Description: API used for hi2 requests
       FailOnWarnings: true
-  test1001fn2Permission:
+  hihi2Permission:
     Type: 'AWS::Lambda::Permission'
     Properties:
       Action: 'lambda:invokeFunction'
       FunctionName:
         'Fn::GetAtt':
-          - test1001fn2Function
+          - hihi2Function
           - Arn
       Principal: apigateway.amazonaws.com
       SourceArn:
@@ -163,28 +163,28 @@ Resources:
             - ':'
             - Ref: 'AWS::AccountId'
             - ':'
-            - Ref: test1001fn2RestApi
+            - Ref: hihi2RestApi
             - /*
-  test1001fn2Deployment:
+  hihi2Deployment:
     Type: 'AWS::ApiGateway::Deployment'
     DependsOn:
-      - test1001fn2Method
+      - hihi2Method
     Properties:
       RestApiId:
-        Ref: test1001fn2RestApi
+        Ref: hihi2RestApi
       StageName: TEST
-  test1001fn2Resource:
+  hihi2Resource:
     Type: 'AWS::ApiGateway::Resource'
     Properties:
       RestApiId:
-        Ref: test1001fn2RestApi
+        Ref: hihi2RestApi
       ParentId:
         'Fn::GetAtt':
-          - test1001fn2RestApi
+          - hihi2RestApi
           - RootResourceId
-      PathPart: fn2
-  test1001fn2Method:
-    DependsOn: test1001fn2Permission
+      PathPart: hi2
+  hihi2Method:
+    DependsOn: hihi2Permission
     Type: 'AWS::ApiGateway::Method'
     Properties:
       AuthorizationType: NONE
@@ -199,7 +199,7 @@ Resources:
               - Ref: 'AWS::Region'
               - ':lambda:path/2015-03-31/functions/'
               - 'Fn::GetAtt':
-                  - test1001fn2Function
+                  - hihi2Function
                   - Arn
               - /invocations
         IntegrationResponses:
@@ -214,33 +214,33 @@ Resources:
       RequestParameters:
         method.request.querystring.param00: false
       ResourceId:
-        Ref: test1001fn2Resource
+        Ref: hihi2Resource
       RestApiId:
-        Ref: test1001fn2RestApi
+        Ref: hihi2RestApi
       MethodResponses:
         - StatusCode: 200
 Outputs:
-  test1001fn1EndPoint:
+  hihi1EndPoint:
     Description: Root URL of the API gateway
     Value:
       'Fn::Join':
         - ''
         - - 'https://'
-          - Ref: test1001fn1RestApi
+          - Ref: hihi1RestApi
           - .execute-api.
           - Ref: 'AWS::Region'
           - .amazonaws.com
           - /TEST
-          - /fn1
-  test1001fn2EndPoint:
+          - /hi1
+  hihi2EndPoint:
     Description: Root URL of the API gateway
     Value:
       'Fn::Join':
         - ''
         - - 'https://'
-          - Ref: test1001fn2RestApi
+          - Ref: hihi2RestApi
           - .execute-api.
           - Ref: 'AWS::Region'
           - .amazonaws.com
           - /TEST
-          - /fn2
+          - /hi2

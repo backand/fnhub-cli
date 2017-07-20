@@ -1,11 +1,11 @@
-var cf = require('../index');
+var sam = require('../index');
 
 function validate(options, fnhub, stack, callback){
     callback(null, options, fnhub, stack);
 }
 
 function runCloudFormation(options, fnhub, stack, callback) {
-    fnhub.awscli.cloudFormation.stack.deploy(fnhub, options.name, cf.getStackFileName(), function(err, response) {
+    fnhub.awscli.cloudFormation.stack.deploy(fnhub, options.name, sam.getStackFileName(), function(err, response) {
         if (err) callback(err);
         else callback(null, response);
     });

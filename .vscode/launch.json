@@ -76,7 +76,7 @@
             "name": "add function 2",
             "cwd": "${workspaceRoot}/tests/examples/hi/publisher",
             "program":"${workspaceRoot}/bin/fnhub",
-            "args": ["add", "--name", "hi2", "--handler", "index.handler2", "--runtime", "nodejs4.3", "--env", "{}"]
+             "args": ["add", "--name", "hi2", "--description", "description", "--handler", "index.handler2", "--runtime", "nodejs4.3", "--env", "{}"]
         },
         {
             "type": "node",
@@ -107,7 +107,7 @@
             "name": "cf create",
             "cwd": "${workspaceRoot}/tests/examples/hi/consumer/cf",
             "program":"${workspaceRoot}/bin/fnhub",
-            "args": ["cf", "create", "--name", "myhi", "--description", "my hi"]
+            "args": ["cf", "create", "--name", "cfhi", "--description", "my hi"]
         },
         {
             "type": "node",
@@ -139,7 +139,7 @@
             "name": "sam create",
             "cwd": "${workspaceRoot}/tests/examples/hi/consumer/sam",
             "program":"${workspaceRoot}/bin/fnhub",
-            "args": ["sam", "create", "--name", "myhi", "--description", "my hi"]
+            "args": ["sam", "create", "--name", "samhi", "--description", "my hi"]
         },
         {
             "type": "node",
