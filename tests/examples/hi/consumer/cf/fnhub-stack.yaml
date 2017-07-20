@@ -1,0 +1,246 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: my hi
+Metadata:
+  Name: myhi
+Resources:
+  hihi1Function:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      Code:
+        S3Bucket: fnhub.backand.io
+        S3Key: hi/module@1.0.110.zip
+      Description: description
+      FunctionName: hi-hi1
+      Handler: index.handler1
+      Role:
+        'Fn::GetAtt':
+          - hihi1Role
+          - Arn
+      Runtime: nodejs4.3
+      Environment: {}
+  hihi1Role:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+  hihi1RestApi:
+    Type: 'AWS::ApiGateway::RestApi'
+    Properties:
+      Name: hihi1 RestApi
+      Description: API used for hi1 requests
+      FailOnWarnings: true
+  hihi1Permission:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      Action: 'lambda:invokeFunction'
+      FunctionName:
+        'Fn::GetAtt':
+          - hihi1Function
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        'Fn::Join':
+          - ''
+          - - 'arn:aws:execute-api:'
+            - Ref: 'AWS::Region'
+            - ':'
+            - Ref: 'AWS::AccountId'
+            - ':'
+            - Ref: hihi1RestApi
+            - /*
+  hihi1Deployment:
+    Type: 'AWS::ApiGateway::Deployment'
+    DependsOn:
+      - hihi1Method
+    Properties:
+      RestApiId:
+        Ref: hihi1RestApi
+      StageName: TEST
+  hihi1Resource:
+    Type: 'AWS::ApiGateway::Resource'
+    Properties:
+      RestApiId:
+        Ref: hihi1RestApi
+      ParentId:
+        'Fn::GetAtt':
+          - hihi1RestApi
+          - RootResourceId
+      PathPart: hi1
+  hihi1Method:
+    DependsOn: hihi1Permission
+    Type: 'AWS::ApiGateway::Method'
+    Properties:
+      AuthorizationType: NONE
+      HttpMethod: ANY
+      Integration:
+        Type: AWS
+        IntegrationHttpMethod: POST
+        Uri:
+          'Fn::Join':
+            - ''
+            - - 'arn:aws:apigateway:'
+              - Ref: 'AWS::Region'
+              - ':lambda:path/2015-03-31/functions/'
+              - 'Fn::GetAtt':
+                  - hihi1Function
+                  - Arn
+              - /invocations
+        IntegrationResponses:
+          - StatusCode: 200
+        RequestTemplates:
+          application/json:
+            'Fn::Join':
+              - ''
+              - - '{'
+                - '  "param00": "$input.params(''param00'')"'
+                - '}'
+      RequestParameters:
+        method.request.querystring.param00: false
+      ResourceId:
+        Ref: hihi1Resource
+      RestApiId:
+        Ref: hihi1RestApi
+      MethodResponses:
+        - StatusCode: 200
+  hihi2Function:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      Code:
+        S3Bucket: fnhub.backand.io
+        S3Key: hi/module@1.0.110.zip
+      Description: description
+      FunctionName: hi-hi2
+      Handler: index.handler2
+      Role:
+        'Fn::GetAtt':
+          - hihi2Role
+          - Arn
+      Runtime: nodejs4.3
+      Environment: {}
+  hihi2Role:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+  hihi2RestApi:
+    Type: 'AWS::ApiGateway::RestApi'
+    Properties:
+      Name: hihi2 RestApi
+      Description: API used for hi2 requests
+      FailOnWarnings: true
+  hihi2Permission:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      Action: 'lambda:invokeFunction'
+      FunctionName:
+        'Fn::GetAtt':
+          - hihi2Function
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        'Fn::Join':
+          - ''
+          - - 'arn:aws:execute-api:'
+            - Ref: 'AWS::Region'
+            - ':'
+            - Ref: 'AWS::AccountId'
+            - ':'
+            - Ref: hihi2RestApi
+            - /*
+  hihi2Deployment:
+    Type: 'AWS::ApiGateway::Deployment'
+    DependsOn:
+      - hihi2Method
+    Properties:
+      RestApiId:
+        Ref: hihi2RestApi
+      StageName: TEST
+  hihi2Resource:
+    Type: 'AWS::ApiGateway::Resource'
+    Properties:
+      RestApiId:
+        Ref: hihi2RestApi
+      ParentId:
+        'Fn::GetAtt':
+          - hihi2RestApi
+          - RootResourceId
+      PathPart: hi2
+  hihi2Method:
+    DependsOn: hihi2Permission
+    Type: 'AWS::ApiGateway::Method'
+    Properties:
+      AuthorizationType: NONE
+      HttpMethod: ANY
+      Integration:
+        Type: AWS
+        IntegrationHttpMethod: POST
+        Uri:
+          'Fn::Join':
+            - ''
+            - - 'arn:aws:apigateway:'
+              - Ref: 'AWS::Region'
+              - ':lambda:path/2015-03-31/functions/'
+              - 'Fn::GetAtt':
+                  - hihi2Function
+                  - Arn
+              - /invocations
+        IntegrationResponses:
+          - StatusCode: 200
+        RequestTemplates:
+          application/json:
+            'Fn::Join':
+              - ''
+              - - '{'
+                - '  "param00": "$input.params(''param00'')"'
+                - '}'
+      RequestParameters:
+        method.request.querystring.param00: false
+      ResourceId:
+        Ref: hihi2Resource
+      RestApiId:
+        Ref: hihi2RestApi
+      MethodResponses:
+        - StatusCode: 200
+Outputs:
+  hihi1EndPoint:
+    Description: Root URL of the API gateway
+    Value:
+      'Fn::Join':
+        - ''
+        - - 'https://'
+          - Ref: hihi1RestApi
+          - .execute-api.
+          - Ref: 'AWS::Region'
+          - .amazonaws.com
+          - /TEST
+          - /hi1
+  hihi2EndPoint:
+    Description: Root URL of the API gateway
+    Value:
+      'Fn::Join':
+        - ''
+        - - 'https://'
+          - Ref: hihi2RestApi
+          - .execute-api.
+          - Ref: 'AWS::Region'
+          - .amazonaws.com
+          - /TEST
+          - /hi2
