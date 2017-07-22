@@ -1,7 +1,7 @@
-var cf = require('../index');
-var fs = require('fs');
-var path = require('path');
-var deleteHelper = require('../helpers/delete');
+var fs              = require('fs');
+var path            = require('path');
+var deleteHelper    = require('../helpers/delete');
+var cf              = require('../index');
 
 module.exports = function(options, fnhub){
     console.log('delete');
@@ -40,7 +40,7 @@ function collectOptions(options, stack, fnhub){
     }
 
 
-    options.name = options.name || stackNameFromFile || fnhub.readlineSync.question('stack name ($<defaultInput>):', {
+    options.name = options.name || stackNameFromFile || fnhub.readlineSync.question(fnhub.resources.Questions.Cf.Delete.Name, {
 		defaultInput: path.basename(process.cwd())
 	}) || path.basename(process.cwd());
 

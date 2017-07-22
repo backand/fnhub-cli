@@ -1,6 +1,6 @@
-var cf = require('../index');
-var fs = require('fs');
-var includeHelper = require('../helpers/include');
+var fs              = require('fs');
+var includeHelper   = require('../helpers/include');
+var cf              = require('../index');
 
 module.exports = function(options, fnhub){
 	// interact and collect function details
@@ -36,7 +36,7 @@ function collectOptions(options, fnhub){
 	        .log('Or you can complete the wizard below:\n');
 	}
 
-    options.module = options.module || fnhub.readlineSync.question('module: '.grey);
+    options.module = options.module || fnhub.readlineSync.question(fnhub.resources.Questions.Cf.Include.Module);
 
     if (options.module.indexOf(fnhub.Consts.Version.ModuleSeperator) > 0){
         var nameAndVersion = options.module.split(fnhub.Consts.Version.ModuleSeperator);
@@ -56,7 +56,7 @@ function collectOptions(options, fnhub){
         }
     }
     else{
-        options.version = options.version || fnhub.readlineSync.question('version ($<defaultInput>):', {
+        options.version = options.version || fnhub.readlineSync.question(fnhub.resources.Questions.Cf.Include.Version, {
             defaultInput: fnhub.Consts.Version.Latest
         }) || fnhub.Consts.Version.Latest;
     }
