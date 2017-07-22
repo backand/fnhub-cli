@@ -20,12 +20,12 @@ module.exports = function(options, fnhub){
                 fnhub.logger.error(err.message);
             }
             else {
-                fnhub.logger.error(fnhub.Errors.General.Unexpected);
+                fnhub.logger.error(fnhub.resources.Errors.General.Unexpected);
             }
             process.exit(1);
             }
         else {
-            fnhub.logger.success(cf.Messages.Delete.AfterSuccess.replace('{{0}}', options.name));
+            fnhub.logger.success(cf.Messages.Delete.AfterSuccess,options.name);
             process.exit(0);
         }
     });

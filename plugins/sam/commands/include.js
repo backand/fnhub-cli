@@ -17,12 +17,12 @@ module.exports = function(options, fnhub){
                 fnhub.logger.error(err.message);
             }
             else {
-                fnhub.logger.error(fnhub.Errors.General.Unexpected);
+                fnhub.logger.error(fnhub.resources.Errors.General.Unexpected);
             }
             process.exit(1);
             }
         else {
-            fnhub.logger.success(cf.Messages.Include.AfterSuccess.replace('{{0}}', response.stackFileName));
+            fnhub.logger.success(cf.Messages.Include.AfterSuccess,response.stackFileName);
             process.exit(0);
         }
     });
@@ -41,7 +41,7 @@ function collectOptions(options, fnhub){
     if (options.module.indexOf(fnhub.Consts.Version.ModuleSeperator) > 0){
         var nameAndVersion = options.module.split(fnhub.Consts.Version.ModuleSeperator);
         if (nameAndVersion.length != 2) {
-            fnhub.logger.error(fnhub.Errors.Include.IllegalModuleNameAndVersion);
+            fnhub.logger.error(fnhub.resources.Errors.Include.IllegalModuleNameAndVersion);
             process.exit(1);
         }
 

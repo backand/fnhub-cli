@@ -138,7 +138,7 @@ function save(options, fnhub, stack, callback){
     catch (e) {
         fnhub.logger.debug.error(e);
         fnhub.logger.debug.error(stack);
-        callback({message:fnhub.Errors.General.FailedToSaveYamlFile, expected:true});
+        callback({message:fnhub.resources.Errors.General.FailedToSaveYamlFile, expected:true});
 	}
 }
 

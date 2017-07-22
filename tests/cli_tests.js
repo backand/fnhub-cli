@@ -1,16 +1,17 @@
-var expect = require("chai").expect;
-var exec = require('child_process').exec;
-var del = require('del');
-var fs = require('fs');
-var	yaml = require('js-yaml');
-var path = require('path');
-var async = require('async');
-var request = require('request');
+var expect    = require("chai").expect;
+var exec      = require('child_process').exec;
+var del       = require('del');
+var fs        = require('fs');
+var	yaml      = require('js-yaml');
+var path      = require('path');
+var async     = require('async');
+var request   = require('request');
+var util      = require('util');
 
-var config =  require('../lib/config');
-var fnhub =  require('../lib/fnhub');
-var cfPlugin =  require('../plugins/cf/index');
-var samPlugin =  require('../plugins/sam/index');
+
+var fnhub     = require('../lib/fnhub');
+var cfPlugin  = require('../plugins/cf/index');
+var samPlugin = require('../plugins/sam/index');
 
 var EOL = /\r?\n/
 
@@ -53,7 +54,7 @@ describe("Successful Cycle", function(){
   var cwd = path.join(__dirname, testName);
   var cwdPublisher = path.join(cwd, "publisher");
   var cwdConsumer = path.join(cwd, "consumer");
-  var moduleFile = path.join(cwdPublisher, config.yamlFileName);
+  var moduleFile = path.join(cwdPublisher, fnhub.config.yamlFileName);
   var bin = path.join(path.dirname(__dirname), "bin");
   var fnhubPath = path.join(bin, "fnhub");
 
@@ -111,7 +112,7 @@ describe("Successful Cycle", function(){
         expect(err).to.be.null; 
           
         //expect success message
-        expect(stdout).to.contain(fnhub.Messages.Signin.AfterSuccess.replace('{{0}}', user.firstname));
+        expect(stdout).to.contain(util.format(fnhub.resources.Messages.Signin.AfterSuccess,user.firstname));
         done();
       });
     });
@@ -164,7 +165,7 @@ describe("Successful Cycle", function(){
         expect(err).to.be.null; 
           
         //check the file exists
-        var doc = yaml.safeLoad(fs.readFileSync(config.templates.module, 'utf8'));
+        var doc = yaml.safeLoad(fs.readFileSync(fnhub.config.templates.module, 'utf8'));
         expect(doc).to.have.any.keys("Resources","Metadata","Description");
         done();
       });
@@ -190,7 +191,7 @@ describe("Successful Cycle", function(){
           
 
         //check the file exists
-        var doc = yaml.safeLoad(fs.readFileSync(config.templates.module, 'utf8'));
+        var doc = yaml.safeLoad(fs.readFileSync(fnhub.config.templates.module, 'utf8'));
         expect(doc).to.have.any.keys("Resources","Metadata","Description");
         done();
       });
@@ -211,7 +212,7 @@ describe("Successful Cycle", function(){
         
           
         //check the file exists
-        expect(stdout).to.contain(fnhub.Messages.Publish.AfterSuccess.replace('{{0}}', ''));
+        expect(stdout).to.contain(util.format(fnhub.resources.Messages.Publish.AfterSuccess,''));
         done();
       });
     });
@@ -362,7 +363,7 @@ describe("Successful Cycle", function(){
           
             
           //check the file exists
-          expect(stdout).to.contain(cfPlugin.Messages.Delete.AfterSuccess.replace('{{0}}', stack.Metadata.Name));
+          expect(stdout).to.contain(cfPlugin.Messages.Delete.AfterSuccess,stack.Metadata.Name);
           done();
         });
       });
@@ -507,7 +508,7 @@ describe("Successful Cycle", function(){
           
             
           //check the file exists
-          expect(stdout).to.contain(samPlugin.Messages.Delete.AfterSuccess.replace('{{0}}', stack.Metadata.Name));
+          expect(stdout).to.contain(samPlugin.Messages.Delete.AfterSuccess,stack.Metadata.Name);
           done();
         });
       });
@@ -529,7 +530,7 @@ describe("Successful Cycle", function(){
         }
         expect(err).to.be.null;  
         //check the file exists
-        expect(stdout).to.contain(fnhub.Messages.Delete.AfterSuccess.replace('{{0}}', module.Metadata.Name));
+        expect(stdout).to.contain(util.format(fnhub.resources.Messages.Delete.AfterSuccess,module.Metadata.Name));
         done();
       });
     });
