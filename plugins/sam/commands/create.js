@@ -17,12 +17,12 @@ module.exports = function(options, fnhub){
                 fnhub.logger.error(err.message);
             }
             else {
-                fnhub.logger.error(fnhub.Errors.General.Unexpected);
+                fnhub.logger.error(fnhub.resources.Errors.General.Unexpected);
             }
             process.exit(1);
             }
         else {
-            fnhub.logger.success(cf.Messages.Create.AfterSuccess.replace('{{0}}', response.stackFileName));
+            fnhub.logger.success(cf.Messages.Create.AfterSuccess,response.stackFileName);
             process.exit(0);
         }
     });

@@ -1,7 +1,7 @@
-var cf = require('../index');
-var fs = require('fs');
-var path = require('path');
-var deleteHelper = require('../helpers/delete');
+var fs              = require('fs');
+var path            = require('path');
+var deleteHelper    = require('../helpers/delete');
+var cf              = require('../index');
 
 module.exports = function(options, fnhub){
     console.log('delete');
@@ -20,12 +20,12 @@ module.exports = function(options, fnhub){
                 fnhub.logger.error(err.message);
             }
             else {
-                fnhub.logger.error(fnhub.Errors.General.Unexpected);
+                fnhub.logger.error(fnhub.resources.Errors.General.Unexpected);
             }
             process.exit(1);
             }
         else {
-            fnhub.logger.success(cf.Messages.Delete.AfterSuccess.replace('{{0}}', options.name));
+            fnhub.logger.success(cf.Messages.Delete.AfterSuccess,options.name);
             process.exit(0);
         }
     });
@@ -40,7 +40,7 @@ function collectOptions(options, stack, fnhub){
     }
 
 
-    options.name = options.name || stackNameFromFile || fnhub.readlineSync.question('stack name ($<defaultInput>):', {
+    options.name = options.name || stackNameFromFile || fnhub.readlineSync.question(fnhub.resources.Questions.Cf.Delete.Name, {
 		defaultInput: path.basename(process.cwd())
 	}) || path.basename(process.cwd());
 

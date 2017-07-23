@@ -1,9 +1,9 @@
-Description: ssadsdsd
+Description: test itay
 Metadata:
   Name: fnhub-cli
-  Author: testfnshub0001@backand.io
+  Author: itay
   Version: 1.0.0
-  Repo: 'https://gi.com/aa'
+  Repo: 'https://github.com/backand/fnhub-cli'
   Keywords:
     - fnhub-cli
   License: ISC
@@ -11,7 +11,7 @@ Resources:
   fnhub-cli:
     Type: 'AWS::Serverless::Function'
     Properties:
-      Description: ssadsdsd
+      Description: test itay
       Handler: index.handler
       Runtime: nodejs4.3
       CodeUri: 's3://bucket/zipfile'

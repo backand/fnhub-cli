@@ -1,7 +1,7 @@
-var cf = require('../index');
-var fs = require('fs');
-var path = require('path');
-var deployHelper = require('../helpers/deploy');
+var fs              = require('fs');
+var path            = require('path');
+var deployHelper    = require('../helpers/deploy');
+var cf              = require('../index');
 
 module.exports = function(options, fnhub){
     if (!options){
@@ -46,7 +46,7 @@ function collectOptions(options, stack, fnhub){
     }
 
 
-    options.name = options.name || stackNameFromFile || fnhub.readlineSync.question('stack name ($<defaultInput>):', {
+    options.name = options.name || stackNameFromFile || fnhub.readlineSync.question(fnhub.resources.Questions.Cf.Deploy.Name, {
 		defaultInput: path.basename(process.cwd())
 	}) || path.basename(process.cwd());
 
