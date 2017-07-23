@@ -1,8 +1,8 @@
-Description: test itay
+Description: eee
 Metadata:
   Name: fnhub-cli
-  Author: itay
-  Version: 1.0.0
+  Author: testfnshub0001@backand.io
+  Version: 1.0.6
   Repo: 'https://github.com/backand/fnhub-cli'
   Keywords:
     - fnhub-cli
@@ -11,7 +11,7 @@ Resources:
   fnhub-cli:
     Type: 'AWS::Serverless::Function'
     Properties:
-      Description: test itay
+      Description: eee
       Handler: index.handler
       Runtime: nodejs4.3
-      CodeUri: 's3://bucket/zipfile'
+      CodeUri: 'http://fnhub.backand.io/fnhub-cli/module@1.0.2.zip'

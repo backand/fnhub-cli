@@ -1,7 +1,7 @@
 var cf = require('../index');
 
 function getModuleInfo(options, fnhub, callback){
-    fnhub.info.getModule(options.module, options.version, function(err, moduleInfo) {
+    fnhub.info.getModule(options.module, options.version, fnhub, function(err, moduleInfo) {
         if (err) callback(err);
         else callback(null, options, fnhub, moduleInfo);
     })
