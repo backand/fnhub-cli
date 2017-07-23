@@ -12,7 +12,8 @@ console.log('\n' +
 '    λ      λ                 | |             | |       | |                                        \n' +    
 '   λ        λ                | |             | |       | |                                        \n' +  
 '                             |_|             |_|       |_|                                        \n' +
-'version: ' + require('../package.json').version + '\n');
+'fnhub version: ' + require('../package.json').version + '\n');
+
 
 "use strict";
 var backand     =     require('@backand/nodejs-sdk');
