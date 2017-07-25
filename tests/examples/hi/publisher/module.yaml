@@ -17,4 +17,4 @@ Resources:
       Description: description
       Handler: index.handler1
       Runtime: nodejs4.3
-      CodeUri: 's3://bucket/zipfile'
+      CodeUri: 'http://fnhub.backand.io/hi/module@1.0.110.zip'
