@@ -53,7 +53,7 @@
             "name": "init",
             "cwd": "${workspaceRoot}/tests/examples/hi/publisher",
             "program":"${workspaceRoot}/bin/fnhub",
-            "args": ["init", "--name", "hi", "--author", "relly", "--version", "1.0.110", "--description", "description", "--repo", "https://github.com/relly/fnhub", "--keywords", "backand", "--license", "mit"]
+            "args": ["init", "--name", "hi", "--authorName", "relly", "--authorEmail", "relly@relly.com", "--version", "1.0.110", "--description", "description", "--repo", "https://github.com/relly/fnhub", "--keywords", "backand", "--license", "mit"]
         },
         {
             "type": "node",

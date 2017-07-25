@@ -36,6 +36,7 @@ var deleteFolderRecursive = function(path) {
 describe("Successful Cycle", function(){
   var testName = 'test1001';
   var user = {
+    fullName: "relly",
     username:"testfnshub0001@backand.io",
     password:"123456",
     firstname:"firstname"
@@ -44,11 +45,11 @@ describe("Successful Cycle", function(){
     "Description":"this is a test description",
     "Metadata":{
       "Name":testName,
-      "Author":user.username,
       "Version":"1.1.1",
       "Repo":"https://github.com/test/fnhub",
       "Keywords":["key1","key2","key3"],
-      "License":"MIT"
+      "License":"MIT",
+      "Authors":[{Name: user.fullName, Email: user.username, Url:null}]
     }
   };
   var cwd = path.join(__dirname, testName);
@@ -119,7 +120,7 @@ describe("Successful Cycle", function(){
 
     it("should init", function (done){
       this.timeout(64000);
-      var command = 'node ' + fnhubPath + ' init --name "' + module.Metadata.Name + '" --author "' + module.Metadata.Author + '" --version ' + module.Metadata.Version + ' --description "' + module.Description + '" --repo ' + module.Metadata.Repo + ' --keywords "' + module.Metadata.Keywords + '" --license ' + module.Metadata.License;
+      var command = 'node ' + fnhubPath + ' init --name "' + module.Metadata.Name + '" --authorEmail "' + module.Metadata.Authors[0].Email+ '" --authorName "' + module.Metadata.Authors[0].Name + '" --version ' + module.Metadata.Version + ' --description "' + module.Description + '" --repo ' + module.Metadata.Repo + ' --keywords "' + module.Metadata.Keywords + '" --license ' + module.Metadata.License;
       exec(command, {cwd: cwdPublisher}, function(err, stdout, stderr) {
         if (stderr){
           console.error("command", command);

@@ -1,7 +1,6 @@
 Description: this is a test description
 Metadata:
   Name: test1001
-  Author: testfnshub0001@backand.io
   Version: 1.1.1
   Repo: 'https://github.com/test/fnhub'
   Keywords:
@@ -9,6 +8,10 @@ Metadata:
     - key2
     - key3
   License: MIT
+  Authors:
+    - Name: relly
+      Email: testfnshub0001@backand.io
+      Url: null
 Resources:
   fn-1:
     Type: 'AWS::Serverless::Function'
@@ -16,11 +19,4 @@ Resources:
       Description: first
       Handler: index.handler1
       Runtime: nodejs4.3
-      CodeUri: 'http://fnhub.backand.io/test1001/module@1.1.1.zip'
-  fn-2:
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Description: second
-      Handler: index.handler2
-      Runtime: nodejs4.3
-      CodeUri: 'http://fnhub.backand.io/test1001/module@1.1.1.zip'
+      CodeUri: 's3://bucket/zipfile'
