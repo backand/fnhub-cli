@@ -51,14 +51,15 @@ This authenticates the user with fnhub.io, using a persistent cookie to track au
 The `init` command initializes a fnhub.io module. It creates a `module.yaml` file in the working directory. This file will hold all necessary information about the module being created.
 
 #### Example
-`fnhub init --name hi --authors relly --version 1.0.110 --description "module description" --repo", "https://github.com/relly/fnhub" --keywords "hello world", --license mit`
+`fnhub init --name hi --authorEmail relly@backand.com --authorName "Relly Rivlin" --version 1.0.110 --description "module description" --repo", "https://github.com/relly/fnhub" --keywords "hello world", --license mit`
 
 #### Options and Parameters
 
 | name (**bold** fields are **required**) | description | type | validation | default value |
 | --------------------------------------- | ----------- | ---- | ---------- | ------------- |
 | **name** | The module's name, to be published. Must be globally unique | string | supports alphanumeric characters and dashes | Current working directory |
-| authors | The module's authors | JSON array | Format must match `[{name: "string", email:"string", url:"string"}]` | information for the currently authenticated user |
+| **authorEmail** | The module's author's email | string | email | current authenticated user's email |
+| authorName | The module's author's name | string | alphanumeric | current authenticated user's name |
 | **version** | The module's version | string | validated per rules at http://semver.org | 1.0.0 |
 | **description** | A description of the module | string | none | none |
 | **repo** | The module's github repository | string | url | If a github file ID exists, this value is used |
