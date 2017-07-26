@@ -19,11 +19,11 @@ Resources:
       Description: first
       Handler: index.handler1
       Runtime: nodejs4.3
-      CodeUri: 'http://fnhub.backand.io/test1001/module@1.1.1.zip'
+      CodeUri: 's3://bucket/zipfile'
   fn-2:
     Type: 'AWS::Serverless::Function'
     Properties:
       Description: second
       Handler: index.handler2
       Runtime: nodejs4.3
-      CodeUri: 'http://fnhub.backand.io/test1001/module@1.1.1.zip'
+      CodeUri: 's3://bucket/zipfile'

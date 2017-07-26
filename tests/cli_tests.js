@@ -521,7 +521,7 @@ describe("Successful Cycle", function(){
     it("should delete", function (done){
       this.timeout(64000);
       
-      var command = 'node ' + fnhubPath + ' delete';
+      var command = 'node ' + fnhubPath + ' delete --force true';
       exec(command, {cwd: cwdPublisher}, function(err, stdout, stderr) {
         if (err) {
           console.error("command", command);

@@ -106,7 +106,7 @@
             "name": "delete",
             "cwd": "${workspaceRoot}/tests/examples/hi/publisher",
             "program":"${workspaceRoot}/bin/fnhub",
-            "args": ["delete"]
+            "args": ["delete", "--force", "true"]
         },
         {
             "type": "node",

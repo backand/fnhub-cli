@@ -78,8 +78,7 @@ module.exports = {
         return stackFileName;
     },
     getCommand: function(commandName){
-        console.log('sam getCommand');
-    	try {
+        try {
     		var command = require('./commands/' + commandName)
             return command;
         }

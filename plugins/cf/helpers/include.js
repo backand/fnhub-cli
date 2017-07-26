@@ -1,4 +1,29 @@
 var cf = require('../index');
+var util = require('util');
+var fs      = require('fs');
+var path    = require('path');
+var createHelper    = require('./create');
+
+function ifStackNotExistsCreate(options, fnhub, callback){
+    if (!isStackExists(options, fnhub)){
+        createStack(options, fnhub, function(err){
+            if (err) callback(err);
+            else callback(null, options, fnhub);    
+        });
+    }
+    else {
+        callback(null, options, fnhub);
+    }
+}
+
+function createStack(options, fnhub, callback){
+    var options = {name: path.basename(process.cwd()), description:''};
+    createHelper.create(options, fnhub, callback);
+}
+
+function isStackExists(options, fnhub){
+    return fs.existsSync(path.join(process.cwd(), cf.Consts.Defaults.Stack.FileName));
+}
 
 function getModuleInfo(options, fnhub, callback){
     fnhub.info.getModule(options.module, options.version, fnhub, function(err, moduleInfo) {
@@ -23,7 +48,7 @@ function getStack(options, fnhub, moduleInfo, functionTemplate, callback){
         callback(null, options, fnhub, moduleInfo, functionTemplate, stack);
     }
     catch (err) {
-        callback(err, null);
+        callback({message:cf.Errors.Include.StackNotExistsOrCorrupted, expected:true}, null);
     }
 }
 
@@ -145,6 +170,7 @@ function save(options, fnhub, stack, callback){
 function include(options, fnhub, callback){
     fnhub.async.waterfall([
         fnhub.async.constant(options, fnhub),
+        ifStackNotExistsCreate,
         getModuleInfo,
         getFunctionTemplate,
         getStack,

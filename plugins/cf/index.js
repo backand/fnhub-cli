@@ -45,6 +45,7 @@ module.exports = {
             StackFileNotFoundOrCorrupted: 'The \'fnhub-stack.yaml\' file was either not found or corrupted'
         },
         Include:{
+            StackNotExistsOrCorrupted: 'The fnhub-stack.yaml was not found or corrupted',
             ResourceAlreadyExists: 'A resource with the name {{0}} already exists',
             OutputAlreadyExists: 'An output with the name {{0}} already exists'
         }
@@ -78,8 +79,7 @@ module.exports = {
         return stackFileName;
     },
     getCommand: function(commandName){
-        console.log('sam getCommand');
-    	try {
+        try {
     		var command = require('./commands/' + commandName)
             return command;
         }
