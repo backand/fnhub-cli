@@ -22,16 +22,30 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "signup",
+            "name": "signup testfnhub0001@backand.io",
             "program":"${workspaceRoot}/bin/fnhub",
             "args": ["signup", "--firstname", "firstname", "--lastname", "lastname", "--username", "testfnhub0001@backand.io", "--password", "123456", "--confirm", "123456"]
         },
         {
             "type": "node",
             "request": "launch",
-            "name": "signin",
+            "name": "signin testfnshub0001@backand.io",
             "program":"${workspaceRoot}/bin/fnhub",
             "args": ["signin", "--username", "testfnshub0001@backand.io", "--password", "123456"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "signup testfnhub0002@backand.io",
+            "program":"${workspaceRoot}/bin/fnhub",
+            "args": ["signup", "--firstname", "firstname", "--lastname", "lastname", "--username", "testfnhub0002@backand.io", "--password", "123456", "--confirm", "123456"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "signin testfnhub0002@backand.io",
+            "program":"${workspaceRoot}/bin/fnhub",
+            "args": ["signin", "--username", "testfnhub0002@backand.io", "--password", "123456"]
         },
         {
             "type": "node",
