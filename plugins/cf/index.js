@@ -41,6 +41,9 @@ module.exports = {
         }
     },
     Errors: {
+        General: {
+            StackFileNotFoundOrCorrupted: 'The \'fnhub-stack.yaml\' file was either not found or corrupted'
+        },
         Include:{
             ResourceAlreadyExists: 'A resource with the name {{0}} already exists',
             OutputAlreadyExists: 'An output with the name {{0}} already exists'

@@ -4,12 +4,18 @@ var path = require('path');
 var deleteHelper = require('../helpers/delete');
 
 module.exports = function(options, fnhub){
-    console.log('delete');
     if (!options){
         options = {};
     }
     
-    var stack = cf.getStack(fnhub);
+    var stack;
+    try{
+        stack = cf.getStack(fnhub);
+    }
+    catch(err){
+        fnhub.logger.error(cf.Errors.General.StackFileNotFoundOrCorrupted);
+        process.exit(1);
+    }
     
     collectOptions(options, stack, fnhub);
 

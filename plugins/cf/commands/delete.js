@@ -4,13 +4,18 @@ var deleteHelper    = require('../helpers/delete');
 var cf              = require('../index');
 
 module.exports = function(options, fnhub){
-    console.log('delete');
     if (!options){
         options = {};
     }
     
-    var stack = cf.getStack(fnhub);
-    
+    var stack;
+    try{
+        stack = cf.getStack(fnhub);
+    }
+    catch(err){
+        fnhub.logger.error(cf.Errors.General.StackFileNotFoundOrCorrupted);
+        process.exit(1);
+    }
     collectOptions(options, stack, fnhub);
 
     deleteHelper.deleteStack(options, fnhub, stack, function(err, response){
@@ -23,7 +28,7 @@ module.exports = function(options, fnhub){
                 fnhub.logger.error(fnhub.resources.Errors.General.Unexpected);
             }
             process.exit(1);
-            }
+        }
         else {
             fnhub.logger.success(cf.Messages.Delete.AfterSuccess,options.name);
             process.exit(0);
