@@ -103,6 +103,14 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "info latest",
+            "cwd": "${workspaceRoot}/tests/examples/hi/publisher",
+            "program":"${workspaceRoot}/bin/fnhub",
+            "args": ["info", "--module", "hi", "--version", "latest"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "delete",
             "cwd": "${workspaceRoot}/tests/examples/hi/publisher",
             "program":"${workspaceRoot}/bin/fnhub",
@@ -130,6 +138,14 @@
             "cwd": "${workspaceRoot}/tests/examples/hi/consumer/cf",
             "program":"${workspaceRoot}/bin/fnhub",
             "args": ["cf", "include", "--module", "hi", "--version", "1.0.110"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "cf include latest",
+            "cwd": "${workspaceRoot}/tests/examples/hi/consumer/cf",
+            "program":"${workspaceRoot}/bin/fnhub",
+            "args": ["cf", "include", "--module", "hi", "--version", "latest"]
         },
         {
             "type": "node",

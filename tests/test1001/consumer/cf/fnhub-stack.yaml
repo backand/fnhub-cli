@@ -2,4 +2,245 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: test stack 1001 description
 Metadata:
   Name: testStackCF1001
-Resources: {}
+Resources:
+  testStackCF1001test1001fn1Function:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      Code:
+        S3Bucket: fnhub.backand.io
+        S3Key: test1001/module@1.1.1.zip
+      Description: first
+      FunctionName: testStackCF1001-test1001-fn-1
+      Handler: index.handler1
+      Role:
+        'Fn::GetAtt':
+          - testStackCF1001test1001fn1Role
+          - Arn
+      Runtime: nodejs4.3
+      Environment: {}
+  testStackCF1001test1001fn1Role:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+  testStackCF1001test1001fn1RestApi:
+    Type: 'AWS::ApiGateway::RestApi'
+    Properties:
+      Name: testStackCF1001test1001fn1 RestApi
+      Description: API used for fn-1 requests
+      FailOnWarnings: true
+  testStackCF1001test1001fn1Permission:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      Action: 'lambda:invokeFunction'
+      FunctionName:
+        'Fn::GetAtt':
+          - testStackCF1001test1001fn1Function
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        'Fn::Join':
+          - ''
+          - - 'arn:aws:execute-api:'
+            - Ref: 'AWS::Region'
+            - ':'
+            - Ref: 'AWS::AccountId'
+            - ':'
+            - Ref: testStackCF1001test1001fn1RestApi
+            - /*
+  testStackCF1001test1001fn1Deployment:
+    Type: 'AWS::ApiGateway::Deployment'
+    DependsOn:
+      - testStackCF1001test1001fn1Method
+    Properties:
+      RestApiId:
+        Ref: testStackCF1001test1001fn1RestApi
+      StageName: TEST
+  testStackCF1001test1001fn1Resource:
+    Type: 'AWS::ApiGateway::Resource'
+    Properties:
+      RestApiId:
+        Ref: testStackCF1001test1001fn1RestApi
+      ParentId:
+        'Fn::GetAtt':
+          - testStackCF1001test1001fn1RestApi
+          - RootResourceId
+      PathPart: fn-1
+  testStackCF1001test1001fn1Method:
+    DependsOn: testStackCF1001test1001fn1Permission
+    Type: 'AWS::ApiGateway::Method'
+    Properties:
+      AuthorizationType: NONE
+      HttpMethod: ANY
+      Integration:
+        Type: AWS
+        IntegrationHttpMethod: POST
+        Uri:
+          'Fn::Join':
+            - ''
+            - - 'arn:aws:apigateway:'
+              - Ref: 'AWS::Region'
+              - ':lambda:path/2015-03-31/functions/'
+              - 'Fn::GetAtt':
+                  - testStackCF1001test1001fn1Function
+                  - Arn
+              - /invocations
+        IntegrationResponses:
+          - StatusCode: 200
+        RequestTemplates:
+          application/json:
+            'Fn::Join':
+              - ''
+              - - '{'
+                - '  "param00": "$input.params(''param00'')"'
+                - '}'
+      RequestParameters:
+        method.request.querystring.param00: false
+      ResourceId:
+        Ref: testStackCF1001test1001fn1Resource
+      RestApiId:
+        Ref: testStackCF1001test1001fn1RestApi
+      MethodResponses:
+        - StatusCode: 200
+  testStackCF1001test1001fn2Function:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      Code:
+        S3Bucket: fnhub.backand.io
+        S3Key: test1001/module@1.1.1.zip
+      Description: second
+      FunctionName: testStackCF1001-test1001-fn-2
+      Handler: index.handler2
+      Role:
+        'Fn::GetAtt':
+          - testStackCF1001test1001fn2Role
+          - Arn
+      Runtime: nodejs4.3
+      Environment: {}
+  testStackCF1001test1001fn2Role:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+  testStackCF1001test1001fn2RestApi:
+    Type: 'AWS::ApiGateway::RestApi'
+    Properties:
+      Name: testStackCF1001test1001fn2 RestApi
+      Description: API used for fn-2 requests
+      FailOnWarnings: true
+  testStackCF1001test1001fn2Permission:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      Action: 'lambda:invokeFunction'
+      FunctionName:
+        'Fn::GetAtt':
+          - testStackCF1001test1001fn2Function
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        'Fn::Join':
+          - ''
+          - - 'arn:aws:execute-api:'
+            - Ref: 'AWS::Region'
+            - ':'
+            - Ref: 'AWS::AccountId'
+            - ':'
+            - Ref: testStackCF1001test1001fn2RestApi
+            - /*
+  testStackCF1001test1001fn2Deployment:
+    Type: 'AWS::ApiGateway::Deployment'
+    DependsOn:
+      - testStackCF1001test1001fn2Method
+    Properties:
+      RestApiId:
+        Ref: testStackCF1001test1001fn2RestApi
+      StageName: TEST
+  testStackCF1001test1001fn2Resource:
+    Type: 'AWS::ApiGateway::Resource'
+    Properties:
+      RestApiId:
+        Ref: testStackCF1001test1001fn2RestApi
+      ParentId:
+        'Fn::GetAtt':
+          - testStackCF1001test1001fn2RestApi
+          - RootResourceId
+      PathPart: fn-2
+  testStackCF1001test1001fn2Method:
+    DependsOn: testStackCF1001test1001fn2Permission
+    Type: 'AWS::ApiGateway::Method'
+    Properties:
+      AuthorizationType: NONE
+      HttpMethod: ANY
+      Integration:
+        Type: AWS
+        IntegrationHttpMethod: POST
+        Uri:
+          'Fn::Join':
+            - ''
+            - - 'arn:aws:apigateway:'
+              - Ref: 'AWS::Region'
+              - ':lambda:path/2015-03-31/functions/'
+              - 'Fn::GetAtt':
+                  - testStackCF1001test1001fn2Function
+                  - Arn
+              - /invocations
+        IntegrationResponses:
+          - StatusCode: 200
+        RequestTemplates:
+          application/json:
+            'Fn::Join':
+              - ''
+              - - '{'
+                - '  "param00": "$input.params(''param00'')"'
+                - '}'
+      RequestParameters:
+        method.request.querystring.param00: false
+      ResourceId:
+        Ref: testStackCF1001test1001fn2Resource
+      RestApiId:
+        Ref: testStackCF1001test1001fn2RestApi
+      MethodResponses:
+        - StatusCode: 200
+Outputs:
+  testStackCF1001test1001fn1EndPoint:
+    Description: Root URL of the API gateway
+    Value:
+      'Fn::Join':
+        - ''
+        - - 'https://'
+          - Ref: testStackCF1001test1001fn1RestApi
+          - .execute-api.
+          - Ref: 'AWS::Region'
+          - .amazonaws.com
+          - /TEST
+          - /fn-1
+  testStackCF1001test1001fn2EndPoint:
+    Description: Root URL of the API gateway
+    Value:
+      'Fn::Join':
+        - ''
+        - - 'https://'
+          - Ref: testStackCF1001test1001fn2RestApi
+          - .execute-api.
+          - Ref: 'AWS::Region'
+          - .amazonaws.com
+          - /TEST
+          - /fn-2
