@@ -218,7 +218,28 @@ describe("Successful Cycle", function(){
       });
     });
 
-    
+    it("should signout", function (done){
+      this.timeout(64000);
+      var command = 'node ' + fnhubPath + ' signout';
+      exec(command, {cwd: cwdPublisher}, function(err, stdout, stderr) {
+        if (stderr){
+          console.error("command", command);
+          console.error("stderr", stderr);
+        } 
+        expect(!stderr).to.be.true;
+        if (err) {
+          console.error("command", command);
+          console.error("err", err);
+          console.error("stderr", stderr);
+          console.error("stdout", stdout);
+        }
+        expect(err).to.be.null; 
+          
+        //expect success message
+        expect(stdout).to.contain('bye');
+        done();
+      });
+    });
   });
 
   describe("Consume module with plugins", function(){
@@ -517,7 +538,30 @@ describe("Successful Cycle", function(){
 
   });
 
-  describe("Delete module", function(){
+  describe.only("Delete module", function(){
+    it("should signin", function (done){
+      this.timeout(64000);
+      var command = 'node ' + fnhubPath + ' signin --username "' + user.username + '" --password ' + user.password;
+      exec(command, {cwd: cwdPublisher}, function(err, stdout, stderr) {
+        if (stderr){
+          console.error("command", command);
+          console.error("stderr", stderr);
+        } 
+        expect(!stderr).to.be.true;
+        if (err) {
+          console.error("command", command);
+          console.error("err", err);
+          console.error("stderr", stderr);
+          console.error("stdout", stdout);
+        }
+        expect(err).to.be.null; 
+          
+        //expect success message
+        expect(stdout).to.contain(util.format(fnhub.resources.Messages.Signin.AfterSuccess,user.firstname));
+        done();
+      });
+    });
+
     it("should delete", function (done){
       this.timeout(64000);
       

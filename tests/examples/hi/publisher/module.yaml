@@ -17,11 +17,4 @@ Resources:
       Description: description
       Handler: index.handler1
       Runtime: nodejs4.3
-      CodeUri: 'http://fnhub.backand.io/hi/module@1.0.110.zip'
-  hi2:
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Description: description
-      Handler: index.handler2
-      Runtime: nodejs4.3
-      CodeUri: 'http://fnhub.backand.io/hi/module@1.0.110.zip'
+      CodeUri: 's3://bucket/zipfile'
