@@ -154,7 +154,9 @@ The functions below operate using our AWS CloudFormation plugin, `cf`
 #### create
 Creates a `fnhub-stack.yaml` file in the working directory. This file holds all necessary stack information
 ##### Example
-`fnhub cf create --name stack001 --description "stack description"``
+
+`fnhub cf create --name stack001 --description "stack description"`
+
 ##### options and Parameters
 | name (**bold** fields are **required**) | description | type | validation | default value |
 | --------------------------------------- | ----------- | ---- | ---------- | ------------- |
