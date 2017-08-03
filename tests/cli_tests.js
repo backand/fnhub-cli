@@ -538,7 +538,7 @@ describe("Successful Cycle", function(){
 
   });
 
-  describe.only("Delete module", function(){
+  describe("Delete module", function(){
     it("should signin", function (done){
       this.timeout(64000);
       var command = 'node ' + fnhubPath + ' signin --username "' + user.username + '" --password ' + user.password;
