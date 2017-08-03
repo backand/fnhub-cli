@@ -1,0 +1,126 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: hello-world-python
+Metadata:
+  Name: hello-world-python
+Resources:
+  helloworldpythonhelloworldpythonhelloworldpythonFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      Code:
+        S3Bucket: fnhub.backand.io
+        S3Key: hello-world-python/module@1.0.0.zip
+      Description: hello-world-python
+      FunctionName: hello-world-python-hello-world-python-hello-world-python
+      Handler: lambda_function.lambda_handler
+      Role:
+        'Fn::GetAtt':
+          - helloworldpythonhelloworldpythonhelloworldpythonRole
+          - Arn
+      Runtime: python2.7
+      Environment: {}
+  helloworldpythonhelloworldpythonhelloworldpythonRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+  helloworldpythonhelloworldpythonhelloworldpythonRestApi:
+    Type: 'AWS::ApiGateway::RestApi'
+    Properties:
+      Name: helloworldpythonhelloworldpythonhelloworldpython RestApi
+      Description: API used for hello-world-python requests
+      FailOnWarnings: true
+  helloworldpythonhelloworldpythonhelloworldpythonPermission:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      Action: 'lambda:invokeFunction'
+      FunctionName:
+        'Fn::GetAtt':
+          - helloworldpythonhelloworldpythonhelloworldpythonFunction
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        'Fn::Join':
+          - ''
+          - - 'arn:aws:execute-api:'
+            - Ref: 'AWS::Region'
+            - ':'
+            - Ref: 'AWS::AccountId'
+            - ':'
+            - Ref: helloworldpythonhelloworldpythonhelloworldpythonRestApi
+            - /*
+  helloworldpythonhelloworldpythonhelloworldpythonDeployment:
+    Type: 'AWS::ApiGateway::Deployment'
+    DependsOn:
+      - helloworldpythonhelloworldpythonhelloworldpythonMethod
+    Properties:
+      RestApiId:
+        Ref: helloworldpythonhelloworldpythonhelloworldpythonRestApi
+      StageName: TEST
+  helloworldpythonhelloworldpythonhelloworldpythonResource:
+    Type: 'AWS::ApiGateway::Resource'
+    Properties:
+      RestApiId:
+        Ref: helloworldpythonhelloworldpythonhelloworldpythonRestApi
+      ParentId:
+        'Fn::GetAtt':
+          - helloworldpythonhelloworldpythonhelloworldpythonRestApi
+          - RootResourceId
+      PathPart: hello-world-python
+  helloworldpythonhelloworldpythonhelloworldpythonMethod:
+    DependsOn: helloworldpythonhelloworldpythonhelloworldpythonPermission
+    Type: 'AWS::ApiGateway::Method'
+    Properties:
+      AuthorizationType: NONE
+      HttpMethod: ANY
+      Integration:
+        Type: AWS
+        IntegrationHttpMethod: POST
+        Uri:
+          'Fn::Join':
+            - ''
+            - - 'arn:aws:apigateway:'
+              - Ref: 'AWS::Region'
+              - ':lambda:path/2015-03-31/functions/'
+              - 'Fn::GetAtt':
+                  - helloworldpythonhelloworldpythonhelloworldpythonFunction
+                  - Arn
+              - /invocations
+        IntegrationResponses:
+          - StatusCode: 200
+        RequestTemplates:
+          application/json:
+            'Fn::Join':
+              - ''
+              - - '{'
+                - '  "param00": "$input.params(''param00'')"'
+                - '}'
+      RequestParameters:
+        method.request.querystring.param00: false
+      ResourceId:
+        Ref: helloworldpythonhelloworldpythonhelloworldpythonResource
+      RestApiId:
+        Ref: helloworldpythonhelloworldpythonhelloworldpythonRestApi
+      MethodResponses:
+        - StatusCode: 200
+Outputs:
+  helloworldpythonhelloworldpythonhelloworldpythonEndPoint:
+    Description: Root URL of the API gateway
+    Value:
+      'Fn::Join':
+        - ''
+        - - 'https://'
+          - Ref: helloworldpythonhelloworldpythonhelloworldpythonRestApi
+          - .execute-api.
+          - Ref: 'AWS::Region'
+          - .amazonaws.com
+          - /TEST
+          - /hello-world-python

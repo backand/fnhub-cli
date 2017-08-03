@@ -46,7 +46,8 @@ module.exports = {
         },
         Include:{
             ResourceAlreadyExists: 'A resource with the name {{0}} already exists',
-            OutputAlreadyExists: 'An output with the name {{0}} already exists'
+            OutputAlreadyExists: 'An output with the name {{0}} already exists',
+            ModuleNotFound:'The module was not found'
         }
     },
     getStackFileName: function() {

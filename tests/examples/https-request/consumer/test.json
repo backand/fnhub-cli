@@ -1,0 +1,15 @@
+{
+  "options": {
+    "hostname": "api.backand.com",
+    "port": 443,
+    "path": "/1/function/general/module",
+    "method": "POST",
+    "headers": {
+      "AnonymousToken": "f10673bb-d12a-4245-8eca-312add606059"
+    }
+  },
+  "data": {
+    "name": "https-request",
+    "path": "get"
+  }
+}

@@ -1,20 +1,12 @@
-Description: description
+Description: sdfsdf
 Metadata:
-  Name: hi
-  Version: 1.0.110
-  Repo: 'https://github.com/relly/fnhub'
+  Name: publisher
+  Version: 1.0.0
+  Repo: 'https://github.com/backand/fnshub.git'
   Keywords:
-    - backand
-  License: mit
+    - publisher
+  License: ISC
   Authors:
-    - Name: relly
-      Email: relly@relly.com
+    - Name: firstname lastname
+      Email: testfnshub0001@backand.io
       Url: null
-Resources:
-  hi1:
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Description: description
-      Handler: index.handler1
-      Runtime: nodejs4.3
-      CodeUri: 's3://bucket/zipfile'

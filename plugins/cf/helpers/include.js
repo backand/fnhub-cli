@@ -27,7 +27,14 @@ function isStackExists(options, fnhub){
 
 function getModuleInfo(options, fnhub, callback){
     fnhub.info.getModule(options.module, options.version, fnhub, function(err, moduleInfo) {
-        if (err) callback(err);
+        if (err) {
+            if (err.data && err.data.errorMessage == "Not found") {
+                callback({message:cf.Errors.Include.ModuleNotFound, expected:true});
+            }
+            else {
+                callback(err);
+            }
+        }
         else callback(null, options, fnhub, moduleInfo);
     })
 }
