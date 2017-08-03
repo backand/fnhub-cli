@@ -1,0 +1,20 @@
+Description: hello world python
+Metadata:
+  Name: hello-world-python
+  Version: 1.0.0
+  Repo: 'https://github.com/backand/fnshub.git'
+  Keywords:
+    - hello-world-python
+  License: ISC
+  Authors:
+    - Name: firstname lastname
+      Email: testfnshub0001@backand.io
+      Url: null
+Resources:
+  hello-world-python:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Description: hello world python
+      Handler: lambda_function.lambda_handler
+      Runtime: Python 2.7
+      CodeUri: 'http://fnhub.backand.io/hello-world-python/module@1.0.0.zip'
