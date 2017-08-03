@@ -1,0 +1,20 @@
+Description: image processing service
+Metadata:
+  Name: image-processing-service
+  Version: 1.0.0
+  Repo: 'https://github.com/backand/fnshub.git'
+  Keywords:
+    - image-processing-service
+  License: ISC
+  Authors:
+    - Name: firstname lastname
+      Email: testfnshub0001@backand.io
+      Url: null
+Resources:
+  image-processing-service:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Description: image processing service
+      Handler: index.handler
+      Runtime: nodejs4.3
+      CodeUri: 'http://fnhub.backand.io/image-processing-service/module@1.0.0.zip'
