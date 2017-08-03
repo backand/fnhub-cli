@@ -1,0 +1,20 @@
+Description: https request
+Metadata:
+  Name: https-request
+  Version: 1.0.0
+  Repo: 'https://github.com/backand/fnshub.git'
+  Keywords:
+    - https-request
+  License: ISC
+  Authors:
+    - Name: firstname lastname
+      Email: testfnshub0001@backand.io
+      Url: null
+Resources:
+  https-request:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Description: https request
+      Handler: index.handler
+      Runtime: nodejs4.3
+      CodeUri: 'http://fnhub.backand.io/https-request/module@1.0.0.zip'
