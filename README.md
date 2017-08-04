@@ -78,8 +78,8 @@ Adds a serverless function to the current module. Each module can support multip
 | --------------------------------------- | ----------- | ---- | ---------- | ------------- |
 | **name** | The function name to add to the module (this can include more than one function name) | string | supports alphanumeric characters and dashes | current module name |
 | **description** | A description of the function | string | none | none |
-| **runtime** | The run time environment for the function | string | must be one of 'nodejs4.3', 'nodejs6.10', 'Edge Node.js 4.3', 'Python 2.7', 'Python 3.6', 'Java 8', or 'C#' |
-| **handler ** | The serverless function's entry point | string | none | `index.handler` |
+| **runtime** | The run time environment for the function | string | must be one of 'nodejs4.3', 'nodejs6.10', 'Edge Node.js 4.3', 'Python 2.7', 'Python 3.6', 'Java 8', or 'C#' | none | 
+| **handler** | The serverless function's entry point | string | none | `index.handler` |
 | env | Environment variables for the function, defined in JSON | JSON | must be valid JSON | `{}` |
 
 ### publish
