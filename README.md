@@ -8,7 +8,7 @@ This repo is the Command-Line Interface for [fnhub.io](fnhub.io). It can be used
 General commands are used to get more details on a fnhub.io package.
 
 ### info
-The `info` command provides informaiton on a specific module.
+The `info` command provides information on a specific module.
 #### Example
 `fnhub info`
 #### Options and Parameters
@@ -64,7 +64,7 @@ The `init` command initializes a fnhub.io module. It creates a `module.yaml` fil
 | **description** | A description of the module | string | none | none |
 | **repo** | The module's github repository | string | url | If a github file ID exists, this value is used |
 | keywords | A list of keywords that users will use when searching for the module | string | Checks for a space-delimited string | The module's name |
-| license | The module's license | string | none | ISC | 
+| license | The module's license | string | none | ISC |
 
 ### add
 Adds a serverless function to the current module. Each module can support multiple functions.
@@ -72,13 +72,13 @@ Adds a serverless function to the current module. Each module can support multip
 **Note**: Many serverless function providers, as a part of their best practices, recommend having a single set of source code with multiple entry points when working with related functionality.
 
 #### Example
-`fnhub add --name "hi1" --description "function description" --handler index.handler1 --runtime nodejs4.3 --env "{}"``
+`fnhub add --name "hi1" --description "function description" --handler index.handler1 --runtime nodejs4.3 --env "{}"`
 #### Options and Parameters
 | name (**bold** fields are **required**) | description | type | validation | default value |
 | --------------------------------------- | ----------- | ---- | ---------- | ------------- |
 | **name** | The function name to add to the module (this can include more than one function name) | string | supports alphanumeric characters and dashes | current module name |
 | **description** | A description of the function | string | none | none |
-| **runtime** | The run time environment for the function | string | must be one of 'nodejs4.3', 'nodejs6.10', 'Edge Node.js 4.3', 'Python 2.7', 'Python 3.6', 'Java 8', or 'C#' | none | 
+| **runtime** | The run time environment for the function | string | must be one of 'nodejs4.3', 'nodejs6.10', 'Edge Node.js 4.3', 'Python 2.7', 'Python 3.6', 'Java 8', or 'C#' | none |
 | **handler** | The serverless function's entry point | string | none | `index.handler` |
 | env | Environment variables for the function, defined in JSON | JSON | must be valid JSON | `{}` |
 
@@ -92,7 +92,7 @@ Publishes the module. If this is the first module you have published, FnHub.io f
 
 None
 
-### version 
+### version
 Retrieves the module version from `module.yml`
 
 #### Example
@@ -186,4 +186,4 @@ Uses the AWS CLI to deploy a cloud formation yaml file to your AWS account
 None
 
 ### SAM (SAM plugin)
-The SAM plugin operates in exactly the same way as our AWS CloudFormation plugin, but simply uses SAM instead of CloudFormation. Simply replace `cf` `sam` in any of the CloudFormation commands, and your code will be ready to go.
+The SAM plugin operates in exactly the same way as our AWS CloudFormation plugin, but simply uses SAM instead of CloudFormation. Simply replace `cf` with `sam` in any of the CloudFormation commands, and your commands will be ready to go.

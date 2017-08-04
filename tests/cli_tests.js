@@ -33,6 +33,82 @@ var deleteFolderRecursive = function(path) {
   }
 };
 
+describe("Help commands and default help display", function(){
+  var bin = path.join(path.dirname(__dirname), "bin");
+  var fnhubPath = path.join(bin, "fnhub");
+  describe("Default command", function(){
+    it("Outputs the help warning", function(done){
+      this.timeout(64000);
+      var command = fnhubPath;
+      exec(command, {}, function(err, stdout, stderr) {
+        if (stderr){
+          console.error("command", command);
+          console.error("stderr", stderr);
+        }
+        expect(!stderr).to.be.true;
+        if (err) {
+          console.error("command", command);
+          console.error("err", err);
+          console.error("stderr", stderr);
+          console.error("stdout", stdout);
+        }
+        expect(err).to.be.null;
+        expect(stdout).to.contain(fnhub.resources.Messages.Help.DefaultCommandWarning);
+        done();
+      });
+    });
+  });
+  describe("Help command", function(){
+    it("Outputs the help content", function(done){
+      this.timeout(64000);
+      var command = fnhubPath + ' help';
+      exec(command, {}, function(err, stdout, stderr) {
+        if (stderr){
+          console.error("command", command);
+          console.error("stderr", stderr);
+        }
+        expect(!stderr).to.be.true;
+        if (err) {
+          console.error("command", command);
+          console.error("err", err);
+          console.error("stderr", stderr);
+          console.error("stdout", stdout);
+        }
+    		expect(stdout).to.contain(fnhub.resources.Messages.Help.HelpIntro);
+    		expect(stdout).to.contain(fnhub.resources.Messages.Help.Init);
+    		expect(stdout).to.contain(fnhub.resources.Messages.Help.Add);
+    		expect(stdout).to.contain(fnhub.resources.Messages.Help.Delete);
+    		expect(stdout).to.contain(fnhub.resources.Messages.Help.Info);
+    		expect(stdout).to.contain(fnhub.resources.Messages.Help.Who);
+    		expect(stdout).to.contain(fnhub.resources.Messages.Help.Publish);
+    		expect(stdout).to.contain(fnhub.resources.Messages.Help.Signin);
+    		expect(stdout).to.contain(fnhub.resources.Messages.Help.Signout);
+    		expect(stdout).to.contain(fnhub.resources.Messages.Help.Signup);
+    		expect(stdout).to.contain(fnhub.resources.Messages.Help.Version);
+    		expect(stdout).to.contain(fnhub.resources.Messages.Help.VersionMajor);
+    		expect(stdout).to.contain(fnhub.resources.Messages.Help.VersionMinor);
+    		expect(stdout).to.contain(fnhub.resources.Messages.Help.VersionPatch);
+    		expect(stdout).to.contain(fnhub.resources.Messages.Help.CfCreate);
+    		expect(stdout).to.contain(fnhub.resources.Messages.Help.CfInclude);
+    		expect(stdout).to.contain(fnhub.resources.Messages.Help.CfDeploy);
+    		expect(stdout).to.contain(fnhub.resources.Messages.Help.SamCreate);
+    		expect(stdout).to.contain(fnhub.resources.Messages.Help.SamInclude);
+    		expect(stdout).to.contain(fnhub.resources.Messages.Help.SamDeploy);
+        done();
+      });
+    });
+    it("Does not include the warning", function(done){
+      this.timeout(64000);
+      var command = fnhubPath + ' help';
+      exec(command, {}, function(err, stdout, stderr) {
+        expect(stdout).to.not.contain(fnhub.resources.Messages.Help.DefaultCommandWarning);
+        done();
+      });
+    });
+  });
+});
+
+
 describe("Successful Cycle", function(){
   var testName = 'test1001';
   var user = {
@@ -92,7 +168,7 @@ describe("Successful Cycle", function(){
       // }
 
       //del.sync([moduleFile], {force:true});
-      
+
       done();
     });
     it("should signin", function (done){
@@ -102,7 +178,7 @@ describe("Successful Cycle", function(){
         if (stderr){
           console.error("command", command);
           console.error("stderr", stderr);
-        } 
+        }
         expect(!stderr).to.be.true;
         if (err) {
           console.error("command", command);
@@ -110,8 +186,8 @@ describe("Successful Cycle", function(){
           console.error("stderr", stderr);
           console.error("stdout", stdout);
         }
-        expect(err).to.be.null; 
-          
+        expect(err).to.be.null;
+
         //expect success message
         expect(stdout).to.contain(util.format(fnhub.resources.Messages.Signin.AfterSuccess,user.firstname));
         done();
@@ -125,7 +201,7 @@ describe("Successful Cycle", function(){
         if (stderr){
           console.error("command", command);
           console.error("stderr", stderr);
-        } 
+        }
         expect(!stderr).to.be.true;
         if (err) {
           console.error("command", command);
@@ -133,8 +209,8 @@ describe("Successful Cycle", function(){
           console.error("stderr", stderr);
           console.error("stdout", stdout);
         }
-        expect(err).to.be.null; 
-          
+        expect(err).to.be.null;
+
         //check the file exists
         fs.stat(moduleFile, function(err, stats){
           expect(stats.isFile()).to.be.true;
@@ -149,13 +225,13 @@ describe("Successful Cycle", function(){
 
     it("should add first function", function (done){
       this.timeout(64000);
-      
+
       var command = 'node ' + fnhubPath + ' add --name ' + firstFunction.name + ' --description ' + firstFunction.description + ' --handler ' + firstFunction.handler + ' --runtime ' + firstFunction.runtime + ' --env {}';
       exec(command, {cwd: cwdPublisher}, function(err, stdout, stderr) {
         if (stderr){
           console.error("command", command);
           console.error("stderr", stderr);
-        } 
+        }
         expect(!stderr).to.be.true;
         if (err) {
           console.error("command", command);
@@ -163,8 +239,8 @@ describe("Successful Cycle", function(){
           console.error("stderr", stderr);
           console.error("stdout", stdout);
         }
-        expect(err).to.be.null; 
-          
+        expect(err).to.be.null;
+
         //check the file exists
         var doc = yaml.safeLoad(fs.readFileSync(fnhub.config.templates.module, 'utf8'));
         expect(doc).to.have.any.keys("Resources","Metadata","Description");
@@ -174,13 +250,13 @@ describe("Successful Cycle", function(){
 
     it("should add second function", function (done){
       this.timeout(64000);
-      
+
       var command = 'node ' + fnhubPath + ' add --name ' + secondFunction.name + ' --description ' + secondFunction.description + ' --handler ' + secondFunction.handler + ' --runtime ' + secondFunction.runtime + ' --env {}';
       exec(command, {cwd: cwdPublisher}, function(err, stdout, stderr) {
         if (stderr){
           console.error("command", command);
           console.error("stderr", stderr);
-        } 
+        }
         expect(!stderr).to.be.true;
         if (err) {
           console.error("command", command);
@@ -188,8 +264,8 @@ describe("Successful Cycle", function(){
           console.error("stderr", stderr);
           console.error("stdout", stdout);
         }
-        expect(err).to.be.null; 
-          
+        expect(err).to.be.null;
+
 
         //check the file exists
         var doc = yaml.safeLoad(fs.readFileSync(fnhub.config.templates.module, 'utf8'));
@@ -197,10 +273,10 @@ describe("Successful Cycle", function(){
         done();
       });
     });
-    
+
     it("should publish", function (done){
       this.timeout(64000);
-      
+
       var command = 'node ' + fnhubPath + ' publish';
       exec(command, {cwd: cwdPublisher}, function(err, stdout, stderr) {
         if (err) {
@@ -209,9 +285,9 @@ describe("Successful Cycle", function(){
           console.error("stderr", stderr);
           console.error("stdout", stdout);
         }
-        expect(err).to.be.null; 
-        
-          
+        expect(err).to.be.null;
+
+
         //check the file exists
         expect(stdout).to.contain(util.format(fnhub.resources.Messages.Publish.AfterSuccess,''));
         done();
@@ -225,7 +301,7 @@ describe("Successful Cycle", function(){
         if (stderr){
           console.error("command", command);
           console.error("stderr", stderr);
-        } 
+        }
         expect(!stderr).to.be.true;
         if (err) {
           console.error("command", command);
@@ -233,8 +309,8 @@ describe("Successful Cycle", function(){
           console.error("stderr", stderr);
           console.error("stdout", stdout);
         }
-        expect(err).to.be.null; 
-          
+        expect(err).to.be.null;
+
         //expect success message
         expect(stdout).to.contain('bye');
         done();
@@ -254,10 +330,10 @@ describe("Successful Cycle", function(){
           "Name": "testStackCF1001"
         },
         "Resources": {
-          
+
         }
       }
-      
+
       it("should create", function (done){
         this.timeout(64000);
         var command = 'node ' + fnhubPath + ' ' + CF + ' create --name "' + stack.Metadata.Name + '" --description "' + stack.Description + '"';
@@ -265,7 +341,7 @@ describe("Successful Cycle", function(){
           if (stderr){
             console.error("command", command);
             console.error("stderr", stderr);
-          } 
+          }
           expect(!stderr).to.be.true;
           if (err) {
             console.error("command", command);
@@ -273,8 +349,8 @@ describe("Successful Cycle", function(){
             console.error("stderr", stderr);
             console.error("stdout", stdout);
           }
-          expect(err).to.be.null; 
-          
+          expect(err).to.be.null;
+
           //check the file exists
           fs.stat(stackFile, function(err, stats){
             expect(stats.isFile()).to.be.true;
@@ -289,13 +365,13 @@ describe("Successful Cycle", function(){
 
       it("should include", function (done){
         this.timeout(64000);
-        
+
         var command = 'node ' + fnhubPath + ' ' + CF + ' include --module ' + module.Metadata.Name + ' --version ' + module.Metadata.Version;
         exec(command, {cwd: cwdConsumerCf}, function(err, stdout, stderr) {
           if (stderr){
             console.error("command", command);
             console.error("stderr", stderr);
-          } 
+          }
           expect(!stderr).to.be.true;
           if (err) {
             console.error("command", command);
@@ -303,8 +379,8 @@ describe("Successful Cycle", function(){
             console.error("stderr", stderr);
             console.error("stdout", stdout);
           }
-          expect(err).to.be.null; 
-          
+          expect(err).to.be.null;
+
 
           //check the file exists
           var doc = yaml.safeLoad(fs.readFileSync(stackFile, 'utf8'));
@@ -315,13 +391,13 @@ describe("Successful Cycle", function(){
 
       it("should deploy", function (done){
         this.timeout(6400000);
-        
+
         var command = 'node ' + fnhubPath + ' ' + CF + ' deploy';
         exec(command, {cwd: cwdConsumerCf}, function(err, stdout, stderr) {
           if (stderr){
             console.error("command", command);
             console.error("stderr", stderr);
-          } 
+          }
           expect(!stderr).to.be.true;
           if (err) {
             console.error("command", command);
@@ -329,17 +405,17 @@ describe("Successful Cycle", function(){
             console.error("stderr", stderr);
             console.error("stdout", stdout);
           }
-          expect(err).to.be.null; 
-          
+          expect(err).to.be.null;
+
 
           //get the endpoints
           var json = stdout.slice(stdout.lastIndexOf('{'),stdout.lastIndexOf('}') + 1);
           expect(json.length > 0).to.be.true;
           var endpoints = JSON.parse(json).endpoints;
           expect(endpoints.length > 0).to.be.true;
-          
+
           async.each(endpoints, function(endpoint, callback) {
-            var options = { 
+            var options = {
               method: 'GET',
               url: endpoint
             };
@@ -351,12 +427,12 @@ describe("Successful Cycle", function(){
                 console.error("stderr", stderr);
                 console.error("stdout", stdout);
               }
-              expect(err).to.be.null; 
+              expect(err).to.be.null;
               if (response.statusCode != 200){
                 console.error("command", command);
                 console.error("response.body", response.body);
-              } 
-              expect(response.statusCode).to.equal(200);  
+              }
+              expect(response.statusCode).to.equal(200);
               expect(body).to.contain('hi');
               callback();
             });
@@ -371,7 +447,7 @@ describe("Successful Cycle", function(){
 
       it("should delete stack", function (done){
         this.timeout(6400000);
-        
+
         var command = 'node ' + fnhubPath + ' ' + CF + ' delete';
         exec(command, {cwd: cwdConsumerCf}, function(err, stdout, stderr) {
           expect(!stderr).to.be.true;
@@ -381,9 +457,9 @@ describe("Successful Cycle", function(){
             console.error("stderr", stderr);
             console.error("stdout", stdout);
           }
-          expect(err).to.be.null; 
-          
-            
+          expect(err).to.be.null;
+
+
           //check the file exists
           expect(stdout).to.contain(cfPlugin.Messages.Delete.AfterSuccess,stack.Metadata.Name);
           done();
@@ -403,10 +479,10 @@ describe("Successful Cycle", function(){
           "Name": "testStackSam1002"
         },
         "Resources": {
-          
+
         }
       }
-      
+
       it("should create", function (done){
         this.timeout(64000);
         var command = 'node ' + fnhubPath + ' ' + SAM + ' create --name "' + stack.Metadata.Name + '" --description "' + stack.Description + '"';
@@ -414,7 +490,7 @@ describe("Successful Cycle", function(){
           if (stderr){
             console.error("command", command);
             console.error("stderr", stderr);
-          } 
+          }
           expect(!stderr).to.be.true;
           if (err) {
             console.error("command", command);
@@ -422,8 +498,8 @@ describe("Successful Cycle", function(){
             console.error("stderr", stderr);
             console.error("stdout", stdout);
           }
-          expect(err).to.be.null; 
-          
+          expect(err).to.be.null;
+
           //check the file exists
           fs.stat(stackFile, function(err, stats){
             expect(stats.isFile()).to.be.true;
@@ -438,13 +514,13 @@ describe("Successful Cycle", function(){
 
       it("should include", function (done){
         this.timeout(64000);
-        
+
         var command = 'node ' + fnhubPath + ' ' + SAM + ' include --module ' + module.Metadata.Name + ' --version ' + module.Metadata.Version;
         exec(command, {cwd: cwdConsumerSam}, function(err, stdout, stderr) {
           if (stderr){
             console.error("command", command);
             console.error("stderr", stderr);
-          } 
+          }
           expect(!stderr).to.be.true;
           if (err) {
             console.error("command", command);
@@ -452,8 +528,8 @@ describe("Successful Cycle", function(){
             console.error("stderr", stderr);
             console.error("stdout", stdout);
           }
-          expect(err).to.be.null; 
-          
+          expect(err).to.be.null;
+
           //check the file exists
           var doc = yaml.safeLoad(fs.readFileSync(stackFile, 'utf8'));
           expect(doc).to.have.any.keys("Resources","Metadata","Description");
@@ -463,13 +539,13 @@ describe("Successful Cycle", function(){
 
       it("should deploy", function (done){
         this.timeout(6400000);
-        
+
         var command = 'node ' + fnhubPath + ' ' + SAM + ' deploy';
         exec(command, {cwd: cwdConsumerSam}, function(err, stdout, stderr) {
           if (stderr){
             console.error("command", command);
             console.error("stderr", stderr);
-          } 
+          }
           expect(!stderr).to.be.true;
           if (err) {
             console.error("command", command);
@@ -477,15 +553,15 @@ describe("Successful Cycle", function(){
             console.error("stderr", stderr);
             console.error("stdout", stdout);
           }
-          expect(err).to.be.null; 
+          expect(err).to.be.null;
           //get the endpoints
           var json = stdout.slice(stdout.lastIndexOf('{'),stdout.lastIndexOf('}') + 1);
           expect(json.length > 0).to.be.true;
           var endpoints = JSON.parse(json).endpoints;
           expect(endpoints.length > 0).to.be.true;
-          
+
           async.each(endpoints, function(endpoint, callback) {
-            var options = { 
+            var options = {
               method: 'GET',
               url: endpoint
             };
@@ -497,12 +573,12 @@ describe("Successful Cycle", function(){
                 console.error("stderr", stderr);
                 console.error("stdout", stdout);
               }
-              expect(err).to.be.null; 
+              expect(err).to.be.null;
               if (response.statusCode != 200){
                 console.error("command", command);
                 console.error("response.body", response.body);
-              } 
-              expect(response.statusCode).to.equal(200);  
+              }
+              expect(response.statusCode).to.equal(200);
               expect(body).to.contain('hi');
               callback();
             });
@@ -517,7 +593,7 @@ describe("Successful Cycle", function(){
 
       it("should delete stack", function (done){
         this.timeout(6400000);
-        
+
         var command = 'node ' + fnhubPath + ' ' + SAM + ' delete';
         exec(command, {cwd: cwdConsumerSam}, function(err, stdout, stderr) {
           if (err) {
@@ -526,9 +602,9 @@ describe("Successful Cycle", function(){
             console.error("stderr", stderr);
             console.error("stdout", stdout);
           }
-          expect(err).to.be.null;  
-          
-            
+          expect(err).to.be.null;
+
+
           //check the file exists
           expect(stdout).to.contain(samPlugin.Messages.Delete.AfterSuccess,stack.Metadata.Name);
           done();
@@ -546,7 +622,7 @@ describe("Successful Cycle", function(){
         if (stderr){
           console.error("command", command);
           console.error("stderr", stderr);
-        } 
+        }
         expect(!stderr).to.be.true;
         if (err) {
           console.error("command", command);
@@ -554,8 +630,8 @@ describe("Successful Cycle", function(){
           console.error("stderr", stderr);
           console.error("stdout", stdout);
         }
-        expect(err).to.be.null; 
-          
+        expect(err).to.be.null;
+
         //expect success message
         expect(stdout).to.contain(util.format(fnhub.resources.Messages.Signin.AfterSuccess,user.firstname));
         done();
@@ -564,7 +640,7 @@ describe("Successful Cycle", function(){
 
     it("should delete", function (done){
       this.timeout(64000);
-      
+
       var command = 'node ' + fnhubPath + ' delete --force true';
       exec(command, {cwd: cwdPublisher}, function(err, stdout, stderr) {
         if (err) {
@@ -573,7 +649,7 @@ describe("Successful Cycle", function(){
           console.error("stderr", stderr);
           console.error("stdout", stdout);
         }
-        expect(err).to.be.null;  
+        expect(err).to.be.null;
         //check the file exists
         expect(stdout).to.contain(util.format(fnhub.resources.Messages.Delete.AfterSuccess,module.Metadata.Name));
         done();
