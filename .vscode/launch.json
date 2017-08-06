@@ -70,6 +70,13 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "who",
+            "program":"${workspaceRoot}/bin/fnhub",
+            "args": ["who"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "init",
             "cwd": "${workspaceRoot}/tests/examples/hi/publisher",
             "program":"${workspaceRoot}/bin/fnhub",
