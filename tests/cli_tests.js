@@ -466,7 +466,7 @@ describe("Successful Cycle", function(){
       });
     });
 
-    describe("Include module in a new SAM stack and deploy it", function(){
+    describe.skip("Include module in a new SAM stack and deploy it", function(){
       var SAM = 'sam';
       var cwdConsumerSam = path.join(cwdConsumer, SAM);
       var stackFile = path.join(cwdConsumerSam, samPlugin.Consts.Defaults.Stack.FileName);
