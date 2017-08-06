@@ -83,7 +83,6 @@ describe("Help commands and default help display", function(){
     		expect(stdout).to.contain(fnhub.resources.Messages.Help.Publish);
     		expect(stdout).to.contain(fnhub.resources.Messages.Help.Signin);
     		expect(stdout).to.contain(fnhub.resources.Messages.Help.Signout);
-    		expect(stdout).to.contain(fnhub.resources.Messages.Help.Signup);
     		expect(stdout).to.contain(fnhub.resources.Messages.Help.Version);
     		expect(stdout).to.contain(fnhub.resources.Messages.Help.VersionMajor);
     		expect(stdout).to.contain(fnhub.resources.Messages.Help.VersionMinor);
