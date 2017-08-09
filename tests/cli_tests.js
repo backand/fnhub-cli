@@ -241,7 +241,8 @@ describe("Successful Cycle", function(){
         expect(err).to.be.null;
 
         //check the file exists
-        var doc = yaml.safeLoad(fs.readFileSync(fnhub.config.templates.module, 'utf8'));
+        var moduleFile = path.join(__dirname, fnhub.config.templates.module);
+        var doc = yaml.safeLoad(fs.readFileSync(moduleFile, 'utf8'));
         expect(doc).to.have.any.keys("Resources","Metadata","Description");
         done();
       });
@@ -267,7 +268,8 @@ describe("Successful Cycle", function(){
 
 
         //check the file exists
-        var doc = yaml.safeLoad(fs.readFileSync(fnhub.config.templates.module, 'utf8'));
+        var moduleFile = path.join(__dirname, fnhub.config.templates.module);
+        var doc = yaml.safeLoad(fs.readFileSync(moduleFile, 'utf8'));
         expect(doc).to.have.any.keys("Resources","Metadata","Description");
         done();
       });
