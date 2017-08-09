@@ -27,7 +27,8 @@
     "mocha": "^3.4.2"
   },
   "scripts": {
-    "test": "node node_modules/mocha/bin/mocha tests/cli_tests.js"
+    "test": "node node_modules/mocha/bin/mocha tests/cli_tests.js",
+    "preversion":"cp ./config/config.prod.js ./config/config.js && npm test"
   },
   "repository": {
     "type": "git",

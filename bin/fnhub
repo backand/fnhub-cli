@@ -23,8 +23,8 @@ var commands    =     require('../lib/commands');
 var router      =     require('../plugins/router');
 var fnhub       =     require('../lib/fnhub');
 
-var command     =     process.argv[2];
-var subCommand = (options._.length > 1) ? options._[1] : null;
+var command     = process.argv[2];
+var subCommand  = (options._.length > 1) ? options._[1] : null;
 
 fnhub.logger.debug.log(command, options);
 
