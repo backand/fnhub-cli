@@ -95,7 +95,8 @@
             "name": "add function 1",
             "cwd": "${workspaceRoot}/tests/examples/hi/publisher",
             "program":"${workspaceRoot}/bin/fnhub",
-            "args": ["add", "--name", "hi1", "--description", "description", "--handler", "index.handler1", "--runtime", "nodejs4.3", "--env", "{}"]
+            "console": "integratedTerminal",
+            "args": ["add", "--name", "hi1", "--description", "description", "--handler", "index.handler1", "--runtime", "nodejs4.3"]
         },
         {
             "type": "node",
@@ -103,7 +104,7 @@
             "name": "add function 2",
             "cwd": "${workspaceRoot}/tests/examples/hi/publisher",
             "program":"${workspaceRoot}/bin/fnhub",
-             "args": ["add", "--name", "hi2", "--description", "description", "--handler", "index.handler2", "--runtime", "nodejs4.3", "--env", "{}"]
+             "args": ["add", "--name", "hi2", "--description", "description", "--handler", "index.handler2", "--runtime", "nodejs4.3", "--env", "{\"var1\":\"\",\"var2\":\"\"}"]
         },
         {
             "type": "node",
