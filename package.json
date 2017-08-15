@@ -7,7 +7,7 @@
     "fnhub": "./bin/fnhub"
   },
   "dependencies": {
-    "@backand/nodejs-sdk": "^1.2.8",
+    "@backand/nodejs-sdk": "^1.2.9",
     "ansi-256-colors": "^1.1.0",
     "archiver": "^1.3.0",
     "async": "^2.5.0",
