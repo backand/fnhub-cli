@@ -1,4 +1,5 @@
 var sam = require('../index');
+var util = require('util');
 
 function getModuleInfo(options, fnhub, callback){
     fnhub.info.getModule(options.module, options.version, fnhub, function(err, moduleInfo) {
@@ -87,7 +88,7 @@ function copyFunctionResourcesIntoStack(fnhub, stack, functionStack) {
     fnhub._.forOwn(functionStack.Resources, function(resource, resourceName) { 
         // Check that the resource does not already exist in the stack
         if (stack.Resources.hasOwnProperty(resourceName))
-            throw new Error({message:sam.Errors.Include.ResourceAlreadyExists.replace('{{0}}', resourceName), expected:true});
+            throw new Error({message:util.format(sam.Errors.Include.ResourceAlreadyExists, resourceName), expected:true});
         
         stack.Resources[resourceName] = resource;
     });
@@ -101,7 +102,7 @@ function copyFunctionOutputsIntoStack(fnhub, stack, functionStack) {
     fnhub._.forOwn(functionStack.Outputs, function(output, outputName) { 
         // Check that the resource does not already exist in the stack
         if (stack.Resources.hasOwnProperty(outputName))
-            throw new Error({message:sam.Errors.Include.OutputAlreadyExists.replace('{{0}}', outputName), expected:true});
+            throw new Error({message:util.format(sam.Errors.Include.OutputAlreadyExists, outputName), expected:true});
         
         stack.Outputs[outputName] = output;
     });
@@ -121,7 +122,7 @@ function copyEachFunctionInModuleIntoStack(options, fnhub, moduleInfo, functionT
             else {
                 //  copy resources other than functions
                 stack.Resources[resourceName] = resource;
-                fnhub.logger.warn(sam.Messages.Include.CopyNonFunction.replace('{{0}}', key));
+                fnhub.logger.warn(util.format(sam.Messages.Include.CopyNonFunction, key));
             }
         } );
 
