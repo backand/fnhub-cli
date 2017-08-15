@@ -35,7 +35,7 @@ var deleteFolderRecursive = function(path) {
 
 describe("Help commands and default help display", function(){
   var bin = path.join(path.dirname(__dirname), "bin");
-  var fnhubPath = path.join(bin, "fnhub");
+  var fnhubPath = 'node ' + path.join(bin, "fnhub");
   describe("Default command", function(){
     it("Outputs the help warning", function(done){
       this.timeout(64000);
@@ -446,7 +446,7 @@ describe("Successful Cycle", function(){
         });
       });
 
-      it("should delete stack", function (done){
+      it.only("should delete stack", function (done){
         this.timeout(6400000);
 
         var command = 'node ' + fnhubPath + ' ' + CF + ' delete';
@@ -462,7 +462,7 @@ describe("Successful Cycle", function(){
 
 
           //check the file exists
-          expect(stdout).to.contain(cfPlugin.Messages.Delete.AfterSuccess,stack.Metadata.Name);
+          expect(stdout).to.contain(util.format(cfPlugin.Messages.Delete.AfterSuccess,stack.Metadata.Name));
           done();
         });
       });

@@ -27,17 +27,17 @@ module.exports = {
     },
     Messages: {
         Create: {
-            AfterSuccess: 'Stack file saved at {{0}}',
+            AfterSuccess: 'Stack file saved at %s',
         },
         Include: {
-            AfterSuccess: 'Stack file saved at {{0}}',
-            CopyNonFunction: 'The resource {{0}} is not a function. This resource was copied into the stack'
+            AfterSuccess: 'Stack file saved at %s',
+            CopyNonFunction: 'The resource %s is not a function. This resource was copied into the stack'
         },
         Deploy: {
             Before: 'The depolyment may take few minutes...'
         },
         Delete: {
-            AfterSuccess: 'The stack {{0}} deletion was successfully started'
+            AfterSuccess: 'The stack %s deletion was successfully started'
         }
     },
     Errors: {
@@ -45,8 +45,8 @@ module.exports = {
             StackFileNotFoundOrCorrupted: 'The \'fnhub-stack.yaml\' file was either not found or corrupted'
         },
         Include:{
-            ResourceAlreadyExists: 'A resource with the name {{0}} already exists',
-            OutputAlreadyExists: 'An output with the name {{0}} already exists',
+            ResourceAlreadyExists: 'A resource with the name %s already exists',
+            OutputAlreadyExists: 'An output with the name %s already exists',
             ModuleNotFound:'The module was not found'
         }
     },

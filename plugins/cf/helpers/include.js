@@ -112,7 +112,7 @@ function copyFunctionResourcesIntoStack(fnhub, stack, functionStack) {
     fnhub._.forOwn(functionStack.Resources, function(resource, resourceName) { 
         // Check that the resource does not already exist in the stack
         if (stack.Resources.hasOwnProperty(resourceName))
-            throw new Error({message:cf.Errors.Include.ResourceAlreadyExists.replace('{{0}}', resourceName), expected:true});
+            throw new Error({message:util.format(cf.Errors.Include.ResourceAlreadyExists, resourceName), expected:true});
         
         stack.Resources[resourceName] = resource;
     });
@@ -126,7 +126,7 @@ function copyFunctionOutputsIntoStack(fnhub, stack, functionStack) {
     fnhub._.forOwn(functionStack.Outputs, function(output, outputName) { 
         // Check that the resource does not already exist in the stack
         if (stack.Resources.hasOwnProperty(outputName))
-            throw new Error({message:cf.Errors.Include.OutputAlreadyExists.replace('{{0}}', outputName), expected:true});
+            throw new Error({message:util.format(cf.Errors.Include.OutputAlreadyExists, outputName), expected:true});
         
         stack.Outputs[outputName] = output;
     });
@@ -145,7 +145,7 @@ function copyEachFunctionInModuleIntoStack(options, fnhub, moduleInfo, functionT
             }
             else {
                 //  ignore resources other than functions
-                fnhub.logger.warn(cf.Messages.Include.IgnoreNonFunction.replace('{{0}}', key));
+                fnhub.logger.warn(util.format(cf.Messages.Include.IgnoreNonFunction, key));
             }
         } );
 

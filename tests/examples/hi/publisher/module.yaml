@@ -1,31 +1,24 @@
-Description: sdfsdf
+Description: description
 Metadata:
-  Name: publisher
-  Version: 1.0.0
-  Repo: 'https://github.com/backand/fnshub.git'
+  Name: hi
+  Version: 1.0.110
+  Repo: 'https://github.com/relly/fnhub'
   Keywords:
-    - publisher
-  License: ISC
+    - backand
+  License: mit
   Authors:
-    - Name: firstname lastname
-      Email: testfnshub0001@backand.io
+    - Name: relly
+      Email: relly@relly.com
       Url: null
 Resources:
-  hi2:
+  twiliosendtextmessagepythontwiliosendtextmessagepythonsentTextFunctionhi2:
     Type: 'AWS::Serverless::Function'
     Properties:
-      Description: description
+      Description: long function name
       Handler: index.handler2
       Runtime: nodejs4.3
-      CodeUri: 's3://bucket/zipfile'
+      CodeUri: 'http://fnhub.backand.io/hi/module@1.0.110.zip'
       Environment:
         Variables:
           var1: ''
           var2: ''
-  hi1:
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Description: description
-      Handler: index.handler1
-      Runtime: nodejs4.3
-      CodeUri: 's3://bucket/zipfile'

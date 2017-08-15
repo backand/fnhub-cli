@@ -3,3 +3,4 @@
 /**/.backandCache.*
 .idea
 npm-debug.log
+/config/config.js
