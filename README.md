@@ -51,7 +51,7 @@ This authenticates the user with fnhub.io, using a persistent cookie to track au
 The `init` command initializes a fnhub.io module. It creates a `module.yaml` file in the working directory. This file will hold all necessary information about the module being created.
 
 #### Example
-`fnhub init --name hi --authorEmail relly@backand.com --authorName "Relly Rivlin" --version 1.0.110 --description "module description" --repo", "https://github.com/relly/fnhub" --keywords "hello world", --license mit`
+`fnhub init --name hi --authorEmail relly@backand.com --authorName "Relly Rivlin" --version 1.0.110 --description "module description" --repo" "https://github.com/relly/fnhub" --keywords "hello world" --license mit`
 
 #### Options and Parameters
 
